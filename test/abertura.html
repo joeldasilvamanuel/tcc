@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health Access Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        .splash-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0099ff, #00c6ff);
+            height: 100%;
+            width: 100%;
+        }
+
+        .splash-content {
+            text-align: center;
+            color: #fff;
+        }
+
+        .splash-content img {
+            width: 180px;
+            margin-bottom: 30px;
+        }
+
+        .splash-content h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        /* LOADER ANIMADO */
+        .loader {
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid #fff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="splash-screen">
+        <div class="splash-content">
+            <img src="heart.png" alt="Health Hub Logo">
+            <h1>Health Access Hub</h1>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <script>
+        // Redireciona para o login após 3 segundos
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 3000);
+    </script>
+
+</body>
+
+</html>
