@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rcuperar-Senha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: monospace, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(180deg, #0aa5ff, #008cff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #fff;
+            padding: 60px 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container .rec {
+            display: flex;
+            flex-direction: column;
+        }
+        .container .rec input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .container .rec button {
+            padding: 10px;
+            background: #0a5cff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .container .rec button:hover {
+            background: #084ecc;
+        }
+
+        .container a {
+            display: block;
+            margin-top: 15px;
+            text-align: left;
+            color: #0a5cff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="#">
+            <h2>Recuperar Senha</h2>
+            <div class="rec">
+                <input type="email" name="email" placeholder="Digite seu email" required>
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+        <a href="/">Voltar ao Login</a>
+    </div>
+</body>
+
+</html>
