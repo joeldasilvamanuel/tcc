@@ -1,0 +1,127 @@
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+require('dotenv').config();
+
+// Importação da conexão e do teste
+const { connection: db, testConnection } = require('./src/config/db');
+const authRoutes = require('./src/routes/authRoutes');
+const { handleLogout } = require('./src/controllers/authController');
+
+const app = express();
+
+// --- CONFIGURAÇÕES ---
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'chave_mestre_saude',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 3600000 } // 1 hora de validade
+}));
+
+// --- MIDDLEWARES DE PROTEÇÃO ---
+const verificarProfissional = (req, res, next) => {
+    if (req.session.isLoggedIn && req.session.role === 'profissional') return next();
+    res.redirect('/');
+};
+
+// --- ROTAS DE AUTENTICAÇÃO ---
+app.use('/auth', authRoutes);
+app.get('/auth/logout', handleLogout);
+
+// --- ROTAS DE PÁGINAS (HTML) ---
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/login.html')));
+app.get('/recuperar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/recuperar.html')));
+
+// Dashboard Profissional e sub-páginas
+app.get('/dashboard/profissional', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/dashboard.html'));
+});
+app.get('/dashboard/profissional/utentes', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/utentes.html'));
+});
+app.get('/dashboard/profissional/perfil', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/perfil.html'));
+});
+
+// --- API ENDPOINTS (PARA O FRONT-END) ---
+
+// Retorna info do utilizador logado para o Header/Perfil
+app.get('/api/user-info', (req, res) => {
+    if (!req.session.isLoggedIn) return res.status(401).json({ message: 'Não autenticado' });
+    res.json({
+        nome: req.session.nome,
+        role: req.session.role,
+        email: req.session.email
+    });
+});
+
+// Retorna lista de utentes reais do banco para a tabela
+app.get('/api/utentes', verificarProfissional, (req, res) => {
+    // Nota: Ajustamos para as tabelas 'usuario' e 'utente' que você usa no controller
+    const query = `
+        SELECT u.id_usuario AS id, u.nome, u.email, ut.data_nascimento, ut.sexo AS genero
+        FROM usuario u
+        INNER JOIN utente ut ON u.id_usuario = ut.id_usuario
+        WHERE u.tipo_usuario = 'utente'
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar utentes:", err);
+            return res.status(500).json({ error: "Erro na base de dados" });
+        }
+        res.json(results);
+    });
+});
+
+// Rota para atualizar perfil do profissionalconst multer = require('multer');
+
+// Configuração de onde e como salvar a foto
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads/perfil/');
+    },
+    filename: (req, file, cb) => {
+        // Gera um nome único: id_usuario + timestamp
+        const ext = path.extname(file.originalname);
+        cb(null, `user_${req.session.userId}_${Date.now()}${ext}`);
+    }
+});
+
+const upload = multer({ storage });
+
+// ROTA PARA UPLOAD
+app.post('/api/upload-foto', upload.single('foto'), (req, res) => {
+    if (!req.session.isLoggedIn) return res.status(401).send("Não autorizado");
+
+    const fotoUrl = `/uploads/perfil/${req.file.filename}`;
+    const userId = req.session.userId;
+
+    // Salva o caminho no Banco de Dados
+    const query = "UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?";
+    db.query(query, [fotoUrl, userId], (err) => {
+        if (err) return res.status(500).send("Erro ao salvar no banco");
+
+        // Atualiza a sessão também para refletir na hora
+        req.session.foto_perfil = fotoUrl;
+        res.json({ success: true, url: fotoUrl });
+    });
+});
+
+// --- INICIALIZAÇÃO ---
+const PORT = process.env.PORT || 3000;
+
+testConnection().then(() => {
+    app.listen(PORT, () => {
+        console.log(`
+        🚀 Health Access Hub em funcionamento!
+        📡 Servidor: http://localhost:${PORT}
+        `);
+    });
+}).catch(err => {
+    console.error("❌ Erro fatal: Não foi possível conectar ao MySQL.");
+});

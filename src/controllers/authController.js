@@ -1,12 +1,17 @@
-const { pool } = require('../config/db');
+const { connection: db } = require('../config/db');
 const bcrypt = require('bcrypt');
 
+/**
+ * AuthController
+ */
+
+// 1. REGISTO DE UTENTE
 const handleRegisterUtente = async (req, res) => {
     const { nome, email, password, data_nascimento, sexo } = req.body;
-    let conn;
+    const conn = db.promise();
+
     try {
         const hash = await bcrypt.hash(password, 10);
-        conn = await pool.getConnection();
         await conn.beginTransaction();
 
         const [resUsuario] = await conn.query(
@@ -20,80 +25,104 @@ const handleRegisterUtente = async (req, res) => {
         );
 
         await conn.commit();
-        res.send('<h1>Cadastro OK!</h1><a href="/">Ir para Login</a>');
+
+        // resposta apos a accao
+        res.send(`
+            <body style="font-family:sans-serif; background:#f4f7fe; display:flex; align-items:center; justify-content:center; height:100vh;">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    window.onload = () => {
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: 'Cadastro realizado com sucesso.',
+                            icon: 'success',
+                            confirmButtonColor: '#007bff'
+                        }).then(() => window.location.href = '/');
+                    };
+                </script>
+            </body>
+        `);
     } catch (error) {
         if (conn) await conn.rollback();
         console.error(error);
-        res.status(500).send("Erro no cadastro.");
-    } finally {
-        if (conn) conn.release();
+        res.status(500).send("<script>alert('Erro no cadastro. Verifique se o e-mail já existe.'); window.history.back();</script>");
     }
 };
 
+// 2. LOGIN
 const handleLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const [rows] = await pool.query("SELECT * FROM usuario WHERE email = ?", [email]);
-        if (rows.length === 0) return res.status(401).send("Usuário não encontrado.");
+        const [rows] = await db.promise().query("SELECT * FROM usuario WHERE email = ?", [email]);
+
+        if (rows.length === 0) {
+            return res.send("<script>alert('E-mail não cadastrado.'); window.location='/';</script>");
+        }
 
         const user = rows[0];
         const match = await bcrypt.compare(password, user.senha_hash);
-        if (!match) return res.status(401).send("Senha incorreta.");
 
-        // Guarda os dados na sessão
+        if (!match) {
+            return res.send("<script>alert('Senha incorreta.'); window.location='/';</script>");
+        }
+
+        // Sessão
         req.session.isLoggedIn = true;
         req.session.userId = user.id_usuario;
         req.session.nome = user.nome;
         req.session.role = user.tipo_usuario;
+        req.session.email = user.email;
 
-        // --- LÓGICA DE REDIRECIONAMENTO COMPLETA ---
-        if (user.tipo_usuario === 'utente') {
-            return res.redirect('/dashboard/utente');
-        } else if (user.tipo_usuario === 'profissional') {
-            return res.redirect('/dashboard/profissional');
-        } else if (user.tipo_usuario === 'admin') {
-            return res.redirect('/dashboard/admin');
-        } else {
-            return res.send(`Tipo de usuário ${user.tipo_usuario} sem dashboard definido.`);
-        }
+        // Redirecionamento Simples
+        const rotas = {
+            'utente': '/dashboard/utente',
+            'profissional': '/dashboard/profissional',
+            'admin': '/dashboard/admin'
+        };
+        res.redirect(rotas[user.tipo_usuario] || '/');
 
     } catch (error) {
-        console.error("Erro no login:", error);
+        console.error(error);
         res.status(500).send("Erro interno no servidor.");
     }
 };
 
-// Nova função para a tela de recuperar que você criou
+// 3. RECUPERAR SENHA
 const handleResetPassword = async (req, res) => {
     const { email, password } = req.body;
     try {
         const hash = await bcrypt.hash(password, 10);
-        const [result] = await pool.query(
-            "UPDATE usuario SET senha_hash = ? WHERE email = ?",
-            [hash, email]
-        );
+        const [result] = await db.promise().query("UPDATE usuario SET senha_hash = ? WHERE email = ?", [hash, email]);
 
         if (result.affectedRows === 0) {
-            return res.send('<h1>Erro: E-mail não encontrado!</h1><a href="/recuperar">Voltar</a>');
+            return res.send("<script>alert('E-mail não encontrado.'); window.history.back();</script>");
         }
 
-        res.send('<h1>Senha atualizada!</h1><a href="/">Ir para o Login</a>');
+        res.send(`
+            <body style="font-family:sans-serif; background:#f4f7fe; display:flex; align-items:center; justify-content:center; height:100vh;">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    window.onload = () => {
+                        Swal.fire({
+                            title: 'Atualizado!',
+                            text: 'Sua senha foi alterada.',
+                            icon: 'success',
+                            confirmButtonColor: '#007bff'
+                        }).then(() => window.location.href = '/');
+                    };
+                </script>
+            </body>
+        `);
     } catch (error) {
-        console.error(error);
         res.status(500).send("Erro ao resetar senha.");
     }
 };
 
+// 4. LOGOUT
 const handleLogout = (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
     });
 };
 
-// EXPORTAÇÃO ATUALIZADA
-module.exports = {
-    handleRegisterUtente,
-    handleLogin,
-    handleLogout,
-    handleResetPassword
-};
+module.exports = { handleRegisterUtente, handleLogin, handleLogout, handleResetPassword };

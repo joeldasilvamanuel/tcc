@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-AO" translate="no">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/x-icon" href="logo02.png">
+    <title>Equipa de Desenvolvimento - HAH</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00478d",
+                        "primary-container": "#005eb8",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#424752",
+                        "outline-variant": "#c2c6d4",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dev-gradient {
+            background: linear-gradient(135deg, #00478d 0%, #001b3d 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body min-h-screen">
+
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl shadow-sm h-20">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-6 h-full">
+            <div class="flex items-center gap-4">
+                <a href="inicio.html"
+                    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors text-primary">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <img src="logo02.png" alt="hah logo" class="w-8 h-8 object-contain">
+                    <span class="text-2xl font-black text-blue-800 tracking-tighter font-headline">Health Access
+                        Hub</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h1 class="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-4 tracking-tight">A Nossa
+                Equipa</h1>
+            <p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Conhece os 5 desenvolvedores dedicados a
+                transformar a saúde digital em Angola através da tecnologia e inovação.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+
+            <div
+                class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                <div class="h-32 dev-gradient flex items-end justify-center">
+                    <div
+                        class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden shadow-md">
+                        <img src="joel03.jpg" alt="Dev"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="pt-16 pb-8 px-6 text-center">
+                    <h3 class="font-headline font-bold text-xl text-primary">Joel Da Silva Manuel</h3>
+                    <p class="text-blue-600 font-semibold text-sm mb-4">Full-stack Developer & IoT</p>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Responsável pela integração do ESP32
+                        e arquitetura do sistema Health Access Hub.</p>
+                    <div class="flex justify-center gap-4 text-primary">
+                        <span
+                            class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">code</span>
+                        <span
+                            class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">mail</span>
+                        <span
+                            class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">terminal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                <div class="h-32 dev-gradient opacity-90 flex items-end justify-center">
+                    <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
+                        <img src="geni.jpg" alt="Dev"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="pt-16 pb-8 px-6 text-center">
+                    <h3 class="font-headline font-bold text-xl text-primary">Genivaldo Salvador Agostinho José</h3>
+                    <p class="text-blue-600 font-semibold text-sm mb-4">Frontend Engineer</p>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Especialista em interfaces
+                        intuitivas e experiência do utilizador (UX/UI) com React.</p>
+                    <div class="flex justify-center gap-4 text-primary">
+                        <span class="material-symbols-outlined">data_object</span>
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                <div class="h-32 dev-gradient opacity-85 flex items-end justify-center">
+                    <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
+                        <img src="dan.jpg" alt="Dev"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="pt-16 pb-8 px-6 text-center">
+                    <h3 class="font-headline font-bold text-xl text-primary">Daniel Rogério Kibonji Nguinamau</h3>
+                    <p class="text-blue-600 font-semibold text-sm mb-4">Backend & Database</p>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Gestão de dados em tempo real no
+                        Firebase e estruturação de bases de dados MySQL.</p>
+                    <div class="flex justify-center gap-4 text-primary">
+                        <span class="material-symbols-outlined">database</span>
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 lg:translate-x-1/2">
+                <div class="h-32 dev-gradient opacity-80 flex items-end justify-center">
+                    <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
+                        <img src="feli.jpg" alt="Dev"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="pt-16 pb-8 px-6 text-center">
+                    <h3 class="font-headline font-bold text-xl text-primary">Felicidade Ernesto Lourenço</h3>
+                    <p class="text-blue-600 font-semibold text-sm mb-4">Hardware Specialist</p>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Focado no desenvolvimento eletrónico
+                        e calibração dos sensores cardíacos.</p>
+                    <div class="flex justify-center gap-4 text-primary">
+                        <span class="material-symbols-outlined">memory</span>
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 lg:translate-x-1/2">
+                <div class="h-32 dev-gradient opacity-75 flex items-end justify-center">
+                    <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
+                        <img src="saron.jpg" alt="Dev"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="pt-16 pb-8 px-6 text-center">
+                    <h3 class="font-headline font-bold text-xl text-primary">Saron Kondi Massa Kanda</h3>
+                    <p class="text-blue-600 font-semibold text-sm mb-4">Quality Assurance</p>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Garante a segurança dos dados dos
+                        pacientes e a estabilidade de toda a plataforma.</p>
+                    <div class="flex justify-center gap-4 text-primary">
+                        <span class="material-symbols-outlined">verified_user</span>
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-10 border-t border-outline-variant/15 text-center">
+        <p class="text-sm text-on-surface-variant font-medium">© 2026 Health Access Hub · Luanda, Angola</p>
+        <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+    </footer>
+
+</body>
+
+</html>

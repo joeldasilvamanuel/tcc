@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-AO" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="logo02.png">
+    <title>Admin HAH | Gestão de Clínicas</title>
+    <!-- Bootstrap Icons (leve, apenas ícones) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts (opcional, com fallback) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-deep: #0a4b8c;
+            --blue-primary: #1e6bc7;
+            --blue-bright: #2a7fdd;
+            --blue-soft: #eef5ff;
+            --blue-light: #d9eaff;
+            --white: #ffffff;
+            --off-white: #fafcff;
+            --gray-light: #f5f7fb;
+            --gray-mid: #eef2f6;
+            --gray-text: #2c3e4e;
+            --gray-soft: #5a6e7c;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 20px rgba(0, 55, 120, 0.08);
+            --shadow-hover: 0 12px 28px rgba(0, 70, 150, 0.12);
+            --radius-card: 1.25rem;
+            --radius-btn: 2rem;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: var(--off-white);
+            color: var(--gray-text);
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-headline {
+            font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* Layout admin */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR AZUL E BRANCO */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbfe 100%);
+            border-right: 1px solid var(--border-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 20;
+            padding: 2rem 0;
+            transition: all 0.2s;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.8rem 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 1.8rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .logo-icon {
+            width: 2.2rem;
+            height: 2.2rem;
+            background: var(--blue-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #0a4b8c, #1e6bc7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 0.75rem 1.5rem;
+            margin: 0.3rem 0;
+            color: #3a5a7a;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            width: 1.6rem;
+        }
+
+        .nav-item.active {
+            background: var(--blue-soft);
+            border-left-color: var(--blue-primary);
+            color: var(--blue-primary);
+            font-weight: 600;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: var(--gray-light);
+            color: var(--blue-deep);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem 2rem 2rem 2rem;
+        }
+
+        /* top bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--blue-deep);
+        }
+
+        .admin-badge {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        /* cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(30, 107, 199, 0.08);
+            transition: 0.2s;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--blue-primary);
+        }
+
+        /* formulário */
+        .form-card {
+            background: white;
+            border-radius: var(--radius-card);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2c4a6e;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 0.7rem 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid var(--border-light);
+            background: var(--gray-light);
+            font-family: inherit;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 0 3px rgba(30, 107, 199, 0.15);
+            background: white;
+        }
+
+        .btn-primary {
+            background: var(--blue-primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-bright);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--blue-primary);
+            color: var(--blue-primary);
+            padding: 0.6rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--blue-soft);
+        }
+
+        /* tabela de clínicas */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 1rem;
+            background: white;
+            border: 1px solid var(--border-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1rem;
+            background: var(--gray-light);
+            font-weight: 700;
+            color: #1e4a76;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .badge-status {
+            background: #e3f2fd;
+            color: var(--blue-primary);
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #8f9eb2;
+            transition: 0.2s;
+            margin-right: 0.5rem;
+        }
+
+        .action-btn.delete:hover {
+            color: #dc2626;
+        }
+
+        .action-btn.edit:hover {
+            color: var(--blue-primary);
+        }
+
+        .empty-row td {
+            text-align: center;
+            padding: 2rem;
+            color: #7e8c9e;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 100;
+                transition: 0.2s;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 0.4rem 0.9rem;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-wrapper">
+        <!-- SIDEBAR ADMIN -->
+        <aside class="sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="logo-area">
+                    <div><img src="logo02.png" alt="" style=" height: 50px; width: auto;"></div>
+                    <span class="logo-text">Health Access Hub</span>
+                </div>
+                <p style="font-size: 0.7rem; color: #6c86a3; margin-top: 0.5rem;">Painel Administrativo</p>
+            </div>
+            <div>
+                <div class="nav-item active" data-tab="clinics">
+                    <i class="bi bi-building"></i> <span>Gestão de Clínicas</span>
+                </div>
+                <div class="nav-item" data-tab="dashboard">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-tab="reports">
+                    <i class="bi bi-bar-chart"></i> <span>Relatórios</span>
+                </div>
+                <div class="nav-item" data-tab="settings">
+                    <i class="bi bi-gear"></i> <span>Configurações</span>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 1.8rem; left: 0; right: 0; padding: 0 1.5rem;">
+                <hr style="margin-bottom: 1rem;">
+                <div class="nav-item" style="cursor: pointer;">
+                    <i class="bi bi-box-arrow-right"></i> <span>Sair</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="menu-toggle" id="mobileMenuToggle"><i class="bi bi-list"></i></button>
+                    <div class="page-title">
+                        <h1 id="mainHeading">Gestão de Clínicas</h1>
+                        <p>Cadastre, edite ou remova clínicas parceiras</p>
+                    </div>
+                </div>
+                <div class="admin-badge">
+                    <i class="bi bi-shield-lock-fill" style="color: var(--blue-primary);"></i>
+                    <span>Admin <strong>HAH</strong></span>
+                </div>
+            </div>
+
+            <!-- ABAS DE CONTEÚDO: apenas a aba de clínicas será totalmente funcional, outras são demonstrativas -->
+            <div id="clinicsTab" class="tab-content">
+                <!-- cards estatísticos -->
+                <div class="stats-grid">
+                    <div class="stat-card"><i class="bi bi-building"
+                            style="font-size: 1.5rem; color: var(--blue-primary);"></i>
+                        <div class="stat-number" id="totalClinicsCount">0</div>
+                        <div>Clínicas registadas</div>
+                    </div>
+                    <div class="stat-card"><i class="bi bi-check-circle"></i>
+                        <div class="stat-number" id="activeClinicsCount">0</div>
+                        <div>Activas</div>
+                    </div>
+                    <div class="stat-card"><i class="bi bi-calendar-check"></i>
+                        <div class="stat-number">+120</div>
+                        <div>Consultas/mês</div>
+                    </div>
+                </div>
+
+                <!-- FORMULÁRIO CADASTRO -->
+                <div class="form-card">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;"><i
+                            class="bi bi-plus-circle"></i> Cadastrar Nova Clínica</h3>
+                    <form id="clinicForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="bi bi-tag"></i> Nome da Clínica *</label>
+                                <input type="text" id="clinicName" placeholder="Ex: Clínica Multiperfil" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-geo-alt"></i> Localização *</label>
+                                <input type="text" id="clinicLocation" placeholder="Luanda, Talatona" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="bi bi-telephone"></i> Telefone</label>
+                                <input type="text" id="clinicPhone" placeholder="+244 923 456 789">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="bi bi-diagram-3"></i> Especialidade Principal</label>
+                                <select id="clinicSpecialty">
+                                    <option value="Cardiologia">Cardiologia</option>
+                                    <option value="Pediatria">Pediatria</option>
+                                    <option value="Ortopedia">Ortopedia</option>
+                                    <option value="Dermatologia">Dermatologia</option>
+                                    <option value="Clínica Geral">Clínica Geral</option>
+                                    <option value="Ginecologia">Ginecologia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-info-circle"></i> Descrição breve</label>
+                            <textarea id="clinicDesc" rows="2"
+                                placeholder="Informações sobre a clínica, horários, diferenciais..."></textarea>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 0.8rem;">
+                            <button type="submit" class="btn-primary"><i class="bi bi-save"></i> Cadastrar
+                                Clínica</button>
+                            <button type="button" id="resetFormBtn" class="btn-outline"><i
+                                    class="bi bi-arrow-repeat"></i> Limpar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- LISTA DE CLÍNICAS CADASTRADAS -->
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0 1rem 0;">
+                    <h3><i class="bi bi-database"></i> Clínicas Registadas</h3>
+                    <span id="clinicCounterBadge"
+                        style="background: var(--blue-soft); padding: 0.2rem 0.9rem; border-radius: 2rem;"></span>
+                </div>
+                <div class="table-responsive">
+                    <table id="clinicsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Localização</th>
+                                <th>Especialidade</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clinicsTableBody">
+                            <tr class="empty-row">
+                                <td colspan="6">Nenhuma clínica cadastrada. Adicione usando o formulário.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- outras abas (demonstração simples) -->
+            <div id="dashboardTab" class="tab-content" style="display: none;">
+                <div class="form-card" style="text-align: center;">
+                    <i class="bi bi-graph-up" style="font-size: 3rem; color: var(--blue-primary);"></i>
+                    <h2 style="margin: 1rem 0;">Dashboard Analítico</h2>
+                    <p>Visualização de métricas: total de agendamentos, clínicas mais procuradas, etc. (em
+                        desenvolvimento)</p>
+                    <div class="stats-grid" style="margin-top: 1.5rem;">
+                        <div class="stat-card"><i class="bi bi-calendar-week"></i>
+                            <div class="stat-number">47</div>
+                            <div>Consultas esta semana</div>
+                        </div>
+                        <div class="stat-card"><i class="bi bi-star-fill"></i>
+                            <div class="stat-number">4.8</div>
+                            <div>Avaliação média</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="reportsTab" class="tab-content" style="display: none;">
+                <div class="form-card">
+                    <h3>Relatórios</h3>
+                    <p>Exportar lista de clínicas, relatório de atividades em breve.</p><button class="btn-outline"><i
+                            class="bi bi-download"></i> Gerar relatório CSV</button>
+                </div>
+            </div>
+            <div id="settingsTab" class="tab-content" style="display: none;">
+                <div class="form-card">
+                    <h3>Configurações do Admin</h3>
+                    <p>Preferências de notificações, perfil, etc. (em construção)</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            // ---- DADOS INICIAIS (exemplo com 2 clínicas de demonstração) ----
+            let clinics = [
+                { id: '1', name: 'Clínica Multiperfil Luanda', location: 'Luanda, Maianga', specialty: 'Clínica Geral', phone: '+244 923 111 222', description: 'Atendimento 24h, várias especialidades.', status: 'active' },
+                { id: '2', name: 'Hospital Pediátrico Amigo', location: 'Luanda, Kilamba', specialty: 'Pediatria', phone: '+244 933 456 789', description: 'Especialistas em saúde infantil.', status: 'active' }
+            ];
+
+            // helper para gerar ID simples
+            function generateId() { return Date.now().toString() + '-' + Math.floor(Math.random() * 10000); }
+
+            // elementos DOM
+            const clinicsTableBody = document.getElementById('clinicsTableBody');
+            const totalClinicsSpan = document.getElementById('totalClinicsCount');
+            const activeClinicsSpan = document.getElementById('activeClinicsCount');
+            const clinicCounterBadge = document.getElementById('clinicCounterBadge');
+            const clinicForm = document.getElementById('clinicForm');
+            const resetBtn = document.getElementById('resetFormBtn');
+
+            // renderizar tabela e contadores
+            function renderClinicsTable() {
+                if (!clinicsTableBody) return;
+                if (clinics.length === 0) {
+                    clinicsTableBody.innerHTML = '<tr class="empty-row"><td colspan="6">Nenhuma clínica cadastrada. Adicione usando o formulário.</td></tr>';
+                } else {
+                    let html = '';
+                    clinics.forEach(clinic => {
+                        html += `
+                        <tr data-id="${clinic.id}">
+                            <td><strong>${escapeHtml(clinic.name)}</strong><br><small style="color:#6c86a3;">${escapeHtml(clinic.description?.substring(0, 50) || '')}</small></td>
+                            <td><i class="bi bi-geo-alt-fill" style="color:#1e6bc7;"></i> ${escapeHtml(clinic.location)}</td>
+                            <td><span class="badge-status">${escapeHtml(clinic.specialty)}</span></td>
+                            <td>${escapeHtml(clinic.phone || '—')}</td>
+                            <td><span class="badge-status" style="background:#e6f7e6; color:#2e7d32;">${clinic.status === 'active' ? 'Activa' : 'Inativa'}</span></td>
+                            <td>
+                                <button class="action-btn edit" onclick="editClinic('${clinic.id}')" title="Editar"><i class="bi bi-pencil-square"></i></button>
+                                <button class="action-btn delete" onclick="deleteClinic('${clinic.id}')" title="Remover"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                    });
+                    clinicsTableBody.innerHTML = html;
+                }
+                // atualizar contadores
+                const total = clinics.length;
+                const activeCount = clinics.filter(c => c.status === 'active').length;
+                if (totalClinicsSpan) totalClinicsSpan.innerText = total;
+                if (activeClinicsSpan) activeClinicsSpan.innerText = activeCount;
+                if (clinicCounterBadge) clinicCounterBadge.innerText = `${total} clínica(s)`;
+            }
+
+            // pequeno helper escape html
+            function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function (m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+            // adicionar ou atualizar clínica (cadastro simples)
+            function saveClinic(clinicData, idToEdit = null) {
+                if (idToEdit) {
+                    // edição
+                    const index = clinics.findIndex(c => c.id === idToEdit);
+                    if (index !== -1) {
+                        clinics[index] = { ...clinics[index], ...clinicData, id: idToEdit };
+                    }
+                } else {
+                    // novo cadastro
+                    const newClinic = { id: generateId(), ...clinicData, status: 'active' };
+                    clinics.push(newClinic);
+                }
+                renderClinicsTable();
+            }
+
+            // funções globais para editar/remover
+            window.deleteClinic = function (id) {
+                if (confirm('Tem certeza que deseja remover esta clínica permanentemente?')) {
+                    clinics = clinics.filter(c => c.id !== id);
+                    renderClinicsTable();
+                    // limpar formulário se estava em modo edição
+                    clearForm();
+                    delete window.currentEditId;
+                }
+            };
+
+            window.editClinic = function (id) {
+                const clinic = clinics.find(c => c.id === id);
+                if (!clinic) return;
+                document.getElementById('clinicName').value = clinic.name;
+                document.getElementById('clinicLocation').value = clinic.location;
+                document.getElementById('clinicPhone').value = clinic.phone || '';
+                document.getElementById('clinicSpecialty').value = clinic.specialty;
+                document.getElementById('clinicDesc').value = clinic.description || '';
+                window.currentEditId = id;
+                // mudar texto do botão submit para indicar edição
+                const submitBtn = clinicForm.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.innerHTML = '<i class="bi bi-pencil-square"></i> Atualizar Clínica';
+                // scroll suave
+                document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            function clearForm() {
+                document.getElementById('clinicName').value = '';
+                document.getElementById('clinicLocation').value = '';
+                document.getElementById('clinicPhone').value = '';
+                document.getElementById('clinicSpecialty').value = 'Cardiologia';
+                document.getElementById('clinicDesc').value = '';
+                delete window.currentEditId;
+                const submitBtn = clinicForm.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.innerHTML = '<i class="bi bi-save"></i> Cadastrar Clínica';
+            }
+
+            // evento submit do formulário (cadastro/edição)
+            clinicForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const name = document.getElementById('clinicName').value.trim();
+                const location = document.getElementById('clinicLocation').value.trim();
+                const phone = document.getElementById('clinicPhone').value.trim();
+                const specialty = document.getElementById('clinicSpecialty').value;
+                const description = document.getElementById('clinicDesc').value.trim();
+
+                if (!name || !location) {
+                    alert('Por favor, preencha o nome e a localização da clínica.');
+                    return;
+                }
+
+                const clinicPayload = {
+                    name: name,
+                    location: location,
+                    phone: phone,
+                    specialty: specialty,
+                    description: description,
+                    status: 'active'
+                };
+
+                if (window.currentEditId) {
+                    saveClinic(clinicPayload, window.currentEditId);
+                    alert('Clínica atualizada com sucesso!');
+                    clearForm();
+                } else {
+                    saveClinic(clinicPayload);
+                    alert(`Clínica "${name}" cadastrada com sucesso!`);
+                    clearForm();
+                }
+                renderClinicsTable();
+            });
+
+            resetBtn.addEventListener('click', function () {
+                clearForm();
+            });
+
+            // abas de navegação (sidebar)
+            const tabs = {
+                clinics: document.getElementById('clinicsTab'),
+                dashboard: document.getElementById('dashboardTab'),
+                reports: document.getElementById('reportsTab'),
+                settings: document.getElementById('settingsTab')
+            };
+            const navItems = document.querySelectorAll('.nav-item');
+            const mainHeading = document.getElementById('mainHeading');
+
+            function switchTab(tabId) {
+                Object.keys(tabs).forEach(key => { if (tabs[key]) tabs[key].style.display = 'none'; });
+                if (tabs[tabId]) tabs[tabId].style.display = 'block';
+                if (tabId === 'clinics') mainHeading.innerText = 'Gestão de Clínicas';
+                else if (tabId === 'dashboard') mainHeading.innerText = 'Dashboard';
+                else if (tabId === 'reports') mainHeading.innerText = 'Relatórios';
+                else if (tabId === 'settings') mainHeading.innerText = 'Configurações';
+                // atualizar active na sidebar
+                navItems.forEach(item => {
+                    const itemTab = item.getAttribute('data-tab');
+                    if (itemTab === tabId) item.classList.add('active');
+                    else item.classList.remove('active');
+                });
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const tab = this.getAttribute('data-tab');
+                    if (tab && tabs[tab]) switchTab(tab);
+                });
+            });
+
+            // logout simbólico
+            const logoutBtn = document.getElementById('logoutAdmin');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => alert('Você saiu do painel administrativo (demo). Redirecionar para login.'));
+            }
+
+            // mobile sidebar toggle
+            const menuToggle = document.getElementById('mobileMenuToggle');
+            const sidebar = document.getElementById('adminSidebar');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('mobile-open');
+                });
+                // fechar ao clicar em link
+                document.querySelectorAll('.nav-item').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) sidebar.classList.remove('mobile-open');
+                    });
+                });
+            }
+
+            // render inicial
+            renderClinicsTable();
+            switchTab('clinics');
+            // pré-visualização de edição global
+        })();
+    </script>
+</body>
+
+</html>

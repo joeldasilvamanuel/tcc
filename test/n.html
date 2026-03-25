@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-BR" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Health Access Hub | Dashboard Profissional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: monospace, sans-serif;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+            background: #f4f6f9;
+        }
+
+        /* ===== SIDEBAR (MANTIDO EXATAMENTE IGUAL) ===== */
+        aside {
+            position: relative;
+            height: 96vh;
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+            margin: 10px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: width 0.3s ease;
+            overflow: hidden;
+        }
+
+        aside.expanded {
+            width: 200px;
+        }
+
+        aside.collapsed {
+            width: 80px;
+        }
+
+        .logo-box {
+            background: rgba(255, 255, 255, 0.76);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 32px;
+            margin-bottom: 20px;
+        }
+
+        .logo-box img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 35px;
+            right: -12px;
+            background: #007bff;
+            border: 3px solid #f4f6f9;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .toggle-btn i {
+            color: #fff;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        aside.collapsed .toggle-btn i {
+            transform: rotate(180deg);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-list li {
+            margin: 12px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .nav-link span {
+            white-space: nowrap;
+            transition: opacity 0.2s ease;
+        }
+
+        aside.collapsed .nav-link span {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .logout-area {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        /* ===== MAIN CONTENT (NOVO ESTILO IGUAL AO EXEMPLO) ===== */
+        main {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+        }
+
+        aside.expanded~main {
+            margin-left: 220px;
+        }
+
+        aside.collapsed~main {
+            margin-left: 100px;
+        }
+
+        /* HEADER PRINCIPAL */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1.5rem 2rem;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .greeting-section h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .date-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .user-info-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .weather-info i {
+            font-size: 20px;
+        }
+
+        .user-avatar-header {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #007bff;
+        }
+
+        .user-avatar-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CARDS DE MÉTRICAS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            font-size: 22px;
+        }
+
+        .metric-content h3 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .metric-content p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* LAYOUT COM COLUNAS */
+        .content-columns {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .column-left,
+        .column-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* CARDS DE CONTEÚDO */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header h2 i {
+            color: #007bff;
+        }
+
+        .view-all {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .view-all:hover {
+            background: #0056b3;
+        }
+
+        /* LISTA DE CONSULTAS */
+        .appointments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .appointment-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .appointment-time {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .appointment-time .time {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .appointment-time .ampm {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .appointment-details {
+            flex: 1;
+        }
+
+        .appointment-details h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .appointment-details p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .appointment-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .appointment-status.confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .appointment-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* ATIVIDADES RECENTES */
+        .activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-details h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .activity-details p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* ALERTAS */
+        .alerts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+
+        .alert-item.urgent {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .alert-item.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .alert-icon {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc3545;
+            font-size: 14px;
+        }
+
+        .alert-item.warning .alert-icon {
+            color: #ffc107;
+        }
+
+        .alert-details {
+            flex: 1;
+        }
+
+        .alert-details h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .alert-details p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .alert-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* EDIÇÕES HUMANIZADAS */
+        .humanized-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .humanized-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 12px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            border: 1px solid #cce7ff;
+        }
+
+        .humanized-icon {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            font-size: 14px;
+        }
+
+        .humanized-details {
+            flex: 1;
+        }
+
+        .humanized-details h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .humanized-details p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+
+        .humanized-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #007bff;
+            color: white;
+            border-radius: 12px;
+            font-size: 10px;
+        }
+
+        /* CARD DO TEMPO */
+        .weather-card {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .weather-header h2 {
+            color: white;
+        }
+
+        .weather-header h2 i {
+            color: white;
+        }
+
+        .weather-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .temperature {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .temp-number {
+            font-size: 48px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .temp-unit {
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .weather-info p {
+            text-align: right;
+        }
+
+        .condition {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .day {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .weather-details {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .weather-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .content-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app {
+                flex-direction: column;
+            }
+
+            aside {
+                height: auto;
+                width: 100% !important;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            main {
+                margin-left: 0 !important;
+                padding: 10px;
+            }
+
+            .main-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR (MANTIDO IGUAL) -->
+        <aside id="sidebar" class="expanded">
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a class="nav-link active">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link">
+                            <i class="fa-solid fa-message"></i>
+                            <span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link">
+                            <i class="fa-solid fa-book"></i>
+                            <span>Registro</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link">
+                            <i class="fa-solid fa-bell"></i>
+                            <span>Alertas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="logout-area">
+                <a class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT (ESTILO DO SEU EXEMPLO) -->
+        <main id="mainContent">
+            <!-- HEADER COM SAUDAÇÃO -->
+            <header class="main-header">
+                <div class="greeting-section">
+                    <h1>Bom dia, Dr. João Costa!</h1>
+                    <p class="date-info">Segunda-feira, 15 de Janeiro 2024</p>
+                </div>
+
+                <div class="user-info-header">
+                    <div class="weather-info">
+                        <i class="fa-solid fa-sun"></i>
+                        <span>31°C</span>
+                    </div>
+                    <div class="user-avatar-header">
+                        <img src="https://ui-avatars.com/api/?name=Dr+João+Costa&background=007bff&color=fff"
+                            alt="Dr. João Costa">
+                    </div>
+                </div>
+            </header>
+
+            <!-- CARDS DE MÉTRICAS -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>12</h3>
+                        <p>Consultas hoje</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>5</h3>
+                        <p>Alertas não lidos</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fa-solid fa-prescription-bottle-medical"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>8</h3>
+                        <p>Prescrições pendentes</p>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>15min</h3>
+                        <p>Próxima consulta</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LAYOUT COM DUAS COLUNAS -->
+            <section class="content-columns">
+                <!-- COLUNA ESQUERDA -->
+                <div class="column-left">
+                    <!-- CONSULTAS AGENDADAS -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-calendar-days"></i> Consultas Agendadas</h2>
+                            <button class="view-all">Ver todas</button>
+                        </div>
+
+                        <div class="appointments-list">
+                            <div class="appointment-item">
+                                <div class="appointment-time">
+                                    <span class="time">10:00</span>
+                                    <span class="ampm">AM</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <h4>Rosa Martins</h4>
+                                    <p>Retorno do tratamento</p>
+                                </div>
+                                <div class="appointment-status confirmed">
+                                    Confirmada
+                                </div>
+                            </div>
+
+                            <div class="appointment-item">
+                                <div class="appointment-time">
+                                    <span class="time">09:30</span>
+                                    <span class="ampm">AM</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <h4>Maria Silva</h4>
+                                    <p>Consulta de rotina</p>
+                                </div>
+                                <div class="appointment-status pending">
+                                    Pendente
+                                </div>
+                            </div>
+
+                            <div class="appointment-item">
+                                <div class="appointment-time">
+                                    <span class="time">08:00</span>
+                                    <span class="ampm">AM</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <h4>Pedro Veloso</h4>
+                                    <p>Primeira consulta</p>
+                                </div>
+                                <div class="appointment-status confirmed">
+                                    Confirmada
+                                </div>
+                            </div>
+
+                            <div class="appointment-item">
+                                <div class="appointment-time">
+                                    <span class="time">07:00</span>
+                                    <span class="ampm">AM</span>
+                                </div>
+                                <div class="appointment-details">
+                                    <h4>Dr. Ricardo Lima</h4>
+                                    <p>Reunião de equipe</p>
+                                </div>
+                                <div class="appointment-status confirmed">
+                                    Confirmada
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ATIVIDADES RECENTES -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-chart-line"></i> Atividades Recentes</h2>
+                        </div>
+
+                        <div class="activities-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fa-solid fa-user-md"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Consulta com Maria Silva</h4>
+                                    <p>Finalizada às 14:00</p>
+                                    <span class="activity-time">Hoje</span>
+                                </div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fa-solid fa-prescription"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <h4>Prescrição atualizada</h4>
+                                    <p>Medicação para tratamento</p>
+                                    <span class="activity-time">Hoje</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA -->
+                <div class="column-right">
+                    <!-- ALERTAS RECENTES -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-triangle-exclamation"></i> Alertas Recentes</h2>
+                        </div>
+
+                        <div class="alerts-list">
+                            <div class="alert-item urgent">
+                                <div class="alert-icon">
+                                    <i class="fa-solid fa-exclamation"></i>
+                                </div>
+                                <div class="alert-details">
+                                    <h4>Vacinação pendente</h4>
+                                    <p>Paciente João precisa de reforço</p>
+                                    <span class="alert-time">09:00 AM</span>
+                                </div>
+                            </div>
+
+                            <div class="alert-item warning">
+                                <div class="alert-icon">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                                <div class="alert-details">
+                                    <h4>Resultados disponíveis</h4>
+                                    <p>Exames laboratoriais prontos</p>
+                                    <span class="alert-time">08:00 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EDIÇÕES HUMANIZADAS -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-heart"></i> Edições Humanizadas</h2>
+                        </div>
+
+                        <div class="humanized-list">
+                            <div class="humanized-item">
+                                <div class="humanized-icon">
+                                    <i class="fa-solid fa-comment-medical"></i>
+                                </div>
+                                <div class="humanized-details">
+                                    <h4>Anotações do paciente</h4>
+                                    <p>"Precisa de mais atenção na dieta"</p>
+                                    <span class="humanized-tag">Observação</span>
+                                </div>
+                            </div>
+
+                            <div class="humanized-item">
+                                <div class="humanized-icon">
+                                    <i class="fa-solid fa-hand-holding-heart"></i>
+                                </div>
+                                <div class="humanized-details">
+                                    <h4>Suporte emocional</h4>
+                                    <p>"Paciente ansioso, precisa de acompanhamento"</p>
+                                    <span class="humanized-tag">Cuidado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PREVISÃO DO TEMPO -->
+                    <div class="content-card weather-card">
+                        <div class="weather-header">
+                            <h2><i class="fa-solid fa-cloud-sun"></i> Previsão do Tempo</h2>
+                        </div>
+
+                        <div class="weather-content">
+                            <div class="weather-main">
+                                <div class="temperature">
+                                    <span class="temp-number">31</span>
+                                    <span class="temp-unit">°C</span>
+                                </div>
+                                <div class="weather-info">
+                                    <p class="condition">Ensolarado</p>
+                                    <p class="day">Domingo</p>
+                                </div>
+                            </div>
+                            <div class="weather-details">
+                                <div class="weather-item">
+                                    <i class="fa-solid fa-wind"></i>
+                                    <span>15 km/h</span>
+                                </div>
+                                <div class="weather-item">
+                                    <i class="fa-solid fa-droplet"></i>
+                                    <span>45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const toggle = document.getElementById("toggleSidebar");
+
+        // Toggle sidebar
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+            sidebar.classList.toggle("expanded");
+        });
+
+        // Ativar link clicado
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Salvar estado da sidebar
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedState = localStorage.getItem('sidebarState');
+            if (savedState === 'collapsed') {
+                sidebar.classList.add('collapsed');
+                sidebar.classList.remove('expanded');
+            }
+        });
+
+        sidebar.addEventListener('transitionend', function () {
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarState', isCollapsed ? 'collapsed' : 'expanded');
+        });
+    </script>
+</body>
+
+</html>

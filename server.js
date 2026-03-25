@@ -1,72 +1,276 @@
+// ================== IMPORTS ==================
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
 require('dotenv').config();
 
-const { testConnection } = require('./src/config/db');
-const authRoutes = require('./src/routes/authRoutes');
+// Banco de dados
+const { connection: db, testConnection } = require('./src/config/db');
 
+// Rotas e controllers
+const authRoutes = require('./src/routes/authRoutes');
+const { handleLogout } = require('./src/controllers/authController');
+
+// ================== APP ==================
 const app = express();
 
-// Configurações essenciais
+// ================== MIDDLEWARES GLOBAIS ==================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// ================== SESSÃO ==================
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'segredo_arco_iris',
+    secret: process.env.SESSION_SECRET || 'chave_mestre_saude',
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 3600000 }
 }));
 
-// Rotas
+// ================== MIDDLEWARES DE PROTEÇÃO ==================
+const verificarUtente = (req, res, next) => {
+    if (req.session.isLoggedIn && req.session.role === 'utente') return next();
+    res.redirect('/');
+};
+
+const verificarProfissional = (req, res, next) => {
+    if (req.session.isLoggedIn && req.session.role === 'profissional') return next();
+    res.redirect('/');
+};
+
+const verificarAdmin = (req, res, next) => {
+    if (req.session.isLoggedIn && req.session.role === 'admin') return next();
+    res.redirect('/');
+};
+
+// ================== ROTAS DE AUTENTICAÇÃO ==================
 app.use('/auth', authRoutes);
+app.get('/auth/logout', handleLogout);
 
-// login
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src', 'views', 'auth', 'login.html'));
+// ================== ROTAS DE PÁGINAS ==================
+app.get('/', (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/auth/login.html'))
+);
+
+app.get('/recuperar', (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/auth/recuperar.html'))
+);
+
+//
+// ================== UTENTE ==================
+//
+app.get('/dashboard/utente', verificarUtente, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'))
+);
+
+app.get('/dashboard/utente/consultas', verificarUtente, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/utente/consultas.html'))
+);
+
+app.get('/dashboard/utente/exames', verificarUtente, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/utente/exames.html'))
+);
+
+app.get('/dashboard/utente/mensagens', verificarUtente, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/utente/mensagens.html'))
+);
+
+app.get('/dashboard/utente/perfil', verificarUtente, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/utente/perfil.html'))
+);
+
+//
+// ================== PROFISSIONAL (NÃO ALTERADO) ==================
+//
+app.get('/dashboard/profissional', verificarProfissional, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/profissional/dashboard.html'))
+);
+
+app.get('/dashboard/profissional/mensagens', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/mensagens.html'));
 });
 
-// recuperar senha
-app.get('/recuperar', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src', 'views', 'auth', 'recuperar.html'));
+app.get('/dashboard/profissional/agendamento', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, "src/views/profissional/agendamento.html"));
 });
 
-// dashboard =================================================== >
+app.get('/dashboard/profissional/alertas', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/alertas.html'));
+});
 
-// 1. UTENTE
-app.get('/dashboard/utente', (req, res) => {
-    if (req.session.isLoggedIn && req.session.role === 'utente') {
-        res.sendFile(path.join(__dirname, 'src', 'views', 'utente', 'dashboard.html'));
-    } else {
-        res.redirect('/');
+app.get('/dashboard/profissional/utentes', verificarProfissional, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/profissional/utentes.html'))
+);
+
+app.get('/dashboard/profissional/perfil', verificarProfissional, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/profissional/perfil.html'))
+);
+
+//
+// ================== ADMINISTRADOR ==================
+//
+app.get('/dashboard/admin', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/dashboard.html'))
+);
+
+// Visão Geral
+app.get('/dashboard/admin/visao-geral', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/visao-geral.html'))
+);
+
+// Gestão de Profissionais
+app.get('/dashboard/admin/profissionais', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/profissionais.html'))
+);
+
+// Gestão de Utentes
+app.get('/dashboard/admin/utentes', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/utentes.html'))
+);
+
+// Consultas
+app.get('/dashboard/admin/consultas', verificarAdmin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/admin/consultas.html'))
+})
+
+// Relatórios
+app.get('/dashboard/admin/relatorios', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/relatorios.html'))
+);
+
+// Configurações
+app.get('/dashboard/admin/configuracoes', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/configuracoes.html'))
+);
+
+// Perfil
+app.get('/dashboard/admin/perfil', verificarAdmin, (req, res) =>
+    res.sendFile(path.join(__dirname, 'src/views/admin/perfil.html'))
+);
+
+//
+// ================== API ==================
+//
+app.get('/api/user-info', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        return res.status(401).json({ message: 'Não autenticado' });
     }
-});
 
-// 2. PROFISSIONAL (Ajustado para bater com o redirecionamento do controller)
-app.get('/dashboard/profissional', (req, res) => {
-    if (req.session.isLoggedIn && req.session.role === 'profissional') {
-        // ATENÇÃO: Verifique se o nome da pasta é 'profissional' ou 'prof'
-        res.sendFile(path.join(__dirname, 'src', 'views', 'profissional', 'dashboard.html'));
-    } else {
-        res.redirect('/');
-    }
-});
+    const query = `
+        SELECT nome, email, tipo_usuario AS role, foto_perfil
+        FROM usuario
+        WHERE id_usuario = ?
+        LIMIT 1
+    `;
 
-// 3. ADMINISTRADOR (Corrigido o caminho que estava /utente)
-app.get('/dashboard/admin', (req, res) => {
-    if (req.session.isLoggedIn && req.session.role === 'admin') {
-        res.sendFile(path.join(__dirname, 'src', 'views', 'admin', 'dashboard.html'));
-    } else {
-        res.redirect('/');
-    }
-});
+    db.query(query, [req.session.userId], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(500).json({ message: 'Erro ao buscar utilizador' });
+        }
 
-// Iniciar Servidor
-const PORT = process.env.PORT || 3000;
-testConnection().then(() => {
-    app.listen(PORT, () => {
-        console.log(`🚀 SERVIDOR RODANDO EM: http://localhost:${PORT}`);
+        const user = results[0];
+
+        res.json({
+            nome: user.nome,
+            email: user.email,
+            role: user.role,
+            foto_perfil: user.foto_perfil
+        });
     });
 });
+
+// Lista de utentes (Profissional)
+app.get('/api/utentes', verificarProfissional, (req, res) => {
+    const query = `
+        SELECT u.id_usuario AS id, u.nome, u.email,
+               ut.data_nascimento, ut.sexo AS genero
+        FROM usuario u
+        INNER JOIN utente ut ON u.id_usuario = ut.id_usuario
+        WHERE u.tipo_usuario = 'utente'
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error("Erro ao buscar utentes:", err);
+            return res.status(500).json({ error: "Erro na base de dados" });
+        }
+        res.json(results);
+    });
+});
+
+//
+// ================== MULTER ==================
+//
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = path.join(__dirname, 'public/uploads/perfil');
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        cb(null, `user_${req.session.userId}_${Date.now()}${ext}`);
+    }
+});
+
+const upload = multer({ storage });
+
+//
+// ================== ROTAS DE FOTO ==================
+//
+app.post('/api/upload-foto', upload.single('foto'), (req, res) => {
+    if (!req.session.isLoggedIn) {
+        return res.status(401).send("Sessão expirada");
+    }
+
+    const fotoUrl = `/uploads/perfil/${req.file.filename}`;
+    const userId = req.session.userId;
+
+    const query = "UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?";
+
+    db.query(query, [fotoUrl, userId], (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Erro ao salvar no banco");
+        }
+
+        req.session.foto_perfil = fotoUrl;
+        res.json({ success: true, url: fotoUrl });
+    });
+});
+
+app.post('/api/remover-foto', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        return res.status(401).send("Sessão expirada");
+    }
+
+    const query = "UPDATE usuario SET foto_perfil = NULL WHERE id_usuario = ?";
+
+    db.query(query, [req.session.userId], (err) => {
+        if (err) return res.status(500).send("Erro ao remover foto");
+
+        req.session.foto_perfil = null;
+        res.sendStatus(200);
+    });
+});
+
+//
+// ================== INICIALIZAÇÃO ==================
+const PORT = process.env.PORT || 3000;
+
+testConnection()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`
+               🚀 Health Access Hub em funcionamento!
+               📡 Servidor: http://localhost:${PORT}
+            `);
+        });
+    })
+    .catch(() => {
+        console.error("🖕 Erro fatal: Não foi possível conectar ao MySQL.");
+    });

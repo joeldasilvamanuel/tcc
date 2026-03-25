@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/prof/mensagens.css">
+    <link rel="stylesheet" href="/css/prof/profDash.css">
+    <title>Health Access Hub | Mensagens</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="expanded">
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/profissional" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/mensagens" class="nav-link active">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="/dashboard/profissional/agendamento" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/alertas" class="nav-link">
+                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main>
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquise mensagens ou utentes...">
+                </div>
+
+                <div class="header-right">
+                    <a href="/dashboard/profissional/alertas" style="text-decoration: none;">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <p class="user-role" id="userRole">...</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CHAT -->
+            <div class="chat-container">
+                <!-- Lista de conversas -->
+                <aside class="chat-sidebar" id="asideMemoSo">
+                    <div class="chat-sidebar-header">Conversas</div>
+                    <div class="conversation-list">
+                        <div class="conversation-item active" data-user="maria">
+                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
+                            <div class="conv-info">
+                                <h4>Maria Santos</h4>
+                                <p>Frequência cardíaca alta hoje...</p>
+                            </div>
+                            <span class="conv-time">10:32</span>
+                        </div>
+
+                        <div class="conversation-item" data-user="joao">
+                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
+                            <div class="conv-info">
+                                <h4>João Mendes</h4>
+                                <p>Posso remarcar a consulta?</p>
+                            </div>
+                            <span class="conv-time">Ontem</span>
+                        </div>
+
+                        <div class="conversation-item" data-user="ana">
+                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
+                            <div class="conv-info">
+                                <h4>Ana Pereira</h4>
+                                <p>Resultados dos exames chegaram</p>
+                            </div>
+                            <span class="conv-time">Seg</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Área de chat -->
+                <section class="chat-main">
+                    <div class="chat-header">
+                        <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
+                        <h3 id="chatWith">Maria Santos</h3>
+                    </div>
+
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- Mensagens serão adicionadas aqui via JS -->
+                    </div>
+
+                    <div class="chat-input-area">
+                        <input type="text" id="messageInput" placeholder="Escreva uma mensagem...">
+                        <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </section>
+            </div>av-link active
+        </main>
+    </div>
+
+    <script src="/js/mensagens.js"></script>
+    <script src="/js/header.js"></script>
+</body>
+
+</html>

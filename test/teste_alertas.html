@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/profDash.css">
+    <style>
+        /* ===== ALERTAS ===== */
+        .alerts-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .alerts-header h1 {
+            font-size: 1.6rem;
+            color: #1e293b;
+        }
+
+        .alerts-filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .filter-btn.critical {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .filter-btn.critical.active {
+            background: #ef4444;
+            color: white;
+        }
+
+        .filter-btn.medium {
+            border-color: #f59e0b;
+            color: #f59e0b;
+        }
+
+        .filter-btn.medium.active {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .filter-btn.low {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .filter-btn.low.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Cards de alertas */
+        .alerts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .alert-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #fafcff;
+            transition: all 0.2s;
+        }
+
+        .alert-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert-icon {
+            font-size: 2.2rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .alert-card.critical .alert-icon {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .alert-card.medium .alert-icon {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .alert-card.low .alert-icon {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .alert-top h3 {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .patient-id {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-left: 8px;
+        }
+
+        .alert-time {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .alert-desc {
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .alert-meta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .priority,
+        .status {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .priority.critical {
+            background: #ef4444;
+            color: white;
+        }
+
+        .priority.medium {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .priority.low {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.in-progress {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status.resolved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .action-btn.view {
+            background: #e0f0ff;
+            color: #007bff;
+        }
+
+        .action-btn.resolve {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .alerts-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .alert-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .alert-actions {
+                margin-top: 12px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+    <title>Health Access Hub | Alertas</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR (igual ao teu, mas com link de alertas ativo) -->
+        <aside id="sidebar" class="expanded">
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/profissional" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/registro" class="nav-link">
+                            <i class="fa-solid fa-book"></i><span>Registro</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/alertas" class="nav-link active">
+                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main id="mainContent">
+            <!-- HEADER -->
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquise alertas, utentes...">
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="https://ui-avatars.com/api/?name=Dr+Silva&background=007bff&color=fff&size=40"
+                                alt="Dr. Silva">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name">Dr. Silva</p>
+                            <p class="user-role">Cardiologista</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SEÇÃO DE ALERTAS -->
+            <section class="alerts-section">
+                <div class="alerts-header">
+                    <h1>Alertas Ativos</h1>
+                    <div class="alerts-filters">
+                        <button class="filter-btn active">Todos (12)</button>
+                        <button class="filter-btn critical">Crítico (4)</button>
+                        <button class="filter-btn medium">Médio (5)</button>
+                        <button class="filter-btn low">Baixo (3)</button>
+                    </div>
+                </div>
+
+                <div class="alerts-list">
+                    <!-- Alerta Crítico -->
+                    <div class="alert-card critical">
+                        <div class="alert-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-top">
+                                <h3>Maria Santos <span class="patient-id">#P-4582</span></h3>
+                                <span class="alert-time">Há 8 min</span>
+                            </div>
+                            <p class="alert-desc">Frequência cardíaca crítica: 145 bpm (taquicardia ventricular)</p>
+                            <div class="alert-meta">
+                                <span class="priority critical">Crítico</span>
+                                <span class="status pending">Pendente</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="action-btn view"><i class="fa-solid fa-eye"></i> Ver detalhes</button>
+                            <button class="action-btn resolve"><i class="fa-solid fa-check"></i> Resolver</button>
+                        </div>
+                    </div>
+
+                    <!-- Alerta Médio -->
+                    <div class="alert-card medium">
+                        <div class="alert-icon">
+                            <i class="fa-solid fa-exclamation-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-top">
+                                <h3>João Mendes <span class="patient-id">#P-3721</span></h3>
+                                <span class="alert-time">Há 32 min</span>
+                            </div>
+                            <p class="alert-desc">Queda de saturação SpO2 para 89% - possível hipóxia</p>
+                            <div class="alert-meta">
+                                <span class="priority medium">Médio</span>
+                                <span class="status in-progress">Em andamento</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="action-btn view"><i class="fa-solid fa-eye"></i> Ver detalhes</button>
+                            <button class="action-btn resolve"><i class="fa-solid fa-check"></i> Resolver</button>
+                        </div>
+                    </div>
+
+                    <!-- Alerta Baixo (exemplo) -->
+                    <div class="alert-card low">
+                        <div class="alert-icon">
+                            <i class="fa-solid fa-info-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-top">
+                                <h3>Ana Pereira <span class="patient-id">#P-6190</span></h3>
+                                <span class="alert-time">Há 1h 45min</span>
+                            </div>
+                            <p class="alert-desc">Lembrete: Medicação anti-hipertensiva atrasada</p>
+                            <div class="alert-meta">
+                                <span class="priority low">Baixo</span>
+                                <span class="status resolved">Resolvido</span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="action-btn view"><i class="fa-solid fa-eye"></i> Ver detalhes</button>
+                        </div>
+                    </div>
+
+                    <!-- Mais alertas podem ser adicionados aqui dinamicamente via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/profDash.js"></script>
+    <!-- Adiciona toggle da sidebar (se ainda não tiver) -->
+    <script>
+        document.getElementById('toggleSidebar').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('expanded');
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
+</body>
+
+</html>

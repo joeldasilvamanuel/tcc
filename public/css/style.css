@@ -7,7 +7,12 @@
 
 body {
   height: 100vh;
-  background: linear-gradient(180deg, #0aa5ff, #008cff);
+  background:
+    linear-gradient(180deg, #0aa5ff25, #008cff2c),
+    url("/img/healthFundo.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +46,11 @@ body {
   align-items: center;
   font-size: 110px;
   color: #fff;
+}
+
+img {
+  width: 400px;
+  height: 400px;
 }
 
 .right {

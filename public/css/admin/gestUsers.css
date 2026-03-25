@@ -1,0 +1,28 @@
+.sect {
+  display: flex;
+}
+
+.escolhaUser01 {
+  margin-top: 100px;
+  margin-left: 250px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgb(153, 151, 151);
+}
+
+.escolhaUser02 {
+  margin-top: 100px;
+  margin-left: 50px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgb(153, 151, 151);
+}
+
+.aa {
+    text-decoration: none;
+    color: #007bff;
+}
+
+center {
+    margin-left: -50px;
+}

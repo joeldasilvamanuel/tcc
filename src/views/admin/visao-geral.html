@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Health Access Hub | Dashboard Administrador</title>
+    <link rel="stylesheet" href="/css/admin/adminDah.css">
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="expanded">
+            <!-- TOPO -->
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+
+                <!-- BOTÃO DE TOGGLE -->
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <!-- MENU -->
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/admin" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/admin/visao-geral" class="nav-link active">
+                            <i class="fa-solid fa-eye"></i><span>Visão Geral</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="/dashboard/admin/profissionais" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Gestão de Profissionais</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/admin/utentes" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Gestão de Utentes</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="/dashboard/admin/consultas" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Utilizadores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/admin/relatorios" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Relatórios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/admin/configuracoes" class="nav-link">
+                            <i class="fa-solid fa-bell"></i><span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/admin/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- LOGOUT -->
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span> </a>
+            </div>
+            <!-- <div class="logout-area">
+                <a href="/auth/logout" style="color: white; text-decoration: none; font-weight: bold;"><i
+                        class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div> -->
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main id="mainContent">
+            <!-- HEADER COM BUSCA E PERFIL -->
+            <header class="main-header">
+                <div class="search-box">
+                    <h1>Visão Geral</h1>
+                </div>
+                <!-- <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquise por...">
+                </div> -->
+
+                <div class="header-right">
+                    <!-- <a href="" style="text-decoration: none;">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                    </a> -->
+
+                    <div class="user-profile">
+                        <a href="/dashboard/admin/perfil" class="nav-link">
+                            <div class="user-avatar">
+                                <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                            </div>
+                            <div class="user-info">
+                                <p class="user-name" id="userName">Carregando...</p>
+                                <p class="user-role" id="userRole">...</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </main>
+    </div>
+
+    <!-- all code JS -->
+    <script src="/js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- js dashboard -->
+    <script src="/js/profDash.js"></script>
+
+    <!-- graficos -->
+    <script>
+        const ctx = document.getElementById('hospitalChart').getContext('2d');
+
+        // Gradiente para a linha (opcional, mas fica muito elegante)
+        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
+        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
+
+        let ecgData = Array(40).fill(5);
+        let labels = Array(40).fill('');
+
+        const hospitalChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: ecgData,
+                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    tension: 0.4, // Linha mais orgânica e suave
+                    fill: true,
+                    backgroundColor: gradient
+                }]
+            },
+            options: {
+                animation: false,
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        display: true,
+                        min: 0, max: 20,
+                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
+                        ticks: { display: false }
+                    },
+                    x: { display: false }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        let counter = 0;
+        function updateMonitor() {
+            let newValue = 5; // Linha base
+            let step = counter % 15;
+
+            // Simula o pulso de forma suave
+            if (step === 3) newValue = 15;      // Pico R
+            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
+            else newValue = 5 + (Math.random() * 1); // Oscilação leve
+
+            ecgData.push(newValue);
+            ecgData.shift();
+
+            if (counter % 10 === 0) {
+                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
+            }
+
+            hospitalChart.update('none');
+            counter++;
+        }
+
+        setInterval(updateMonitor, 100);
+    </script>
+</body>
+
+</html>

@@ -1,31 +1,35 @@
 // src/config/db.js
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
 require('dotenv').config();
 
-// Criar a pool de conexões
-const pool = mysql.createPool({
+const connection = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_DATABASE || 'clinica_arco_iris',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    database: process.env.DB_NAME || 'clinica_arco_iris'
 });
 
-// FUNÇÃO QUE ESTÁ A DAR ERRO (Agora exportada corretamente)
-async function testConnection() {
-    try {
-        const connection = await pool.getConnection();
-        console.log("✅ HEALTH ACCESS HUB - CONECTADO AO MYSQL COM SUCESSO!");
-        connection.release();
-    } catch (error) {
-        console.error("❌ ERRO AO CONECTAR AO BANCO DE DADOS:", error.message);
-        process.exit(1); // Para o servidor se não houver banco
-    }
-}
-
-module.exports = {
-    pool,
-    testConnection
+const testConnection = () => {
+    return new Promise((resolve, reject) => {
+        connection.connect((err) => {
+            if (err) {
+                console.error('❌ Erro ao conectar ao MySQL:', err.message);
+                reject(err);
+            } else {
+                console.log('✅ Conexão com MySQL estabelecida!');
+                // Verifica se a DB existe
+                connection.query(`USE ${process.env.DB_NAME || 'tcc'}`, (err) => {
+                    if (err) {
+                        console.error('❌ Base de dados não encontrada!');
+                        reject(err);
+                    } else {
+                        console.log(`📡 Base de dados "${process.env.DB_NAME || 'tcc'}" selecionada.`);
+                        resolve();
+                    }
+                });
+            }
+        });
+    });
 };
+
+module.exports = { connection, testConnection };

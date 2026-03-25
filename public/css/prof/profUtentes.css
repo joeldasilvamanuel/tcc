@@ -1,0 +1,126 @@
+.utentes-container {
+  padding: 30px;
+}
+
+.utentes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.utentes-header h1 {
+  font-size: 1.8rem;
+  color: #1e293b;
+}
+.utentes-header p {
+  color: #64748b;
+}
+
+.btn-add-utente {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+/* TABLE CARD */
+.table-card {
+  background: white;
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  overflow-x: auto;
+}
+
+.utentes-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.utentes-table th {
+  padding: 15px;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.utentes-table td {
+  padding: 15px;
+  border-bottom: 1px solid #f8fafc;
+  color: #334155;
+}
+
+/* Estilo do Paciente */
+.paciente-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.paciente-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.paciente-info .nome {
+  font-weight: 600;
+  color: #1e293b;
+}
+.paciente-info .sub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.id-tag {
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.status-pill.stable {
+  background: #dcfce7;
+  color: #166534;
+}
+.status-pill.critical {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Ações */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+.actions-cell button {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  border: none;
+  background: #f8fafc;
+  color: #64748b;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.actions-cell button:hover {
+  background: #007bff;
+  color: white;
+}

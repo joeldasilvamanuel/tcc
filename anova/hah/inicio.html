@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-AO" translate="no">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/x-icon" href="logo02.png">
+    <title>Health Access Hub - Cuidados de Saúde de Qualidade</title>
+
+    <!-- ================================================
+         ESTILOS TOTALMENTE EMBUTIDOS (SEM DEPENDÊNCIA EXTERNA)
+         - Design azul e branco elegante
+         - Bootstrap Icons via CDN (ícones) – só ícones, sem CSS externo de framework
+         - Tailwind substituído por CSS puro personalizado para funcionar offline
+         - Fonte Google Fonts é opcional; incluímos fallback system fonts
+    ================================================= -->
+
+    <!-- Bootstrap Icons (CDN leve apenas para ícones, sem afectar estilo principal) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Fontes locais com fallback -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ---------- RESET & VARIÁVEIS AZUL/BRANCO ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-deep: #0a4b8c;
+            --blue-primary: #1e6bc7;
+            --blue-bright: #2a7fdd;
+            --blue-soft: #eef5ff;
+            --blue-light: #d9eaff;
+            --white: #ffffff;
+            --off-white: #fafcff;
+            --gray-light: #f5f7fb;
+            --gray-mid: #eef2f6;
+            --gray-text: #2c3e4e;
+            --gray-soft: #5a6e7c;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 20px rgba(0, 55, 120, 0.08);
+            --shadow-hover: 0 12px 28px rgba(0, 70, 150, 0.12);
+            --radius-card: 1.25rem;
+            --radius-btn: 2rem;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: var(--off-white);
+            color: var(--gray-text);
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-headline {
+            font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* elementos globais */
+        a {
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .container-custom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* botões */
+        .btn-primary {
+            background: linear-gradient(105deg, var(--blue-primary), var(--blue-bright));
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.8rem;
+            border-radius: var(--radius-btn);
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            box-shadow: 0 2px 6px rgba(30, 107, 199, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(105deg, #1a60b5, #2a7fdd);
+            box-shadow: 0 12px 20px rgba(30, 107, 199, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--blue-primary);
+            color: var(--blue-primary);
+            font-weight: 600;
+            padding: 0.7rem 1.6rem;
+            border-radius: var(--radius-btn);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: var(--blue-soft);
+            transform: translateY(-1px);
+        }
+
+        /* navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.03);
+            z-index: 1000;
+            transition: all 0.2s;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 2.25rem;
+            height: 2.25rem;
+            background: var(--blue-primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0a4b8c, #1e6bc7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #2c4a6e;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--blue-primary);
+            font-weight: 600;
+        }
+
+        /* mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--blue-deep);
+            cursor: pointer;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: white;
+            z-index: 1100;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 2rem 0 2rem rgba(0, 0, 0, 0.05);
+            padding: 2rem 1.5rem;
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            font-weight: 500;
+            color: #1e4663;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* cards e seções */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-alt {
+            background: var(--white);
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-card);
+            padding: 1.8rem;
+            transition: all 0.25s;
+            border: 1px solid rgba(30, 107, 199, 0.08);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(30, 107, 199, 0.2);
+        }
+
+        .icon-circle {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: var(--blue-soft);
+            border-radius: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--blue-primary);
+            font-size: 1.8rem;
+        }
+
+        /* hero section */
+        .hero {
+            padding-top: 7rem;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-img {
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border: 6px solid white;
+        }
+
+        /* formulário */
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: var(--gray-light);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 0.8rem 1rem;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 0 3px rgba(30, 107, 199, 0.2);
+            background: white;
+        }
+
+        /* footer */
+        .footer {
+            background: #f8fafd;
+            border-top: 1px solid var(--border-light);
+            padding: 3rem 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding-top: 6rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .container-custom {
+                padding: 0 1.2rem;
+            }
+        }
+
+        .bg-gradient-blue {
+            background: linear-gradient(145deg, #ffffff, #f3f9ff);
+        }
+
+        .text-gradient {
+            background: linear-gradient(120deg, #0a4b8c, #1e6bc7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        hr {
+            border-color: var(--border-light);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ====================== NAVBAR ====================== -->
+    <nav class="navbar">
+        <div class="container-custom nav-container">
+            <div class="logo-area">
+                <div>
+                    <img src="logo02.png" alt="" style=" height: 50px; width: auto;">
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Início</a>
+                <a href="#about" class="nav-link">Sobre Nós</a>
+                <a href="clinica.html" class="nav-link">Clínicas</a>
+                <a href="#how-it-works" class="nav-link">Como Funciona</a>
+                <a href="#contact" class="nav-link">Contacto</a>
+                <a href="lgn.html" class="btn-primary" style="padding: 0.5rem 1.5rem;"><i
+                        class="bi bi-box-arrow-in-right"></i> Entrar</a>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtnMobile"><i class="bi bi-list"></i></button>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div id="drawerOverlay" class="drawer-overlay"></div>
+    <div id="mobileDrawer" class="drawer">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Menu HAH</span>
+            <button id="closeDrawerBtn" style="background: none; border: none; font-size: 1.6rem; cursor: pointer;"><i
+                    class="bi bi-x-lg"></i></button>
+        </div>
+        <a href="#home" class="drawer-link"><i class="bi bi-house-door"></i> Início</a>
+        <a href="#about" class="drawer-link"><i class="bi bi-info-circle"></i> Sobre Nós</a>
+        <a href="clinica.html" class="drawer-link"><i class="bi bi-building"></i> Clínicas</a>
+        <a href="#how-it-works" class="drawer-link"><i class="bi bi-gear-wide-connected"></i> Como Funciona</a>
+        <a href="#contact" class="drawer-link"><i class="bi bi-envelope-paper"></i> Contacto</a>
+        <hr style="margin: 1rem 0;">
+        <a href="lgn.html" class="drawer-link" style="color: var(--blue-primary); font-weight: bold;"><i
+                class="bi bi-key"></i> Entrar</a>
+    </div>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero bg-gradient-blue">
+            <div class="container-custom"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+                <div>
+                    <h1 style="font-size: 3.2rem; line-height: 1.2; margin-bottom: 1.5rem;">O Teu Portal para <span
+                            class="text-gradient">Saúde de Qualidade</span></h1>
+                    <p style="font-size: 1.1rem; color: #4a627a; margin-bottom: 2rem; max-width: 90%;">Encontra e marca
+                        consultas facilmente nas melhores clínicas da tua zona. Encurtamos a distância entre os
+                        pacientes e os cuidados médicos especializados em Angola.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="clinica.html">
+                            <button class="btn-primary"><i class="bi bi-search-heart"></i> Encontrar
+                                Clínica</button>
+                        </a>
+                        <a href="#">
+                            <button class="btn-outline"><i class="bi bi-chat-text"></i> Saber
+                                Mais</button>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <div style="position: relative;">
+                        <div
+                            style="position: absolute; top: -20px; right: -20px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(30,107,199,0.1) 0%, rgba(30,107,199,0) 70%); border-radius: 50%;">
+                        </div>
+                        <img class="hero-img" src="medica.jpg" alt="Consulta médica"
+                            onerror="this.src='https://placehold.co/600x400/eef5ff/1e6bc7?text=Health+Care'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT / MISSÃO -->
+        <section id="about" class="section" style="background: white;">
+            <div class="container-custom">
+                <div style="text-align: center; max-width: 700px; margin: 0 auto 3rem auto;">
+                    <span
+                        style="color: var(--blue-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Nossa
+                        Missão</span>
+                    <h2 style="font-size: 2.5rem; margin-top: 0.5rem;">Unindo a Especialidade à Saúde</h2>
+                    <p style="color: #4a627a; margin-top: 1rem;">O Health Access Hub (HAH) nasceu de uma visão simples:
+                        a saúde de qualidade deve estar ao alcance de todos. Funcionamos como o elo central que liga os
+                        pacientes aos prestadores de saúde de referência.</p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                    <div class="card">
+                        <div class="icon-circle"><i class="bi bi-shield-check"></i></div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem;">Clínicas Verificadas</h3>
+                        <p style="color: #5a6e7c;">Trabalhamos apenas com clínicas acreditadas que cumprem os nossos
+                            rigorosos padrões de profissionalismo.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-circle"><i class="bi bi-lightning-charge"></i></div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem;">Marcação Rápida</h3>
+                        <p style="color: #5a6e7c;">Esquece as esperas. A nossa plataforma permite marcar as tuas
+                            consultas em menos de um minuto.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-circle"><i class="bi bi-people"></i></div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem;">Foco no Paciente</h3>
+                        <p style="color: #5a6e7c;">Tudo o que fazemos é desenhado para tornar a tua jornada de saúde
+                            simples e sem complicações.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="seeUs.html" style="display: inline-block;">
+                        <button class="btn-primary" style="gap: 0.6rem;"><i class="bi bi-people-fill"></i> Ver a Nossa
+                            Equipa <i class="bi bi-arrow-right-short"></i></button>
+                    </a>
+                    <p style="margin-top: 0.7rem; font-size: 0.85rem; color: #5f7f9e;">Conhece os especialistas por trás
+                        do projeto</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMO FUNCIONA -->
+        <section id="how-it-works" class="section" style="background: var(--gray-light);">
+            <div class="container-custom">
+                <div
+                    style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+                    <div>
+                        <h2 style="font-size: 2.3rem;">Como Funciona</h2>
+                        <p style="color: #4a627a;">Três passos simples para cuidares da tua saúde connosco.</p>
+                    </div>
+                    <button class="btn-outline" style="margin-top: 1rem;"><i class="bi bi-calendar2-check"></i> Ver
+                        Serviços</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem;">
+                    <div class="card" style="text-align: center;">
+                        <div class="icon-circle" style="margin: 0 auto 1.2rem auto;"><i class="bi bi-search"></i></div>
+                        <h3 style="font-size: 1.6rem;">1. Pesquisa Clínicas</h3>
+                        <p style="color: #5a6e7c;">Filtra por especialidade e localização para encontrares o parceiro
+                            médico ideal.</p>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="icon-circle" style="margin: 0 auto 1.2rem auto;"><i class="bi bi-calendar-week"></i>
+                        </div>
+                        <h3 style="font-size: 1.6rem;">2. Marca a Consulta</h3>
+                        <p style="color: #5a6e7c;">Escolhe o horário que pretendes e recebe confirmação imediata da tua
+                            marcação.</p>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div class="icon-circle" style="margin: 0 auto 1.2rem auto;"><i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h3 style="font-size: 1.6rem;">3. Recebe os Cuidados</h3>
+                        <p style="color: #5a6e7c;">Consulta-te com especialistas e recebe um atendimento focado no teu
+                            bem-estar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contact" class="section" style="background: white;">
+            <div class="container-custom">
+                <div
+                    style="display: grid; grid-template-columns: 1fr 0.9fr; gap: 2rem; background: white; border-radius: 2rem; box-shadow: var(--shadow-md); overflow: hidden;">
+                    <div style="padding: 2.5rem;">
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Fala Connosco</h2>
+                        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1.2rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <label style="font-weight: 500; margin-bottom: 0.25rem; display: block;">Nome
+                                        Completo</label>
+                                    <input class="form-input" type="text" placeholder="Teu nome" required>
+                                </div>
+                                <div>
+                                    <label style="font-weight: 500; margin-bottom: 0.25rem; display: block;">Correio
+                                        Electrónico</label>
+                                    <input class="form-input" type="email" placeholder="exemplo@mail.com" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    style="font-weight: 500; margin-bottom: 0.25rem; display: block;">Mensagem</label>
+                                <textarea class="form-textarea" rows="4" placeholder="Como podemos ajudar?"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: fit-content;"><i
+                                    class="bi bi-send"></i> Enviar Mensagem</button>
+                        </form>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #0f5b9c, #1a6ec2); padding: 2.5rem; color: white;">
+                        <h3 style="font-size: 1.7rem; margin-bottom: 2rem;">Informações</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1.8rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;"><i class="bi bi-envelope-fill"
+                                    style="font-size: 1.5rem;"></i>
+                                <div><strong>E-mail</strong><br>suporte@hah.healthcare</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;"><i class="bi bi-telephone-fill"
+                                    style="font-size: 1.5rem;"></i>
+                                <div><strong>Telefone</strong><br>+244 9XX XXX XXX</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;"><i class="bi bi-geo-alt-fill"
+                                    style="font-size: 1.5rem;"></i>
+                                <div><strong>Sede</strong><br>Luanda, Angola</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container-custom">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i class="bi bi-hospital" style="font-size: 1.8rem; color: var(--blue-primary);"></i>
+                        <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Health Access Hub</span>
+                    </div>
+                    <p style="color: #5b6f82;">Ligando pacientes a cuidados especializados em Angola através de uma
+                        plataforma segura e moderna.</p>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Navegação</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#home" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Início</a></li>
+                        <li><a href="#about" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Sobre Nós</a>
+                        </li>
+                        <li><a href="clinica.html" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i>
+                                Clínicas</a></li>
+                        <li><a href="#contact" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Suporte</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Legal</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#" style="color: #5b6f82;">Privacidade</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Termos</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Actualizações</h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input class="form-input" style="background: white;" type="email" placeholder="Teu e-mail">
+                        <button class="btn-primary" style="padding: 0 1rem;"><i class="bi bi-send-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 2rem 0 1rem;">
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; color: #5f7f9e; font-size: 0.85rem;">
+                <p>© 2026 Health Access Hub. Todos os direitos reservados.</p>
+                <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS: mobile menu, scroll, form alert (sem dependência externa) -->
+    <script>
+        (function () {
+            // Elementos mobile drawer
+            const menuBtn = document.getElementById('menuBtnMobile');
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+            const drawerLinks = document.querySelectorAll('.drawer-link');
+
+            function openDrawer() {
+                drawer.classList.add('open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeDrawer() {
+                drawer.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+            if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+            if (overlay) overlay.addEventListener('click', closeDrawer);
+            drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
+
+            // active link highlight no scroll (simples)
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            function highlightNav() {
+                let scrollPos = window.scrollY + 150;
+                sections.forEach(section => {
+                    const top = section.offsetTop;
+                    const bottom = top + section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < bottom) {
+                        const id = section.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }
+            window.addEventListener('scroll', highlightNav);
+            highlightNav();
+
+            // Form alerta (apenas simulação)
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    alert('Mensagem enviada com sucesso! (simulação) Em breve retornamos contacto.');
+                    contactForm.reset();
+                });
+            }
+
+            // Botões principais acção demonstrativa
+            // const findBtn = document.querySelector('.btn-primary:first-of-type');
+            // if (findBtn && findBtn.innerText.includes('Encontrar')) {
+            //     findBtn.addEventListener('click', () => alert('🔍 Redirecionar para página de clínicas (demo)'));
+            // }
+            // const saberMais = document.querySelector('.btn-outline');
+            // if (saberMais && saberMais.innerText.includes('Saber')) {
+            //     saberMais.addEventListener('click', () => alert('📘 Saiba mais sobre a nossa missão de saúde digital.'));
+            // }
+        })();
+    </script>
+</body>
+
+</html>

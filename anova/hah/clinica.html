@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="logo02.png">
+  <title>Clínicas - Health Access Hub</title>
+
+  <!-- Bootstrap Icons (CDN leve) e CSS embutido para não depender de wi-fi para o estilo principal -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    /* ========== ESTILO COMPLETO EMBUTIDO - AZUL E BRANCO SIMPLES E ELEGANTE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue-dark: #0a4b8c;
+      --blue-primary: #1e6bc7;
+      --blue-light: #eef5ff;
+      --blue-soft: #d9eaff;
+      --white: #ffffff;
+      --off-white: #fafcff;
+      --gray-light: #f8fafc;
+      --gray-border: #e2edf7;
+      --gray-text: #2c3e4e;
+      --gray-muted: #5a6e7c;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(0, 71, 141, 0.08);
+      --radius-card: 1.25rem;
+      --radius-btn: 2rem;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
+      background: var(--off-white);
+      color: var(--gray-text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Navegação fixa */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.02);
+      z-index: 1000;
+      padding: 0 1.5rem;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--blue-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .logo-text {
+      font-size: 1.35rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0a4b8c, #1e6bc7);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #2c4e6e;
+      transition: 0.2s;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--blue-primary);
+      font-weight: 600;
+    }
+
+    .btn-login {
+      background: var(--blue-primary);
+      color: white;
+      padding: 0.5rem 1.4rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-login:hover {
+      background: #0f58b0;
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.7rem;
+      color: var(--blue-dark);
+      cursor: pointer;
+    }
+
+    /* Drawer mobile */
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 280px;
+      background: white;
+      z-index: 1100;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
+      padding: 2rem 1.5rem;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+      z-index: 1050;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      font-weight: 500;
+      color: #1e4663;
+      text-decoration: none;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    /* Main content */
+    .main-content {
+      padding-top: 90px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-bottom: 3rem;
+    }
+
+    /* Hero search */
+    .search-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 650px;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.25rem;
+      color: #8ba0b5;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.9rem 1rem 0.9rem 2.8rem;
+      border-radius: 3rem;
+      border: 1px solid #e2edf7;
+      background: white;
+      font-size: 1rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--blue-primary);
+      box-shadow: 0 0 0 3px rgba(30, 107, 199, 0.15);
+    }
+
+    /* Filtros */
+    .filters-sidebar {
+      background: white;
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      border: 1px solid #eef2f6;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-group {
+      margin-bottom: 1.8rem;
+    }
+
+    .filter-title {
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7c8ea0;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+      cursor: pointer;
+    }
+
+    .filter-option input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--blue-primary);
+    }
+
+    /* Cards de clínicas */
+    .clinics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .clinic-card {
+      background: white;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      border: 1px solid #eef2f6;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .clinic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #cde3f5;
+    }
+
+    .card-img {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .rating-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      padding: 0.2rem 0.7rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-content {
+      padding: 1.2rem 1.2rem 1.2rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 0.5rem;
+    }
+
+    .clinic-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #1a3a5c;
+    }
+
+    .distance {
+      font-size: 0.7rem;
+      background: var(--blue-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      color: var(--blue-primary);
+    }
+
+    .specialty-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0.8rem 0;
+    }
+
+    .tag {
+      background: #eff3f8;
+      padding: 0.2rem 0.7rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #2c6280;
+    }
+
+    .btn-card {
+      width: 100%;
+      background: var(--blue-primary);
+      color: white;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-card:hover {
+      background: #0f58b0;
+    }
+
+    .result-count {
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      color: var(--gray-muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 1.5rem;
+      color: #7c8ea0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .clinics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #eef2f6;
+      padding: 2.5rem 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR FIXA -->
+  <nav class="navbar">
+    <div class="container-custom nav-container">
+      <div class="logo-area">
+        <div>
+          <img src="logo02.png" alt="" style=" height: 50px; width: auto;">
+        </div>
+        <span class="logo-text">Health Access Hub</span>
+      </div>
+      <div class="nav-links">
+        <a href="inicio.html" class="nav-link active">Início</a>
+        <a href="inicio.html" class="nav-link">Sobre Nós</a>
+        <a href="clinica.html" class="nav-link">Clínicas</a>
+        <a href="inicio.html" class="nav-link">Como Funciona</a>
+        <a href="inicio.html" class="nav-link">Contacto</a>
+        <a href="lgn.html" class="btn-login"><i class="bi bi-box-arrow-in-right"></i> Entrar</a>
+      </div>
+      <button class="mobile-menu-btn" id="menuBtnMobile"><i class="bi bi-list"></i></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+  <div id="mobileDrawer" class="drawer">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+      <span style="font-weight: 800; font-size: 1.3rem;">Menu HAH</span>
+      <button id="closeDrawerBtn" style="background: none; border: none; font-size: 1.5rem;"><i
+          class="bi bi-x-lg"></i></button>
+    </div>
+    <a href="inicio.html" class="drawer-link"><i class="bi bi-house-door"></i> Início</a>
+    <a href="#" class="drawer-link"><i class="bi bi-info-circle"></i> Sobre Nós</a>
+    <a href="clinica.html" class="drawer-link" style="color: var(--blue-primary);"><i class="bi bi-building"></i>
+      Clínicas</a>
+    <a href="#" class="drawer-link"><i class="bi bi-gear"></i> Como Funciona</a>
+    <hr style="margin: 1rem 0;">
+    <a href="lgn.html" class="drawer-link"><i class="bi bi-key"></i> Entrar</a>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-content">
+    <div class="search-section">
+      <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Encontre <span style="color: var(--blue-primary);">Clínicas
+          Especializadas</span></h1>
+      <p style="color: #5a6e7c; margin-bottom: 1.8rem;">Pesquise por nome, especialidade ou localização e agende a sua
+        consulta.</p>
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" id="searchInput" class="search-input"
+          placeholder="Digite nome da clínica, especialidade ou bairro...">
+      </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+      <!-- SIDEBAR FILTROS -->
+      <aside style="flex: 0 0 260px;">
+        <div class="filters-sidebar">
+          <h3 style="margin-bottom: 1.2rem; display: flex; gap: 0.5rem;"><i class="bi bi-sliders2"></i> Filtros</h3>
+          <div class="filter-group">
+            <span class="filter-title"><i class="bi bi-star"></i> Especialidades</span>
+            <div class="filter-option" data-specialty="all">
+              <input type="radio" name="specialtyFilter" id="specAll" value="all" checked>
+              <label for="specAll">Todas as especialidades</label>
+            </div>
+            <div class="filter-option" data-specialty="Cardiologia">
+              <input type="radio" name="specialtyFilter" id="specCardio" value="Cardiologia">
+              <label for="specCardio">Cardiologia</label>
+            </div>
+            <div class="filter-option" data-specialty="Pediatria">
+              <input type="radio" name="specialtyFilter" id="specPedia" value="Pediatria">
+              <label for="specPedia">Pediatria</label>
+            </div>
+            <div class="filter-option" data-specialty="Dermatologia">
+              <input type="radio" name="specialtyFilter" id="specDerma" value="Dermatologia">
+              <label for="specDerma">Dermatologia</label>
+            </div>
+            <div class="filter-option" data-specialty="Ortopedia">
+              <input type="radio" name="specialtyFilter" id="specOrto" value="Ortopedia">
+              <label for="specOrto">Ortopedia</label>
+            </div>
+            <div class="filter-option" data-specialty="Clínica Geral">
+              <input type="radio" name="specialtyFilter" id="specGeral" value="Clínica Geral">
+              <label for="specGeral">Clínica Geral</label>
+            </div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-title"><i class="bi bi-geo-alt"></i> Localização</span>
+            <div class="filter-option">
+              <input type="radio" name="locationFilter" id="locAll" value="all" checked>
+              <label for="locAll">Todas as regiões</label>
+            </div>
+            <div class="filter-option">
+              <input type="radio" name="locationFilter" id="locLuanda" value="Luanda">
+              <label for="locLuanda">Luanda</label>
+            </div>
+            <div class="filter-option">
+              <input type="radio" name="locationFilter" id="locTalatona" value="Talatona">
+              <label for="locTalatona">Talatona</label>
+            </div>
+          </div>
+          <button id="resetFiltersBtn"
+            style="margin-top: 1rem; background: none; border: 1px solid #cbdde9; padding: 0.4rem 1rem; border-radius: 2rem; cursor: pointer; width: 100%;"><i
+              class="bi bi-arrow-repeat"></i> Limpar filtros</button>
+        </div>
+      </aside>
+
+      <!-- LISTAGEM DE CLÍNICAS (BASE DE DADOS SIMULADA) -->
+      <div style="flex: 1;">
+        <div class="result-count" id="resultCountMsg">Carregando clínicas...</div>
+        <div id="clinicsContainer" class="clinics-grid"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div><i class="bi bi-hospital" style="font-size: 1.5rem; color: var(--blue-primary);"></i><br><strong>Health
+          Access Hub</strong><br><small style="color:#6c86a3;">Cuidados de saúde ao seu alcance.</small></div>
+      <div><strong>Links Rápidos</strong><br><a href="#" style="color:#5a6e7c; text-decoration: none;">Sobre
+          nós</a><br><a href="clinica.html" style="color:#5a6e7c; text-decoration: none;">Clínicas</a></div>
+      <div><strong>Contacto</strong><br>suporte@hah.ao<br>Luanda, Angola</div>
+      <div><strong>Newsletter</strong><br><input type="email" placeholder="Seu email"
+          style="border:1px solid #e2edf7; border-radius: 2rem; padding:0.4rem 1rem;"><button
+          style="background:var(--blue-primary); color:white; border:none; border-radius:2rem; padding:0.4rem 1rem; margin-top:0.5rem;">Inscrever</button>
+      </div>
+    </div>
+    <div
+      style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; color: #5f7f9e; font-size: 0.85rem;">
+      <p>© 2026 Health Access Hub. Todos os direitos reservados.</p>
+      <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===================== BASE DE DADOS DE CLÍNICAS (SIMULAÇÃO BD) =====================
+    const clinicsDatabase = [
+      { id: 1, name: "Centro de Bem-Estar Luanda", specialties: ["Cardiologia", "Diagnóstico"], location: "Luanda", distance: "1.2 km", rating: 4.9, image: "https://placehold.co/600x400/1e6bc7/white?text=Clínica+Luanda", description: "Atendimento humanizado e tecnologia de ponta." },
+      { id: 2, name: "Cardiologia da Ilha", specialties: ["Cardiologia", "Cirurgia"], location: "Luanda", distance: "2.5 km", rating: 4.7, image: "https://placehold.co/600x400/0a4b8c/white?text=Cardiologia+Ilha", description: "Especialistas em coração." },
+      { id: 3, name: "Clínica Pediátrica Esperança", specialties: ["Pediatria", "Vacinação"], location: "Talatona", distance: "3.0 km", rating: 4.8, image: "https://placehold.co/600x400/2a7fdd/white?text=Pediatria", description: "Cuidado infantil completo." },
+      { id: 4, name: "Derm Clinic Angola", specialties: ["Dermatologia", "Estética"], location: "Luanda", distance: "0.9 km", rating: 4.6, image: "https://placehold.co/600x400/00478d/white?text=Dermatologia", description: "Tratamentos de pele avançados." },
+      { id: 5, name: "Centro Ortopédico Vida", specialties: ["Ortopedia", "Fisioterapia"], location: "Talatona", distance: "4.1 km", rating: 4.5, image: "https://placehold.co/600x400/1e6bc7/white?text=Ortopedia", description: "Recuperação e movimento." },
+      { id: 6, name: "Clínica Geral Multiperfil", specialties: ["Clínica Geral", "Check-up"], location: "Luanda", distance: "1.8 km", rating: 4.4, image: "https://placehold.co/600x400/0f58b0/white?text=Multiperfil", description: "Consultas gerais e exames." },
+      { id: 7, name: "Hospital Pediátrico Amigo", specialties: ["Pediatria", "Neonatologia"], location: "Luanda", distance: "2.2 km", rating: 4.9, image: "https://placehold.co/600x400/2a7fdd/white?text=Pediatria+Amigo", description: "Amor e cuidado infantil." },
+      { id: 8, name: "Instituto do Coração", specialties: ["Cardiologia"], location: "Talatona", distance: "5.0 km", rating: 4.9, image: "https://placehold.co/600x400/00478d/white?text=Coração", description: "Referência em cardiologia." }
+    ];
+
+    // Função para renderizar clínicas com base nos filtros e pesquisa
+    function renderClinics() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      const selectedSpecialty = document.querySelector('input[name="specialtyFilter"]:checked')?.value || 'all';
+      const selectedLocation = document.querySelector('input[name="locationFilter"]:checked')?.value || 'all';
+
+      let filtered = clinicsDatabase.filter(clinic => {
+        // Filtro de pesquisa (nome, especialidade, localização)
+        let matchesSearch = true;
+        if (searchTerm) {
+          const nameMatch = clinic.name.toLowerCase().includes(searchTerm);
+          const specialtyMatch = clinic.specialties.some(spec => spec.toLowerCase().includes(searchTerm));
+          const locationMatch = clinic.location.toLowerCase().includes(searchTerm);
+          matchesSearch = nameMatch || specialtyMatch || locationMatch;
+        }
+
+        // Filtro de especialidade
+        let matchesSpecialty = true;
+        if (selectedSpecialty !== 'all') {
+          matchesSpecialty = clinic.specialties.some(spec => spec === selectedSpecialty);
+        }
+
+        // Filtro de localização
+        let matchesLocation = true;
+        if (selectedLocation !== 'all') {
+          matchesLocation = clinic.location === selectedLocation;
+        }
+
+        return matchesSearch && matchesSpecialty && matchesLocation;
+      });
+
+      // Atualizar contador
+      const countMsg = document.getElementById('resultCountMsg');
+      if (filtered.length === 0) {
+        countMsg.innerHTML = `<i class="bi bi-info-circle"></i> Nenhuma clínica encontrada. Tente outros filtros.`;
+      } else {
+        countMsg.innerHTML = `Mostrando <strong>${filtered.length}</strong> clínica(s) encontrada(s)`;
+      }
+
+      const container = document.getElementById('clinicsContainer');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="empty-state"><i class="bi bi-hospital" style="font-size: 2rem;"></i><p>Nenhuma clínica corresponde aos critérios.</p><button onclick="resetAllFilters()" style="background: var(--blue-primary); color:white; border:none; border-radius: 2rem; padding: 0.5rem 1.2rem; margin-top: 1rem;">Limpar filtros</button></div>`;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(clinic => {
+        const specialtiesHtml = clinic.specialties.map(spec => `<span class="tag">${spec}</span>`).join('');
+        html += `
+                <div class="clinic-card">
+                    <div class="card-img" style="background-image: url('${clinic.image}'); background-size: cover;">
+                        <div class="rating-badge"><i class="bi bi-star-fill" style="color: #f5b042;"></i> ${clinic.rating}</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="clinic-name">${escapeHtml(clinic.name)}</h3>
+                            <span class="distance"><i class="bi bi-geo-alt-fill"></i> ${clinic.distance}</span>
+                        </div>
+                        <div class="specialty-tags">${specialtiesHtml}</div>
+                        <p style="font-size: 0.8rem; color: #6f8fae; margin: 8px 0;">${clinic.description}</p>
+                        <button class="btn-card" onclick="viewClinic(${clinic.id})"><i class="bi bi-calendar2-check"></i> Ver Clínica e Agendar</button>
+                    </div>
+                </div>
+            `;
+      });
+      container.innerHTML = html;
+    }
+
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function (m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+    // Visualizar clínica (simular navegação)
+    window.viewClinic = function (id) {
+      const clinic = clinicsDatabase.find(c => c.id === id);
+      if (clinic) {
+        alert(`🔍 ${clinic.name}\n📍 ${clinic.location}\n🩺 Especialidades: ${clinic.specialties.join(', ')}\n💬 Redirecionar para agendamento. (demo)`);
+        // Aqui você pode redirecionar para página de detalhe: window.location.href = `detalhe-clinica.html?id=${id}`;
+      } else {
+        alert("Clínica não encontrada.");
+      }
+    };
+
+    // Resetar todos os filtros
+    window.resetAllFilters = function () {
+      document.getElementById('searchInput').value = '';
+      document.querySelector('input[name="specialtyFilter"][value="all"]').checked = true;
+      document.querySelector('input[name="locationFilter"][value="all"]').checked = true;
+      renderClinics();
+    };
+
+    // Eventos de pesquisa e filtros
+    document.getElementById('searchInput').addEventListener('input', renderClinics);
+    document.querySelectorAll('input[name="specialtyFilter"]').forEach(radio => radio.addEventListener('change', renderClinics));
+    document.querySelectorAll('input[name="locationFilter"]').forEach(radio => radio.addEventListener('change', renderClinics));
+    document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+
+    // MOBILE DRAWER
+    const menuBtn = document.getElementById('menuMobileBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const closeDrawer = document.getElementById('closeDrawerBtn');
+    function openDrawer() { drawer.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeDrawerFn() { drawer.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+    if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+    if (closeDrawer) closeDrawer.addEventListener('click', closeDrawerFn);
+    if (overlay) overlay.addEventListener('click', closeDrawerFn);
+    document.querySelectorAll('.drawer-link').forEach(link => link.addEventListener('click', closeDrawerFn));
+
+    // inicialização
+    renderClinics();
+  </script>
+</body>
+
+</html>

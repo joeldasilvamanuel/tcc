@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/prof/registro.css">
+    <link rel="stylesheet" href="/css/prof/perfil.css">
+    <title>Health Access Hub | Agendamento de Consultas</title>
+    <style>
+        /* Estilos específicos para agendamento */
+        .agendamento-container {
+            padding: 20px 0;
+        }
+
+        .agendamento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .agendamento-header h1 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agendamento-header h1 i {
+            color: #007bff;
+        }
+
+        .btn-nova-consulta {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-nova-consulta:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Cards de estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue {
+            background: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+        }
+
+        .stat-icon.green {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .stat-icon.orange {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .stat-icon.red {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .stat-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Calendário e agenda */
+        .agenda-wrapper {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+        }
+
+        /* Calendário */
+        .calendario-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendario-header h2 {
+            font-size: 1.2rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calendario-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendario-nav button {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendario-nav button:hover {
+            background: #f1f5f9;
+            color: #007bff;
+        }
+
+        .dias-semana {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .dias-semana span {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748b;
+            padding: 8px 0;
+        }
+
+        .dias-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .dia {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            border: 1px solid transparent;
+        }
+
+        .dia:hover {
+            background: #f1f5f9;
+            border-color: #e2e8f0;
+        }
+
+        .dia.hoje {
+            background: #007bff;
+            color: white;
+        }
+
+        .dia.selecionado {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .dia.com-consulta {
+            position: relative;
+            font-weight: 600;
+        }
+
+        .dia.com-consulta::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #007bff;
+        }
+
+        .dia.hoje.com-consulta::after,
+        .dia.selecionado.com-consulta::after {
+            background: white;
+        }
+
+        .dia.outro-mes {
+            color: #cbd5e1;
+        }
+
+        /* Lista de consultas */
+        .consultas-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .consultas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .consultas-header h2 {
+            font-size: 1.2rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filtros-consulta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filtro-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filtro-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .lista-consultas {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .consulta-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 16px;
+            background: #f8fafc;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .consulta-item:hover {
+            background: white;
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .consulta-horario {
+            min-width: 80px;
+            text-align: center;
+            padding-right: 20px;
+        }
+
+        .consulta-horario .hora {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .consulta-horario .periodo {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .consulta-info {
+            flex: 1;
+        }
+
+        .consulta-paciente {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .consulta-detalhes {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .consulta-detalhes i {
+            margin-right: 5px;
+            color: #007bff;
+        }
+
+        .consulta-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirmada {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .status-pendente {
+            background: rgba(255, 193, 7, 0.1);
+            color: #b85e00;
+        }
+
+        .status-concluida {
+            background: rgba(100, 116, 139, 0.1);
+            color: #475569;
+        }
+
+        .consulta-acoes {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .btn-acao {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-acao:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        /* Modal de agendamento */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #f1f5f9;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .horarios-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .horario-btn {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            color: #1e293b;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .horario-btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .horario-btn.selected {
+            background: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+
+        .btn-agendar {
+            width: 100%;
+            padding: 14px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-agendar:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .agenda-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .consulta-item {
+                flex-wrap: wrap;
+            }
+
+            .consulta-acoes {
+                width: 100%;
+                justify-content: flex-end;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <aside id="sidebar" class="expanded">
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/profissional" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="/dashboard/profissional/agendamento" class="nav-link active">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/alertas" class="nav-link">
+                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i><span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <main id="mainContent">
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquise por consultas, pacientes...">
+                </div>
+
+                <div class="header-right">
+                    <a href="/dashboard/profissional/alertas" style="text-decoration: none;">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">Dr. João Silva</p>
+                            <p class="user-role" id="userRole">Cardiologista</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="agendamento-container">
+                <div class="agendamento-header">
+                    <h1>
+                        <i class="fa-solid fa-calendar-check"></i>
+                        Agendamento de Consultas
+                    </h1>
+                    <button class="btn-nova-consulta" id="btnNovaConsulta">
+                        <i class="fa-solid fa-plus"></i>
+                        Nova Consulta
+                    </button>
+                </div>
+
+                <!-- Cards de estatísticas -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-calendar"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>28</h3>
+                            <p>Consultas hoje</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>156</h3>
+                            <p>Confirmadas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>Pendentes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>8</h3>
+                            <p>Novos pacientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agenda principal -->
+                <div class="agenda-wrapper">
+                    <!-- Calendário -->
+                    <div class="calendario-card">
+                        <div class="calendario-header">
+                            <h2>
+                                <i class="fa-solid fa-calendar"></i>
+                                <span id="mesAno">Fevereiro 2026</span>
+                            </h2>
+                            <div class="calendario-nav">
+                                <button id="btnMesAnterior">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button id="btnMesProximo">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="dias-semana">
+                            <span>DOM</span>
+                            <span>SEG</span>
+                            <span>TER</span>
+                            <span>QUA</span>
+                            <span>QUI</span>
+                            <span>SEX</span>
+                            <span>SÁB</span>
+                        </div>
+
+                        <div class="dias-grid" id="diasGrid">
+                            <!-- Dias serão preenchidos via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Lista de consultas do dia -->
+                    <div class="consultas-card">
+                        <div class="consultas-header">
+                            <h2>
+                                <i class="fa-solid fa-list-check"></i>
+                                Consultas de <span id="dataSelecionada">12/02/2026</span>
+                            </h2>
+                            <div class="filtros-consulta">
+                                <button class="filtro-btn active">Todas</button>
+                                <button class="filtro-btn">Confirmadas</button>
+                                <button class="filtro-btn">Pendentes</button>
+                            </div>
+                        </div>
+
+                        <div class="lista-consultas" id="listaConsultas">
+                            <!-- Consultas serão carregadas aqui -->
+                            <div class="consulta-item">
+                                <div class="consulta-horario">
+                                    <div class="hora">09:00</div>
+                                    <div class="periodo">Manhã</div>
+                                </div>
+                                <div class="consulta-info">
+                                    <div class="consulta-paciente">Maria Santos</div>
+                                    <div class="consulta-detalhes">
+                                        <span><i class="fa-solid fa-stethoscope"></i> Check-up</span>
+                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
+                                    </div>
+                                </div>
+                                <div class="consulta-status status-confirmada">
+                                    Confirmada
+                                </div>
+                                <div class="consulta-acoes">
+                                    <button class="btn-acao" title="Editar">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Reagendar">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Cancelar">
+                                        <i class="fa-solid fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="consulta-item">
+                                <div class="consulta-horario">
+                                    <div class="hora">10:30</div>
+                                    <div class="periodo">Manhã</div>
+                                </div>
+                                <div class="consulta-info">
+                                    <div class="consulta-paciente">João Pereira</div>
+                                    <div class="consulta-detalhes">
+                                        <span><i class="fa-solid fa-heart"></i> Cardiologia</span>
+                                        <span><i class="fa-solid fa-clock"></i> 45 min</span>
+                                    </div>
+                                </div>
+                                <div class="consulta-status status-pendente">
+                                    Pendente
+                                </div>
+                                <div class="consulta-acoes">
+                                    <button class="btn-acao" title="Editar">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Reagendar">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Cancelar">
+                                        <i class="fa-solid fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="consulta-item">
+                                <div class="consulta-horario">
+                                    <div class="hora">14:00</div>
+                                    <div class="periodo">Tarde</div>
+                                </div>
+                                <div class="consulta-info">
+                                    <div class="consulta-paciente">Ana Oliveira</div>
+                                    <div class="consulta-detalhes">
+                                        <span><i class="fa-solid fa-lungs"></i> Pneumologia</span>
+                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
+                                    </div>
+                                </div>
+                                <div class="consulta-status status-confirmada">
+                                    Confirmada
+                                </div>
+                                <div class="consulta-acoes">
+                                    <button class="btn-acao" title="Editar">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Reagendar">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Cancelar">
+                                        <i class="fa-solid fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="consulta-item">
+                                <div class="consulta-horario">
+                                    <div class="hora">15:30</div>
+                                    <div class="periodo">Tarde</div>
+                                </div>
+                                <div class="consulta-info">
+                                    <div class="consulta-paciente">Carlos Souza</div>
+                                    <div class="consulta-detalhes">
+                                        <span><i class="fa-solid fa-brain"></i> Neurologia</span>
+                                        <span><i class="fa-solid fa-clock"></i> 50 min</span>
+                                    </div>
+                                </div>
+                                <div class="consulta-status status-confirmada">
+                                    Confirmada
+                                </div>
+                                <div class="consulta-acoes">
+                                    <button class="btn-acao" title="Editar">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Reagendar">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </button>
+                                    <button class="btn-acao" title="Cancelar">
+                                        <i class="fa-solid fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Nova Consulta -->
+            <div class="modal" id="modalAgendamento">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Nova Consulta
+                        </h2>
+                        <button class="modal-close" id="btnFecharModal">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+
+                    <form id="formAgendamento">
+                        <div class="form-group">
+                            <label for="paciente">Paciente</label>
+                            <select class="form-control" id="paciente" required>
+                                <option value="">Selecione um paciente</option>
+                                <option value="1">Maria Santos</option>
+                                <option value="2">João Pereira</option>
+                                <option value="3">Ana Oliveira</option>
+                                <option value="4">Carlos Souza</option>
+                                <option value="5">Fernanda Lima</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="data">Data da Consulta</label>
+                            <input type="date" class="form-control" id="data" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Horário Disponível</label>
+                            <div class="horarios-grid">
+                                <button type="button" class="horario-btn">08:00</button>
+                                <button type="button" class="horario-btn">08:30</button>
+                                <button type="button" class="horario-btn">09:00</button>
+                                <button type="button" class="horario-btn">09:30</button>
+                                <button type="button" class="horario-btn">10:00</button>
+                                <button type="button" class="horario-btn">10:30</button>
+                                <button type="button" class="horario-btn">11:00</button>
+                                <button type="button" class="horario-btn">11:30</button>
+                                <button type="button" class="horario-btn">14:00</button>
+                                <button type="button" class="horario-btn">14:30</button>
+                                <button type="button" class="horario-btn">15:00</button>
+                                <button type="button" class="horario-btn">15:30</button>
+                                <button type="button" class="horario-btn">16:00</button>
+                                <button type="button" class="horario-btn">16:30</button>
+                                <button type="button" class="horario-btn">17:00</button>
+                                <button type="button" class="horario-btn">17:30</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="especialidade">Especialidade</label>
+                            <select class="form-control" id="especialidade" required>
+                                <option value="">Selecione a especialidade</option>
+                                <option value="cardiologia">Cardiologia</option>
+                                <option value="pneumologia">Pneumologia</option>
+                                <option value="neurologia">Neurologia</option>
+                                <option value="ortopedia">Ortopedia</option>
+                                <option value="dermatologia">Dermatologia</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="observacoes">Observações</label>
+                            <textarea class="form-control" id="observacoes" rows="3"
+                                placeholder="Observações adicionais..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-agendar">
+                            <i class="fa-solid fa-check"></i>
+                            Agendar Consulta
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Estado da aplicação
+        let currentDate = new Date(2026, 1, 12); // Fevereiro 2026
+        let selectedDate = new Date(2026, 1, 12);
+        let selectedHorario = null;
+
+        // Consultas simuladas
+        const consultas = [
+            { id: 1, paciente: 'Maria Santos', data: '2026-02-12', horario: '09:00', especialidade: 'Check-up', status: 'confirmada', duracao: 30 },
+            { id: 2, paciente: 'João Pereira', data: '2026-02-12', horario: '10:30', especialidade: 'Cardiologia', status: 'pendente', duracao: 45 },
+            { id: 3, paciente: 'Ana Oliveira', data: '2026-02-12', horario: '14:00', especialidade: 'Pneumologia', status: 'confirmada', duracao: 30 },
+            { id: 4, paciente: 'Carlos Souza', data: '2026-02-12', horario: '15:30', especialidade: 'Neurologia', status: 'confirmada', duracao: 50 },
+            { id: 5, paciente: 'Fernanda Lima', data: '2026-02-13', horario: '09:00', especialidade: 'Dermatologia', status: 'confirmada', duracao: 30 },
+            { id: 6, paciente: 'Roberto Alves', data: '2026-02-13', horario: '11:00', especialidade: 'Ortopedia', status: 'pendente', duracao: 40 },
+        ];
+
+        // Elementos DOM
+        const diasGrid = document.getElementById('diasGrid');
+        const mesAno = document.getElementById('mesAno');
+        const dataSelecionada = document.getElementById('dataSelecionada');
+        const btnMesAnterior = document.getElementById('btnMesAnterior');
+        const btnMesProximo = document.getElementById('btnMesProximo');
+        const modalAgendamento = document.getElementById('modalAgendamento');
+        const btnNovaConsulta = document.getElementById('btnNovaConsulta');
+        const btnFecharModal = document.getElementById('btnFecharModal');
+        const formAgendamento = document.getElementById('formAgendamento');
+        const horarioBtns = document.querySelectorAll('.horario-btn');
+
+        // Funções do calendário
+        function renderCalendario() {
+            const ano = currentDate.getFullYear();
+            const mes = currentDate.getMonth();
+
+            const primeiroDia = new Date(ano, mes, 1);
+            const ultimoDia = new Date(ano, mes + 1, 0);
+
+            const diasNoMes = ultimoDia.getDate();
+            const diaSemanaInicio = primeiroDia.getDay();
+
+            const mesAnterior = new Date(ano, mes, 0);
+            const diasMesAnterior = mesAnterior.getDate();
+
+            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            mesAno.textContent = `${meses[mes]} ${ano}`;
+
+            let html = '';
+
+            // Dias do mês anterior
+            for (let i = diaSemanaInicio - 1; i >= 0; i--) {
+                const dia = diasMesAnterior - i;
+                html += `<div class="dia outro-mes">${dia}</div>`;
+            }
+
+            // Dias do mês atual
+            for (let i = 1; i <= diasNoMes; i++) {
+                const dataAtual = new Date(ano, mes, i);
+                const hoje = new Date(2026, 1, 12);
+
+                let classes = 'dia';
+
+                if (dataAtual.toDateString() === hoje.toDateString()) {
+                    classes += ' hoje';
+                }
+
+                if (selectedDate && dataAtual.toDateString() === selectedDate.toDateString()) {
+                    classes += ' selecionado';
+                }
+
+                // Verifica se há consultas neste dia
+                const dataStr = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const temConsulta = consultas.some(c => c.data === dataStr);
+
+                if (temConsulta) {
+                    classes += ' com-consulta';
+                }
+
+                html += `<div class="${classes}" data-dia="${i}" data-mes="${mes}" data-ano="${ano}">${i}</div>`;
+            }
+
+            // Dias do próximo mês
+            const totalDiasRenderizados = diaSemanaInicio + diasNoMes;
+            const diasRestantes = 42 - totalDiasRenderizados;
+
+            for (let i = 1; i <= diasRestantes; i++) {
+                html += `<div class="dia outro-mes">${i}</div>`;
+            }
+
+            diasGrid.innerHTML = html;
+
+            // Adiciona eventos aos dias
+            document.querySelectorAll('.dia:not(.outro-mes)').forEach(dia => {
+                dia.addEventListener('click', function () {
+                    document.querySelectorAll('.dia').forEach(d => d.classList.remove('selecionado'));
+                    this.classList.add('selecionado');
+
+                    const diaNum = this.dataset.dia;
+                    const mesNum = this.dataset.mes;
+                    const anoNum = this.dataset.ano;
+
+                    selectedDate = new Date(anoNum, mesNum, diaNum);
+                    dataSelecionada.textContent = formatarData(selectedDate);
+
+                    // Aqui você carregaria as consultas do dia selecionado
+                    carregarConsultasDoDia(selectedDate);
+                });
+            });
+        }
+
+        function formatarData(data) {
+            return data.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function carregarConsultasDoDia(data) {
+            const dataStr = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}-${String(data.getDate()).padStart(2, '0')}`;
+            const consultasDoDia = consultas.filter(c => c.data === dataStr);
+
+            const listaConsultas = document.getElementById('listaConsultas');
+
+            if (consultasDoDia.length === 0) {
+                listaConsultas.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #64748b;">
+                        <i class="fa-solid fa-calendar-check" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Nenhuma consulta agendada para este dia</p>
+                    </div>
+                `;
+            } else {
+                let html = '';
+                consultasDoDia.forEach(consulta => {
+                    const statusClass = consulta.status === 'confirmada' ? 'status-confirmada' : 'status-pendente';
+                    const statusText = consulta.status === 'confirmada' ? 'Confirmada' : 'Pendente';
+
+                    html += `
+                        <div class="consulta-item">
+                            <div class="consulta-horario">
+                                <div class="hora">${consulta.horario}</div>
+                                <div class="periodo">${parseInt(consulta.horario) < 12 ? 'Manhã' : 'Tarde'}</div>
+                            </div>
+                            <div class="consulta-info">
+                                <div class="consulta-paciente">${consulta.paciente}</div>
+                                <div class="consulta-detalhes">
+                                    <span><i class="fa-solid fa-stethoscope"></i> ${consulta.especialidade}</span>
+                                    <span><i class="fa-solid fa-clock"></i> ${consulta.duracao} min</span>
+                                </div>
+                            </div>
+                            <div class="consulta-status ${statusClass}">
+                                ${statusText}
+                            </div>
+                            <div class="consulta-acoes">
+                                <button class="btn-acao" title="Editar">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="btn-acao" title="Reagendar">
+                                    <i class="fa-solid fa-calendar"></i>
+                                </button>
+                                <button class="btn-acao" title="Cancelar">
+                                    <i class="fa-solid fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                listaConsultas.innerHTML = html;
+            }
+        }
+
+        // Event listeners
+        btnMesAnterior.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendario();
+        });
+
+        btnMesProximo.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendario();
+        });
+
+        btnNovaConsulta.addEventListener('click', () => {
+            modalAgendamento.classList.add('active');
+
+            // Preenche a data atual no campo de data
+            const dataInput = document.getElementById('data');
+            dataInput.value = selectedDate.toISOString().split('T')[0];
+        });
+
+        btnFecharModal.addEventListener('click', () => {
+            modalAgendamento.classList.remove('active');
+            selectedHorario = null;
+            document.querySelectorAll('.horario-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        });
+
+        // Fechar modal ao clicar fora
+        modalAgendamento.addEventListener('click', (e) => {
+            if (e.target === modalAgendamento) {
+                modalAgendamento.classList.remove('active');
+            }
+        });
+
+        // Seleção de horário
+        horarioBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                horarioBtns.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedHorario = this.textContent;
+            });
+        });
+
+        // Submit do formulário
+        formAgendamento.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const paciente = document.getElementById('paciente').value;
+            const data = document.getElementById('data').value;
+            const especialidade = document.getElementById('especialidade').value;
+            const observacoes = document.getElementById('observacoes').value;
+
+            if (!selectedHorario) {
+                alert('Por favor, selecione um horário para a consulta.');
+                return;
+            }
+
+            // Aqui você enviaria os dados para o servidor
+            console.log({
+                paciente,
+                data,
+                horario: selectedHorario,
+                especialidade,
+                observacoes
+            });
+
+            alert('Consulta agendada com sucesso!');
+            modalAgendamento.classList.remove('active');
+            formAgendamento.reset();
+            selectedHorario = null;
+            document.querySelectorAll('.horario-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        });
+
+        // Inicialização
+        renderCalendario();
+        dataSelecionada.textContent = formatarData(selectedDate);
+
+        // Carregar consultas do dia selecionado
+        carregarConsultasDoDia(selectedDate);
+
+        // Configurar sidebar toggle
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const sidebar = document.getElementById('sidebar');
+        const app = document.querySelector('.app');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('expanded');
+            app.classList.toggle('collapsed');
+
+            const icon = toggleBtn.querySelector('i');
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            }
+        });
+
+        // Filtros de consulta
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Aqui você aplicaria o filtro nas consultas
+                const filtro = this.textContent.toLowerCase();
+                console.log('Filtrar por:', filtro);
+            });
+        });
+    </script>
+
+    <script src="/js/header.js"></script>
+</body>
+
+</html>

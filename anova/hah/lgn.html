@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-AO" translate="no">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/x-icon" href="logo02.png">
+    <title>Entrar - Health Access Hub</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-container": "#4f657b",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-fixed": "#d6e3ff",
+                        "primary-container": "#005eb8",
+                        "on-background": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#424752",
+                        "on-primary-container": "#c8daff",
+                        "error": "#ba1a1a",
+                        "background": "#f7f9fb",
+                        "secondary": "#4a6077",
+                        "tertiary": "#793100",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-fixed": "#041d30",
+                        "secondary-container": "#cbe2fc",
+                        "primary": "#00478d",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "on-surface": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed": "#341100",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#cee5ff",
+                        "on-tertiary-container": "#ffcfb9",
+                        "secondary-fixed-dim": "#b2c9e2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#005db6",
+                        "on-primary-fixed": "#001b3d",
+                        "on-secondary-fixed-variant": "#33495e",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-tertiary-fixed-variant": "#793100",
+                        "tertiary-container": "#9f4300",
+                        "inverse-primary": "#a9c7ff",
+                        "outline-variant": "#c2c6d4",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-bright": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed-variant": "#00468c",
+                        "outline": "#727783",
+                        "surface-dim": "#d8dadc"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            min-height: 100dvh;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface flex flex-col min-h-screen font-body">
+
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/40 z-[55] hidden opacity-0 transition-opacity duration-300">
+    </div>
+
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm h-20">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-6 h-full">
+            <div class="flex items-center gap-4">
+                <a href="inicio.html"
+                    class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors text-primary active:scale-95 duration-200">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <img src="logo02.png" alt="hah logo" class="w-8 h-8 object-contain">
+                    <span
+                        class="text-2xl font-black text-blue-800 dark:text-blue-300 tracking-tighter font-headline">Health
+                        Access Hub</span>
+                </div>
+            </div>
+            <button id="menu-btn" class="md:hidden p-2 text-slate-600">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-drawer"
+        class="fixed inset-y-0 left-0 z-[60] h-full w-72 bg-white dark:bg-slate-900 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <span class="text-xl font-bold text-blue-800 dark:text-blue-300 font-headline">Menu HAH</span>
+                <button id="close-btn" class="p-2 text-slate-400">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="inicio.html"
+                    class="mobile-link py-3 text-slate-600 dark:text-slate-400 flex items-center gap-4 px-4 font-headline font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg">
+                    <span class="material-symbols-outlined">home</span> Início
+                </a>
+                <a href="clinica.html"
+                    class="mobile-link py-3 text-slate-600 dark:text-slate-400 flex items-center gap-4 px-4 font-headline font-semibold hover:bg-slate-50 rounded-lg">
+                    <span class="material-symbols-outlined">local_hospital</span> Clínicas
+                </a>
+                <hr class="my-2 border-slate-100 dark:border-slate-800">
+                <a href="lgn.html"
+                    class="mobile-link py-3 text-primary font-headline font-bold flex items-center gap-4 px-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <span class="material-symbols-outlined">login</span> Entrar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow flex items-center justify-center pt-24 pb-12 px-6">
+        <div class="w-full max-w-md">
+            <div
+                class="bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-outline-variant/15 transition-all duration-300">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl font-bold tracking-tight text-on-surface font-headline mb-2">Bem-vindo de Volta
+                    </h2>
+                    <p class="text-on-surface-variant text-sm">Acede ao teu painel clínico seguro</p>
+                </div>
+                <form class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-on-surface-variant ml-1" for="email">Correio
+                            Electrónico</label>
+                        <input
+                            class="w-full h-12 px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                            id="email" placeholder="nome@exemplo.ao" type="email" />
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center px-1">
+                            <label class="block text-sm font-semibold text-on-surface-variant"
+                                for="password">Palavra-passe</label>
+                            <a class="text-xs font-semibold text-primary hover:text-primary-container"
+                                href="#">Esqueceste a senha?</a>
+                        </div>
+                        <input
+                            class="w-full h-12 px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                            id="password" placeholder="••••••••" type="password" />
+                    </div>
+                    <button
+                        class="w-full h-12 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-md hover:opacity-95 active:scale-[0.98] transition-all"
+                        type="submit">Entrar</button>
+                </form>
+
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-outline-variant/10"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase tracking-widest">
+                        <span class="bg-surface-container-lowest px-4 text-on-surface-variant font-medium">Ou continuar
+                            com</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button
+                        class="flex items-center justify-center gap-2 h-11 border border-outline-variant/15 rounded-lg hover:bg-surface-container-low transition-colors active:scale-95">
+                        <img alt="Google" class="w-5 h-5"
+                            src="data:image/png;base64,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">
+                        <span class="text-sm font-semibold text-on-surface-variant">Google</span>
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-2 h-11 border border-outline-variant/15 rounded-lg hover:bg-surface-container-low transition-colors active:scale-95">
+                        <img alt="Google" class="w-5 h-5"
+                            src="data:image/png;base64,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">
+                        <span class="text-sm font-semibold text-on-surface-variant">Apple</span>
+                    </button>
+                </div>
+
+                <div class="mt-10 text-center">
+                    <p class="text-sm text-on-surface-variant">
+                        Não tens uma conta?
+                        <a class="text-primary font-bold hover:underline ml-1" href="#">Regista-te</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8 flex items-center justify-center gap-2 opacity-60">
+                <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">lock</span>
+                <span class="text-xs font-medium tracking-wide text-on-surface-variant uppercase">Encriptação de
+                    Ponta-a-Ponta</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 border-t border-slate-200 dark:border-slate-800 mt-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto px-6">
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="font-manrope font-bold text-blue-800 dark:text-blue-300">Health Access Hub</span>
+                </div>
+                <p class="text-sm text-slate-500">© 2026 Health Access Hub. Todos os direitos reservados.</p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h4 class="font-bold text-sm">Empresa</h4>
+                <a class="text-slate-500 hover:text-blue-600 text-sm" href="#">Privacidade</a>
+                <a class="text-slate-500 hover:text-blue-600 text-sm" href="#">Termos</a>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h4 class="font-bold text-sm">Recursos</h4>
+                <a class="text-slate-500 hover:text-blue-600 text-sm" href="#">Cookies</a>
+                <a class="text-slate-500 hover:text-blue-600 text-sm" href="#">Suporte</a>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h4 class="font-bold text-sm">Segurança</h4>
+                <div class="flex gap-4">
+                    <span class="material-symbols-outlined text-slate-400">security</span>
+                    <span class="material-symbols-outlined text-slate-400">verified_user</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('-translate-x-full');
+                drawer.classList.add('translate-x-0');
+            }, 10);
+        }
+
+        function closeMenu() {
+            drawer.classList.replace('translate-x-0', '-translate-x-full');
+            overlay.classList.remove('opacity-100');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+    </script>
+</body>
+
+</html>

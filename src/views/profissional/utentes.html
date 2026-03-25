@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <!-- Font Awesome (Ícones reais, não emoji) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/prof/perfil.css">
+    <link rel="stylesheet" href="/css/prof/profUtentes.css">
+    <style>
+        img .img {
+            width: 100vh;
+            height: auto;
+        }
+    </style>
+    <title>Health Access Hub | Perfil</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="expanded">
+            <!-- TOPO -->
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+
+                <!-- BOTÃO DE TOGGLE -->
+                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <!-- MENU -->
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/profissional" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/utentes" class="nav-link active">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="/dashboard/profissional/agendamento" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/alertas" class="nav-link">
+                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- LOGOUT -->
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span> </a>
+            </div>
+        </aside>
+
+        <main id="mainContent">
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="searchUtente" placeholder="Pesquisar utente por nome ou ID...">
+                </div>
+
+                <div class="header-right">
+                    <a href="/dashboard/profissional/alertas" style="text-decoration: none;">
+                        <div class="notification-icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">...</p>
+                            <p class="user-role" id="userRole">...</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="utentes-container">
+                <div class="utentes-header">
+                    <div class="title-group">
+                        <h1>Gestão de Utentes</h1>
+                        <p>Total de 12 pacientes sob sua supervisão</p>
+                    </div>
+                    <button class="btn-add-utente">
+                        <i class="fa-solid fa-user-plus"></i> Novo Utente
+                    </button>
+                </div>
+
+                <div class="table-card">
+                    <table class="utentes-table">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>ID</th>
+                                <th>Estado</th>
+                                <th>Última Atividade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="utentesList">
+                            <tr>
+                                <td>
+                                    <div class="paciente-info">
+                                        <img src="https://ui-avatars.com/api/?name=Mateus+Kiala&background=random"
+                                            alt="">
+                                        <div>
+                                            <p class="nome">Mateus Kiala</p>
+                                            <p class="sub">Masculino, 24 anos</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="id-tag">#8829</span></td>
+                                <td><span class="status-pill stable">Estável</span></td>
+                                <td>Há 5 minutos</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button title="Ver Monitorização"><i
+                                                class="fa-solid fa-chart-line"></i></button>
+                                        <button title="Enviar Mensagem"><i
+                                                class="fa-solid fa-comment-medical"></i></button>
+                                        <button title="Prontuário"><i class="fa-solid fa-file-medical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/profDash.js"></script>
+    <script src="/js/header.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Se estivermos na página de utentes, carrega a lista
+            if (document.getElementById('utentesList')) {
+                carregarUtentesDoBanco();
+            }
+        });
+
+        async function carregarUtentesDoBanco() {
+            try {
+                const response = await fetch('/api/utentes');
+                const utentes = await response.json();
+
+                const tabelaCorpo = document.getElementById('utentesList');
+                tabelaCorpo.innerHTML = ''; // Limpa o exemplo estático
+
+                utentes.forEach(utente => {
+                    // Calcular idade básica (opcional)
+                    const idade = utente.data_nascimento ?
+                        new Date().getFullYear() - new Date(utente.data_nascimento).getFullYear() : 'N/A';
+
+                    // Definir classe de status (estável ou crítico)
+                    const statusClass = utente.status_saude === 'Crítico' ? 'critical' : 'stable';
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td>
+                    <div class="paciente-info">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(utente.nome)}&background=random" alt="Avatar">
+                        <div>
+                            <p class="nome">${utente.nome}</p>
+                            <p class="sub">${utente.genero || 'Não definido'}, ${idade} anos</p>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="id-tag">#${utente.id}</span></td>
+                <td><span class="status-pill ${statusClass}">${utente.status_saude || 'Estável'}</span></td>
+                <td>Há momentos</td>
+                <td>
+                    <div class="actions-cell">
+                        <button onclick="verMonitorizacao(${utente.id})" title="Ver Monitorização"><i class="fa-solid fa-chart-line"></i></button>
+                        <button onclick="abrirChat(${utente.id})" title="Enviar Mensagem"><i class="fa-solid fa-comment-medical"></i></button>
+                        <button onclick="verProntuario(${utente.id})" title="Prontuário"><i class="fa-solid fa-file-medical"></i></button>
+                    </div>
+                </td>
+            `;
+                    tabelaCorpo.appendChild(tr);
+                });
+
+                // Atualiza o contador no topo
+                const contador = document.querySelector('.title-group p');
+                if (contador) contador.textContent = `Total de ${utentes.length} pacientes sob sua supervisão`;
+
+            } catch (err) {
+                console.error('Erro ao carregar utentes:', err);
+            }
+        }
+    </script>
+</body>
+
+</html>

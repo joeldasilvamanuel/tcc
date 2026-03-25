@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/utente/utenteDash.css">
+    <title>Health Access Hub | Monitoramento</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="expanded">
+
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+
+                <button id="toggleSidebar" class="toggle-btn">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <!-- MENU UTENTE -->
+            <nav class="navbar">
+                <ul class="nav-list">
+
+                    <li>
+                        <a href="/dashboard/utente" class="nav-link">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/consultas" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Minhas Consultas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/exames" class="nav-link active">
+                            <i class="fa-solid fa-file-medical"></i>
+                            <span>Monitoramento</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i>
+                            <span>Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <!-- LOGOUT -->
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+        <main>
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquisar métricas ou histórico...">
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <div class="user-avatar"><img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar"></div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <p class="user-role" id="userRole">Utente</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CARDS DE MÉTRICAS DO DISPOSITIVO -->
+            <section class="metrics-section">
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="metric-content">
+                        <h3 id="freqCardiaca">-- bpm</h3>
+                        <p>Frequência Cardíaca</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fa-solid fa-droplet"></i></div>
+                    <div class="metric-content">
+                        <h3 id="pressaoArterial">--/-- mmHg</h3>
+                        <p>Pressão Arterial</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fa-solid fa-temperature-high"></i></div>
+                    <div class="metric-content">
+                        <h3 id="temperatura">--°C</h3>
+                        <p>Temperatura</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="metric-content">
+                        <h3 id="batimentoHistorico">Últimos 7 dias</h3>
+                        <p>Histórico</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATUS DO DISPOSITIVO -->
+            <section class="content-section">
+                <div class="content-card">
+                    <h2>Dispositivo ESP32</h2>
+                    <div class="device-info">
+                        <p><strong>Modelo:</strong> ESP32 BLE</p>
+                        <p><strong>Status:</strong> <span id="deviceStatus">Desconectado</span></p>
+                        <p><strong>Última atualização:</strong> <span id="lastUpdate">--:--</span></p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2>Histórico de Dados</h2>
+                    <div class="exams-list" id="deviceDataHistory">
+                        <div class="exam-item">
+                            <div class="exam-name">Frequência Cardíaca</div>
+                            <div class="exam-value">-- bpm</div>
+                            <div class="exam-time">--/--</div>
+                        </div>
+                        <div class="exam-item">
+                            <div class="exam-name">Pressão Arterial</div>
+                            <div class="exam-value">--/-- mmHg</div>
+                            <div class="exam-time">--/--</div>
+                        </div>
+                        <div class="exam-item">
+                            <div class="exam-name">Temperatura</div>
+                            <div class="exam-value">--°C</div>
+                            <div class="exam-time">--/--</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/header.js"></script>
+    <script>
+        // Simulação de dados vindos do ESP32 (para futuramente conectar via API/Socket)
+        const deviceStatus = document.getElementById('deviceStatus');
+        const lastUpdate = document.getElementById('lastUpdate');
+        const freqCardiaca = document.getElementById('freqCardiaca');
+        const pressaoArterial = document.getElementById('pressaoArterial');
+        const temperatura = document.getElementById('temperatura');
+
+        function atualizarDadosSimulados() {
+            const now = new Date();
+            lastUpdate.textContent = now.toLocaleTimeString();
+            deviceStatus.textContent = "Conectado";
+            freqCardiaca.textContent = `${Math.floor(Math.random() * 40 + 60)} bpm`;
+            pressaoArterial.textContent = `${Math.floor(Math.random() * 20 + 110)}/${Math.floor(Math.random() * 10 + 70)} mmHg`;
+            temperatura.textContent = (Math.random() * 2 + 36).toFixed(1) + "°C";
+        }
+
+        setInterval(atualizarDadosSimulados, 3000);
+    </script>
+</body>
+
+</html>
