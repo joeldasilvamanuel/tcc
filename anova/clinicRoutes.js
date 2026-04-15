@@ -15,7 +15,7 @@ router.get('/clinics', (req, res) => {
 router.post('/clinics', (req, res) => {
   const { name, location, phone, specialty, description } = req.body;
   const sql = "INSERT INTO clinics (name, location, phone, specialty, description) VALUES (?, ?, ?, ?, ?)";
-  
+
   db.query(sql, [name, location, phone, specialty, description], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json({ id: result.insertId, message: "Clínica cadastrada com sucesso!" });
@@ -27,7 +27,7 @@ router.put('/clinics/:id', (req, res) => {
   const { id } = req.params;
   const { name, location, phone, specialty, description } = req.body;
   const sql = "UPDATE clinics SET name=?, location=?, phone=?, specialty=?, description=? WHERE id=?";
-  
+
   db.query(sql, [name, location, phone, specialty, description, id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: "Clínica atualizada!" });

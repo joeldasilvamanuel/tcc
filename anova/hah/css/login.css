@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  border: 1px solid #0a4b8c;
+}
+
+.topo {
+  border: 1px solid red;
+}
+
+.topoBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.spanArrowLeft {
+  font-weight: 800;
+  margin-left: 30px;
+  color: #0a4b8c;
+}
+
+/* mobile menu */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--blue-deep);
+  cursor: pointer;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 280px;
+  background: white;
+  z-index: 1100;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  box-shadow: 2rem 0 2rem rgba(0, 0, 0, 0.05);
+  padding: 2rem 1.5rem;
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s;
+}
+
+.drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  font-weight: 500;
+  color: #1e4663;
+  border-bottom: 1px solid var(--border-light);
+}
+
+@media (max-width: 768px) {
+
+}

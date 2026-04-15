@@ -82,7 +82,7 @@ app.get('/dashboard/utente/perfil', verificarUtente, (req, res) =>
 );
 
 //
-// ================== PROFISSIONAL (NÃO ALTERADO) ==================
+// ================== PROFISSIONAL ==================
 //
 app.get('/dashboard/profissional', verificarProfissional, (req, res) =>
     res.sendFile(path.join(__dirname, 'src/views/profissional/dashboard.html'))
@@ -90,6 +90,10 @@ app.get('/dashboard/profissional', verificarProfissional, (req, res) =>
 
 app.get('/dashboard/profissional/mensagens', verificarProfissional, (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/mensagens.html'));
+});
+
+app.get('/dashboard/profissional/monitorar', verificarProfissional, (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/monitorar.html'));
 });
 
 app.get('/dashboard/profissional/agendamento', verificarProfissional, (req, res) => {
@@ -266,8 +270,8 @@ testConnection()
     .then(() => {
         app.listen(PORT, () => {
             console.log(`
-               🚀 Health Access Hub em funcionamento!
-               📡 Servidor: http://localhost:${PORT}
+               Health Access Hub em funcionamento!
+               Servidor: http://localhost:${PORT}
             `);
         });
     })

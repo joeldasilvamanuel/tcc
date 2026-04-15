@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link rel="icon" type="image/x-icon" href="logo02.png">
+    <link rel="icon" type="image/x-icon" href="img/logo02.png">
     <title>Equipa de Desenvolvimento - HAH</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
@@ -59,10 +59,10 @@
             <div class="flex items-center gap-4">
                 <a href="inicio.html"
                     class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-100 transition-colors text-primary">
-                    <span class="material-symbols-outlined">arrow_back</span>
+                    <i class="bi bi-arrow_left"></i>
                 </a>
                 <div class="flex items-center gap-2">
-                    <img src="logo02.png" alt="hah logo" class="w-8 h-8 object-contain">
+                    <img src="img/logo02.png" alt="hah logo" class="w-8 h-8 object-contain">
                     <span class="text-2xl font-black text-blue-800 tracking-tighter font-headline">Health Access
                         Hub</span>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="h-32 dev-gradient flex items-end justify-center">
                     <div
                         class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden shadow-md">
-                        <img src="joel03.jpg" alt="Dev"
+                        <img src="img/joel03.jpg" alt="Dev"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div class="h-32 dev-gradient opacity-90 flex items-end justify-center">
                     <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
-                        <img src="geni.jpg" alt="Dev"
+                        <img src="img/geni.jpg" alt="Dev"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                 class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div class="h-32 dev-gradient opacity-85 flex items-end justify-center">
                     <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
-                        <img src="dan.jpg" alt="Dev"
+                        <img src="img/dan.jpg" alt="Dev"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                 class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 lg:translate-x-1/2">
                 <div class="h-32 dev-gradient opacity-80 flex items-end justify-center">
                     <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
-                        <img src="feli.jpg" alt="Dev"
+                        <img src="img/feli.jpg" alt="Dev"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                 class="glass-card w-full max-w-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 lg:translate-x-1/2">
                 <div class="h-32 dev-gradient opacity-75 flex items-end justify-center">
                     <div class="w-24 h-24 bg-white rounded-full border-4 border-white translate-y-12 overflow-hidden">
-                        <img src="saron.jpg" alt="Dev"
+                        <img src="img/saron.jpg" alt="Dev"
                             class="w-full h-full object-cover">
                     </div>
                 </div>
@@ -188,9 +188,53 @@
         </div>
     </main>
 
-    <footer class="py-10 border-t border-outline-variant/15 text-center">
-        <p class="text-sm text-on-surface-variant font-medium">© 2026 Health Access Hub · Luanda, Angola</p>
-        <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+     <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container-custom">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <img src="img/logo02.png" alt="hah logotipo" style="height: 100px; width: auto;">
+                        <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Health Access Hub</span>
+                    </div>
+                    <p style="color: #5b6f82;">Ligando pacientes a cuidados especializados em Angola através de uma
+                        plataforma segura e moderna.</p>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Navegação</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#home" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Início</a></li>
+                        <li><a href="#about" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Sobre Nós</a>
+                        </li>
+                        <li><a href="clinica.html" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i>
+                                Clínicas</a></li>
+                        <li><a href="#contact" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Suporte</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Legal</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#" style="color: #5b6f82;">Privacidade</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Termos</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Actualizações</h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input class="form-input" style="background: white;" type="email" placeholder="Teu e-mail">
+                        <button class="btn-primary" style="padding: 0 1rem;"><i class="bi bi-send-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 2rem 0 1rem;">
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; color: #5f7f9e; font-size: 0.85rem;">
+                <p>© 2026 Health Access Hub. Todos os direitos reservados.</p>
+                <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+            </div>
+        </div>
     </footer>
 
 </body>

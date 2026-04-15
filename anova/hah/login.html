@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap Icons (CDN leve apenas para ícones, sem afectar estilo principal) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/x-icon" href="img/logo02.png">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Entrar - Health Access Hub</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="topo">
+            <div class="topoBar">
+                <a href="inicio.html" class="">
+                    <span class="spanArrowLeft"><i class="bi bi-arrow-left"></i></span>
+                </a>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <img src="img/logo02.png" alt="hah logotipo" style="height: 100px; width: auto;">
+                    <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Health Access Hub</span>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" id="menuBtnMobile"><i class="bi bi-list"></i></button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="drawerOverlay" class="drawer-overlay"></div>
+        <div id="mobileDrawer" class="drawer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Menu HAH</span>
+                <button id="closeDrawerBtn"
+                    style="background: none; border: none; font-size: 1.6rem; cursor: pointer;"><i
+                        class="bi bi-x-lg"></i></button>
+            </div>
+            <a href="#home" class="drawer-link"><i class="bi bi-house-door"></i> Início</a>
+            <a href="#about" class="drawer-link"><i class="bi bi-info-circle"></i> Sobre Nós</a>
+            <a href="clinica.html" class="drawer-link"><i class="bi bi-building"></i> Clínicas</a>
+            <a href="#how-it-works" class="drawer-link"><i class="bi bi-gear-wide-connected"></i> Como Funciona</a>
+            <a href="#contact" class="drawer-link"><i class="bi bi-envelope-paper"></i> Contacto</a>
+            <hr style="margin: 1rem 0;">
+            <a href="login.html" class="drawer-link" style="color: var(--blue-primary); font-weight: bold;"><i
+                    class="bi bi-key"></i> Entrar</a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center pt-24 pb-12 px-6">
+        <div class="">
+            <div class="">
+                <div class="">
+                    <h2 class="">Bem-vindo de Volta
+                    </h2>
+                    <p class="">Acede ao teu painel clínico seguro</p>
+                </div>
+                <form class="">
+                    <div class="">
+                        <label class="" for="email">Correio Electrónico</label>
+                        <input class="" id="email" placeholder="nome@exemplo.ao" type="email">
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label class="" for="password">Palavra-passe</label>
+                            <a class="" href="#">Esqueceste a senha?</a>
+                        </div>
+                        <input class="" id="password" placeholder="••••••••" type="password">
+                    </div>
+                    <button class="" type="submit">Entrar</button>
+                </form>
+
+                <div class="">
+                    <div class="">
+                        <div class=""></div>
+                    </div>
+                    <div class="">
+                        <span class="">Ou continuar com</span>
+                    </div>
+                </div>
+
+                <div class="">
+                    <button
+                        class="flex items-center justify-center gap-2 h-11 border border-outline-variant/15 rounded-lg hover:bg-surface-container-low transition-colors active:scale-95">
+                        <img alt="Google"
+                            src="data:image/png;base64,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">
+                        <span class="">Google</span>
+                    </button>
+                    <button>
+                        <img alt="Google"
+                            src="data:image/png;base64,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">
+                        <span class="">Apple</span>
+                        </buttonclass=>
+                </div>
+
+                <div class="">
+                    <p class="">
+                        Não tens uma conta?
+                        <a class="" href="#">Regista-te</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="">
+                <span class="" style="font-variation-settings: 'FILL' 1;">lock</span>
+                <span class="">Encriptação de
+                    Ponta-a-Ponta</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container-custom">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <img src="img/logo02.png" alt="hah logotipo" style="height: 100px; width: auto;">
+                        <span style="font-weight: 800; font-size: 1.3rem; color: #0a4b8c;">Health Access Hub</span>
+                    </div>
+                    <p style="color: #5b6f82;">Ligando pacientes a cuidados especializados em Angola através de uma
+                        plataforma segura e moderna.</p>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Navegação</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#home" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Início</a></li>
+                        <li><a href="#about" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Sobre Nós</a>
+                        </li>
+                        <li><a href="clinica.html" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i>
+                                Clínicas</a></li>
+                        <li><a href="#contact" style="color: #5b6f82;"><i class="bi bi-chevron-right"></i> Suporte</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Legal</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li><a href="#" style="color: #5b6f82;">Privacidade</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Termos</a></li>
+                        <li><a href="#" style="color: #5b6f82;">Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 700; margin-bottom: 1rem;">Actualizações</h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input class="form-input" style="background: white;" type="email" placeholder="Teu e-mail">
+                        <button class="btn-primary" style="padding: 0 1rem;"><i class="bi bi-send-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 2rem 0 1rem;">
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; color: #5f7f9e; font-size: 0.85rem;">
+                <p>© 2026 Health Access Hub. Todos os direitos reservados.</p>
+                <p>Feito por Joel, Daniel, Saron, Genivaldo e Felicidade</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/inicio.js"></script>
+</body>
+
+</html>
