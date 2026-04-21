@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+    <link rel="stylesheet" href="/css/auth/error.css">
+    <title>Health Access Hub | Error!</title>
+</head>
+
+<body>
+
+    <div class="error-container">
+        <!-- Troca o src pela imagem que gerei -->
+        <img src="/img/401.jpg" alt="Erro de login" class="error-img">
+
+        <div class="error-code">ERRO 401</div>
+        <h1>Não foi possível entrar</h1>
+
+        <p class="error-msg">
+            O email ou a senha que você digitou estão incorretos.
+            Por segurança, não informamos qual dos dois falhou.
+            Verifique seus dados e tente novamente.
+        </p>
+
+        <div class="actions">
+            <a href="/" class="btn btn-primary">Tentar novamente</a>
+            <a href="/recuperar" class="btn btn-secondary">Esqueci minha senha</a>
+        </div>
+    </div>
+
+    <script>
+        // Pega os parâmetros da URL uma única vez
+        const params = new URLSearchParams(window.location.search);
+        const erro = params.get('erro');
+
+        const h1 = document.querySelector('h1');
+        const errorMsg = document.querySelector('.error-msg');
+        const errorCode = document.querySelector('.error-code');
+
+        // Textos padrão
+        let titulo = 'Não foi possível entrar';
+        let mensagem = 'O email ou a senha que você digitou estão incorretos. Por segurança, não informamos qual dos dois falhou. Verifique seus dados e tente novamente.';
+        let codigo = 'ERRO 401';
+
+        // Troca o texto baseado no tipo de erro
+        if (erro === 'login') {
+            titulo = 'Falha na autenticação';
+        } else if (erro === 'token') {
+            titulo = 'Link inválido';
+            mensagem = 'Este link de recuperação expirou ou já foi usado. Peça um novo.';
+            codigo = 'ERRO 400';
+        } else if (erro === 'servidor') {
+            titulo = 'Erro no servidor';
+            mensagem = 'Tivemos um problema interno. Tente novamente em alguns minutos.';
+            codigo = 'ERRO 500';
+        } else if (erro === 'dados') {
+            titulo = 'Dados inválidos';
+            mensagem = 'Algum dado enviado está incorreto. Tente novamente.';
+            codigo = 'ERRO 400';
+        }
+
+        // Aplica os textos na tela
+        h1.textContent = titulo;
+        errorMsg.textContent = mensagem;
+        errorCode.textContent = codigo;
+
+        // Contador regressivo só roda se for erro de login
+        if (erro === 'login' || !erro) {
+            let segundos = 5;
+
+            function atualizarContador() {
+                h1.textContent = `${titulo} - Voltando em ${segundos}s`;
+                if (segundos <= 0) {
+                    window.location.replace('/login');
+                } else {
+                    segundos--;
+                    setTimeout(atualizarContador, 1000);
+                }
+            }
+
+            atualizarContador();
+        }
+    </script>
+</body>
+
+</html>

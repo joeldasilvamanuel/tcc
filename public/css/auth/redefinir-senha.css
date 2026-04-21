@@ -1,0 +1,235 @@
+:root {
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #212529;
+  --text-muted: #6c757d;
+  --btn-bg: #212529;
+  --btn-text: #ffffff;
+  --border: #dee2e6;
+  --red: #dc3545;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "monospace", Roboto, sans-serif;
+  height: 100vh;
+  background:
+    linear-gradient(180deg, #0aa5ff25, #008cff2c),
+    url("/img/healthFundo.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #444;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input {
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+}
+
+button {
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #0a5cff;
+  color: var(--btn-text);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.msg {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.msg.erro {
+  color: var(--red);
+}
+
+.voltar {
+  display: block;
+  font-size: 18px;
+  text-align: left;
+  margin-top: 20px;
+  color: #0a5cff;
+  text-decoration: none;
+}
+
+/* --- RESPONSIVIDADE --- */
+
+@media (max-width: 480px) {
+  body {
+    padding: 20px; /* Garante respiro nas bordas do telemóvel */
+    align-items: center; /* Mantém o card no centro vertical */
+  }
+
+  .container {
+    padding: 30px 20px; /* Reduz um pouco o espaçamento interno */
+    width: 100%;
+    border-radius: 12px; /* Arredondamento mais suave em telas pequenas */
+  }
+
+  h1 {
+    font-size: 20px; /* Título um pouco menor para não quebrar linha */
+  }
+}
+
+/* :root {
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #212529;
+  --text-muted: #6c757d;
+  --btn-bg: #212529;
+  --btn-text: #ffffff;
+  --border: #dee2e6;
+  --red: #dc3545;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --card-bg: #1e1e1e;
+    --text: #e9ecef;
+    --text-muted: #adb5bd;
+    --btn-bg: #e9ecef;
+    --btn-text: #121212;
+    --border: #343a40;
+    --red: #ff4d5e;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input {
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+}
+
+button {
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.msg {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.msg.erro {
+  color: var(--red);
+}
+
+.voltar {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-muted);
+} */

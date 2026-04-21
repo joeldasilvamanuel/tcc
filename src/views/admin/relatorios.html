@@ -20,10 +20,12 @@
                     <img src="/img/logo02.png" alt="Health Access Hub">
                 </div>
 
-                <!-- BOTÃO DE TOGGLE -->
-                <button id="toggleSidebar" class="toggle-btn" aria-label="Recolher menu">
-                    <i class="fa-solid fa-chevron-left"></i>
+                <button id="toggleSidebar" class="toggle-btn">
+                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
+                    <!-- <i class="fa-solid fa-columns"></i> -->
+                    <i class="fa-solid fa-angles-left"></i>
                 </button>
+                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU -->
@@ -86,34 +88,29 @@
 
         <!-- MAIN CONTENT -->
         <main id="mainContent">
-            <!-- HEADER COM BUSCA E PERFIL -->
+            <!-- HEADER -->
             <header class="main-header">
                 <div class="search-box">
-                    <h1>Relatorios</h1>
-                </div>
-                <!-- <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por...">
-                </div> -->
+                    <input type="search" placeholder="Pesquisar...">
+                </div>
 
                 <div class="header-right">
-                    <!-- <a href="" style="text-decoration: none;">
+                    <a href="/dashboard/utente/alertas">
                         <div class="notification-icon">
                             <i class="fa-solid fa-bell"></i>
                             <span class="notification-badge">3</span>
                         </div>
-                    </a> -->
+                    </a>
 
                     <div class="user-profile">
-                        <a href="/dashboard/admin/perfil" class="nav-link">
-                            <div class="user-avatar">
-                                <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                            </div>
-                            <div class="user-info">
-                                <p class="user-name" id="userName">Carregando...</p>
-                                <p class="user-role" id="userRole">...</p>
-                            </div>
-                        </a>
+                        <div class="user-avatar">
+                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <p class="user-role">Utente</p>
+                        </div>
                     </div>
                 </div>
             </header>

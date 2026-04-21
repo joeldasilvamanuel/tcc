@@ -1,0 +1,130 @@
+:root {
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #212529;
+  --text-muted: #6c757d;
+  --btn-bg: #212529;
+  --btn-text: #ffffff;
+  --border: #dee2e6;
+  --red: #dc3545;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "monospace", Roboto, sans-serif;
+  height: 100vh;
+  background:
+    linear-gradient(180deg, #0aa5ff25, #008cff2c),
+    url("/img/healthFundo.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-container {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.error-img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin: 0 auto 24px;
+}
+
+.error-code {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--red);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.error-msg {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  display: block;
+  padding: 14px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: #0a5cff;
+  color: white;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--text-muted);
+}
+
+/* --- RESPONSIVIDADE --- */
+
+@media (max-width: 480px) {
+  body {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .error-container {
+    padding: 30px 20px;
+    width: 100%;
+  }
+
+  .error-img {
+    width: 140px; /* Reduz um pouco a imagem no mobile */
+    height: 140px;
+  }
+
+  h1 {
+    font-size: 20px; /* Evita que o título quebre em muitas linhas */
+  }
+
+  .error-msg {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 16px; /* Botão ligeiramente maior para facilitar o toque */
+  }
+}

@@ -1,0 +1,21 @@
+.see {
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px solid black; */
+}
+
+.moreUtentes {
+  /* border: 1px solid black; */
+  width: 300px;
+  padding: 1.2rem;
+  background: white;
+  border-radius: 10px;
+}
+
+.titulo {
+    color: rgb(53, 47, 47);
+}
+
+.content-card {
+    width: 750px;
+}

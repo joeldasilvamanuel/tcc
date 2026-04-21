@@ -12,7 +12,7 @@
 
 <body>
     <div class="app">
-       <!-- SIDEBAR -->
+        <!-- SIDEBAR -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
@@ -21,8 +21,11 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-chevron-left"></i>
+                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
+                    <!-- <i class="fa-solid fa-columns"></i> -->
+                    <i class="fa-solid fa-angles-left"></i>
                 </button>
+                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -66,6 +69,11 @@
 
                 </ul>
             </nav>
+
+            <a href="/auth/logout" class="nav-link logout">
+                <i class="fa-solid fa-gear"></i>
+                <span>Definições</span>
+            </a>
 
             <!-- LOGOUT -->
             <div class="logout-area">
@@ -161,41 +169,6 @@
                         <div class="calendar-days" id="calendarDays"></div>
                     </div>
                 </section>
-            </section>
-
-            <!-- GESTÃO DE CONTA -->
-            <section class="profile-section">
-                <div class="profile-container">
-                    <div class="profile-header">
-                        <h2>Gestão de Conta</h2>
-                    </div>
-
-                    <div class="profile-cards">
-                        <div class="profile-card">
-                            <i class="fa-solid fa-user"></i>
-                            <h3>Dados Pessoais</h3>
-                            <p>Editar informações</p>
-                        </div>
-
-                        <div class="profile-card">
-                            <i class="fa-solid fa-lock"></i>
-                            <h3>Segurança</h3>
-                            <p>Alterar senha</p>
-                        </div>
-
-                        <div class="profile-card">
-                            <i class="fa-solid fa-bell"></i>
-                            <h3>Notificações</h3>
-                            <p>Preferências de alerta</p>
-                        </div>
-
-                        <div class="profile-card">
-                            <i class="fa-solid fa-file-medical"></i>
-                            <h3>Histórico Clínico</h3>
-                            <p>Visualizar exames e consultas</p>
-                        </div>
-                    </div>
-                </div>
             </section>
 
         </main>

@@ -1,4 +1,4 @@
-/* reset */
+/* ===== GERAL E RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -10,73 +10,75 @@ body {
   background: #f4f7fa;
 }
 
-/* app */
 .app {
   display: flex;
   min-height: 100vh;
 }
 
-/* ======================
-   sidebar
-====================== */
+/* ===== SIDEBAR OTIMIZADA ===== */
 aside {
   position: fixed;
-  /* top: 10px; */
-  /* left: 10px; */
-  /* height: calc(100vh - 20px); */
   height: 100vh;
   background: #007bff;
-  color: #fff;
+  color: white;
   padding: 1.2rem;
+  /* margin: 10px; */
   /* border-radius: 24px; */
   display: flex;
   flex-direction: column;
-  transition: width 0.4s ease;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 100;
 }
 
 aside.expanded {
   width: 240px;
 }
-
 aside.collapsed {
   width: 85px;
 }
 
 .sidebar-top {
   position: relative;
+  width: 100%;
 }
 
 .logo-box {
   background: rgba(255, 255, 255, 0.9);
-  padding: 12px;
-  border-radius: 18px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border-radius: 18px;
   margin-bottom: 30px;
 }
 
 .logo-box img {
   width: 40px;
+  height: auto;
 }
 
+/* BOTÃO TOGGLE */
 .toggle-btn {
   position: absolute;
-  top: -10px;
-  right: -70px;
+  top: 18px;
+  right: -35px;
   background: #007bff;
-  border: 4px solid #f4f7fa;
-  width: 50px;
-  height: 75px;
-  cursor: pointer;
+  border: 2px solid #f4f7fa;
+  border-radius: 40%;
+  width: 32px;
+  height: 32px;
+  cursor: ew-resize;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* border-radius: 50%; */
 }
 
+/* NAVEGAÇÃO E LINKS */
+.navbar {
+  flex-grow: 1;
+}
 .nav-list {
   list-style: none;
 }
@@ -95,6 +97,7 @@ aside.collapsed {
 }
 
 .nav-link i {
+  font-size: 20px;
   min-width: 25px;
   text-align: center;
 }
@@ -105,45 +108,43 @@ aside.collapsed {
   color: white;
 }
 
+/* ESCONDER TEXTO NO COLLAPSED */
 aside.collapsed .nav-link span {
   display: none;
 }
 
+/* LOGOUT AREA */
 .logout-area {
   margin-top: auto;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ======================
-   main layout
-====================== */
+/* ===== CONTEÚDO PRINCIPAL (MAIN) ===== */
 main {
   flex: 1;
-  margin-left: 260px;
-  /* padding: 20px; */
-  transition: margin-left 0.4s ease;
+  padding: 25px;
+  transition: margin-left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.app.collapsed main {
+aside.expanded ~ main {
+  margin-left: 260px;
+}
+aside.collapsed ~ main {
   margin-left: 105px;
 }
 
-/* ======================
-   header
-====================== */
+/* HEADER */
 .main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: white;
   padding: 1rem 1.5rem;
-  margin-left: 2rem;
   margin-bottom: 25px;
-  /* border-radius: 16px; */
+  border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
-
 
 .search-box {
   display: flex;
@@ -151,7 +152,7 @@ main {
   gap: 10px;
   background: #f1f5f9;
   padding: 10px 18px;
-  /* border-radius: 12px; */
+  border-radius: 12px;
   flex: 1;
   max-width: 400px;
 }
@@ -184,7 +185,6 @@ main {
   overflow: hidden;
   border: 2px solid #007bff;
 }
-
 .user-avatar img {
   width: 100%;
   height: 100%;
@@ -196,12 +196,10 @@ main {
   color: #1e293b;
   font-size: 0.9rem;
 }
-
 .user-role {
   color: #64748b;
   font-size: 0.75rem;
 }
-
 /* ======================
    dashboard grid
 ====================== */

@@ -11,7 +11,7 @@
     <!-- Font Awesome (Ícones reais, não emoji) -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> -->
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth/style.css">
 </head>
 
 <body>
@@ -97,51 +97,6 @@
                     <a href="#" onclick="toggle()">Entrar</a>
                 </div>
             </form>
-            <!-- <form class="form-card register" action="/auth/register/utente" method="POST">
-                <h2>Criar conta</h2>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" name="nome" placeholder="Nome Completo" required>
-                </div>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email" required>
-                </div>
-
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" id="registerPassword" placeholder="Senha" required>
-                    <span class="toggle-password" onclick="togglePassword('registerPassword', this)">
-                        <i class="fa-solid fa-eye"></i>
-                    </span>
-                </div>
-
-                <label class="label">Data de Nascimento</label>
-                <input type="date" name="data_nascimento" required>
-
-                <select name="sexo" required>
-                    <option value="">Selecione o Gênero</option>
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                    <option value="outro">Outro</option>
-                </select>
-
-                <button type="submit">Cadastrar</button>
-
-                <div class="divider"></div>
-
-                <div class="switch">
-                    Já tem conta?
-                    <a href="#" onclick="toggle()">Entrar</a>
-                </div>
-            </form> -->
-
-            <!-- <footer>
-                <h5>© 2026 Health Access Hub | Todos os direitos reservados | Desenvolvido pelo Grupo Nº 06</h5>
-            </footer> -->
-
         </div>
     </div>
 
@@ -161,6 +116,12 @@
                 input.type = "password";
                 icon.classList.replace("fa-eye-slash", "fa-eye");
             }
+        }
+
+        // para mostrar que a senha foi trocada
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('reset') === 'sucesso') {
+            alert('Senha alterada com sucesso! Faca login com a nova senha.')
         }
     </script>
 </body>

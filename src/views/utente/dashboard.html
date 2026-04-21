@@ -27,8 +27,11 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-chevron-left"></i>
+                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
+                     <!-- <i class="fa-solid fa-columns"></i> -->
+                     <i class="fa-solid fa-angles-left"></i>
                 </button>
+                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -73,297 +76,10 @@
                 </ul>
             </nav>
 
-            <!-- LOGOUT -->
-            <div class="logout-area">
-                <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span>
-                </a>
-            </div>
-
-        </aside>
-
-        <!-- MAIN -->
-        <main id="mainContent">
-            <!-- HEADER -->
-            <header class="main-header">
-
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar consultas ou exames...">
-                </div>
-
-                <div class="header-right">
-
-                    <div class="notification-icon">
-                        <i class="fa-solid fa-bell"></i>
-                        <span class="notification-badge">2</span>
-                    </div>
-
-                    <div class="user-profile">
-                        <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                        </div>
-                        <div class="user-info">
-                            <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Utente</p>
-                        </div>
-                    </div>
-            </header>
-
-            <!-- BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
-                    <p>Você tem 1 consulta agendada para esta semana</p>
-                    <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
-                        Ver Consultas
-                    </button>
-                </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                </div>
-            </section>
-
-            <!-- MÉTRICAS DO UTENTE -->
-            <section class="metrics-section">
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>3</h3>
-                        <p>Consultas Realizadas</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-file-medical"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>2</h3>
-                        <p>Exames Pendentes</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-message"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>4</h3>
-                        <p>Mensagens</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>5 dias</h3>
-                        <p>Próxima Consulta</p>
-                    </div>
-                </div>
-
-            </section>
-
-            <!-- CONTEÚDO -->
-            <section class="content-section">
-
-                <div class="content-card">
-                    <h2>Próxima Consulta</h2>
-                    <div class="appointments-list">
-
-                        <div class="appointment-item">
-                            <div class="appointment-time">22 Fev - 10:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de acompanhamento</p>
-                            </div>
-                            <button class="status-btn confirmed">Confirmada</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h2>Últimas Mensagens</h2>
-
-                    <div class="messages-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user-doctor"></i>
-                            </div>
-                            <div class="message-content">
-                                <h4>Dr. João Silva</h4>
-                                <p>Bom dia, não se esqueça de levar os exames.</p>
-                                <span class="message-time">30 min atrás</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-        </main>
-    </div>
-
-    <!-- all code JS -->
-    <script src="/js/utenteDash.js"></script>
-
-    <script src="/js/header.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- js dashboard -->
-    <script src="/js/profDash.js"></script>
-
-    <!-- graficos -->
-    <script>
-        const ctx = document.getElementById('hospitalChart').getContext('2d');
-
-        // Gradiente para a linha (opcional, mas fica muito elegante)
-        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
-        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
-
-        let ecgData = Array(40).fill(5);
-        let labels = Array(40).fill('');
-
-        const hospitalChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: ecgData,
-                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4, // Linha mais orgânica e suave
-                    fill: true,
-                    backgroundColor: gradient
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        display: true,
-                        min: 0, max: 20,
-                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
-                        ticks: { display: false }
-                    },
-                    x: { display: false }
-                },
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        let counter = 0;
-        function updateMonitor() {
-            let newValue = 5; // Linha base
-            let step = counter % 15;
-
-            // Simula o pulso de forma suave
-            if (step === 3) newValue = 15;      // Pico R
-            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
-            else newValue = 5 + (Math.random() * 1); // Oscilação leve
-
-            ecgData.push(newValue);
-            ecgData.shift();
-
-            if (counter % 10 === 0) {
-                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
-            }
-
-            hospitalChart.update('none');
-            counter++;
-        }
-
-        setInterval(updateMonitor, 100);
-    </script>
-</body>
-
-</html>
-
-<!DOCTYPE html>
-<html lang="pt" translate="no">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/img/logo02.png">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/css/utente/utenteDash.css">
-
-    <title>Health Access Hub | Dashboard Utente</title>
-</head>
-
-<body>
-    <div class="app">
-
-        <!-- SIDEBAR -->
-        <aside id="sidebar" class="expanded">
-
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
-
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-            </div>
-
-            <!-- MENU UTENTE -->
-            <nav class="navbar">
-                <ul class="nav-list">
-
-                    <li>
-                        <a href="/dashboard/utente" class="nav-link active">
-                            <i class="fa-solid fa-house"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Minhas Consultas</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/dashboard/utente/exames" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i>
-                            <span>Monitoramento</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
-                            <span>Mensagens</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Perfil</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
+            <a href="/dashboard/utente/definicoes" class="nav-link">
+                <i class="fa-solid fa-gear"></i>
+                <span>Definições</span>
+            </a>
 
             <!-- LOGOUT -->
             <div class="logout-area">
@@ -401,6 +117,8 @@
                             <p class="user-role" id="userRole">Utente</p>
                         </div>
                     </div>
+                </div>
+
             </header>
 
             <!-- BOAS-VINDAS -->
@@ -408,9 +126,9 @@
                 <div class="welcome-content">
                     <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
                     <p>Você tem 1 consulta agendada para esta semana</p>
-                    <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
+                    <!-- <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
                         Ver Consultas
-                    </button>
+                    </button> -->
                 </div>
                 <div class="welcome-icon">
                     <i class="fa-solid fa-heart-pulse"></i>

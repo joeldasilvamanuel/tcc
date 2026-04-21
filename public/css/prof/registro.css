@@ -1,0 +1,121 @@
+/* ===== GERAL E RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: #f4f7fa;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR OTIMIZADA ===== */
+aside {
+  position: fixed;
+  height: 100vh;
+  background: #007bff;
+  color: white;
+  padding: 1.2rem;
+  /* margin: 10px; */
+  /* border-radius: 24px; */
+  display: flex;
+  flex-direction: column;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+}
+
+aside.expanded {
+  width: 240px;
+}
+aside.collapsed {
+  width: 85px;
+}
+
+.sidebar-top {
+  position: relative;
+  width: 100%;
+}
+
+.logo-box {
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+}
+
+.logo-box img {
+  width: 40px;
+  height: auto;
+}
+
+/* BOTÃO TOGGLE */
+.toggle-btn {
+  position: absolute;
+  top: 18px;
+  right: -35px;
+  background: #007bff;
+  border: 2px solid #f4f7fa;
+  border-radius: 40%;
+  width: 32px;
+  height: 32px;
+  cursor: ew-resize;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* NAVEGAÇÃO E LINKS */
+.navbar {
+  flex-grow: 1;
+}
+.nav-list {
+  list-style: none;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.nav-link i {
+  font-size: 20px;
+  min-width: 25px;
+  text-align: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* ESCONDER TEXTO NO COLLAPSED */
+aside.collapsed .nav-link span {
+  display: none;
+}
+
+/* LOGOUT AREA */
+.logout-area {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
