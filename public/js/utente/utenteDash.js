@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (err) {
         console.error('Erro ao buscar info do usuário:', err);
         // Se não houver sessão, manda de volta para o login
-        if (window.location.pathname !== '/') window.location.href = '/';
+        // if (window.location.pathname !== '/') window.location.href = '/';
     }
 
     // --- INICIALIZAR GRÁFICO (Se existir na página) ---

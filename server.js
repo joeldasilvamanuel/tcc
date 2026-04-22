@@ -239,10 +239,27 @@ app.get('/dashboard/admin/perfil', verificarAdmin, (req, res) => {
 });
 
 // ================== API ==================
+// app.get('/api/user-info', verificarToken, (req, res) => {
+//     // console.log("Buscando dados para o ID:", req.user.userId); // Debug
+//     const query = `SELECT nome, email, tipo_usuario AS role, foto_perfil FROM usuario WHERE id_usuario = ? LIMIT 1`;
+//     db.query(query, [req.user.userId], (err, results) => {
+//         if (err || results.length === 0) return res.status(500).json({ message: 'Erro ao buscar utilizador' });
+//         res.json(results[0]);
+//     });
+// });
+// Localize e altere para isso:
 app.get('/api/user-info', verificarToken, (req, res) => {
-    const query = `SELECT nome, email, tipo_usuario AS role, foto_perfil FROM usuario WHERE id_usuario = ? LIMIT 1`;
+    // Removemos o 'foto_perfil' da linha abaixo
+    const query = `SELECT nome, email, tipo_usuario AS role FROM usuario WHERE id_usuario = ? LIMIT 1`;
+
     db.query(query, [req.user.userId], (err, results) => {
-        if (err || results.length === 0) return res.status(500).json({ message: 'Erro ao buscar utilizador' });
+        if (err) {
+            console.error("❌ ERRO NO BANCO DE DADOS:", err);
+            return res.status(500).json({ message: 'Erro interno' });
+        }
+
+        if (results.length === 0) return res.status(404).json({ message: 'Não encontrado' });
+
         res.json(results[0]);
     });
 });

@@ -4,19 +4,55 @@ const jwt = require('jsonwebtoken'); // Novo
 const crypto = require('crypto'); // Novo
 
 // 1. REGISTO DE UTENTE
+// const handleRegisterUtente = async (req, res) => {
+//     const { nome, email, password, data_nascimento, sexo } = req.body;
+//     const conn = db.promise();
+//     try {
+//         const hash = await bcrypt.hash(password, 10);
+//         await conn.beginTransaction();
+//         const [resUsuario] = await conn.query("INSERT INTO usuario (nome, email, senha_hash, tipo_usuario) VALUES (?, ?, ?, 'utente')", [nome, email, hash]);
+//         await conn.query("INSERT INTO utente (id_usuario, data_nascimento, sexo) VALUES (?, ?, ?)", [resUsuario.insertId, data_nascimento, sexo]);
+//         await conn.commit();
+//         // res.send(`<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script>window.onload = () => { Swal.fire({title: 'Sucesso!', text: 'Cadastro realizado.', icon: 'success'}).then(() => window.location.href = '/'); };</script>`);
+//     } catch (error) {
+//         if (conn) await conn.rollback();
+//         res.status(500).send("<script>alert('Erro no cadastro.'); window.history.back();</script>");
+//     }
+// };
+
 const handleRegisterUtente = async (req, res) => {
     const { nome, email, password, data_nascimento, sexo } = req.body;
     const conn = db.promise();
     try {
         const hash = await bcrypt.hash(password, 10);
         await conn.beginTransaction();
-        const [resUsuario] = await conn.query("INSERT INTO usuario (nome, email, senha_hash, tipo_usuario) VALUES (?, ?, ?, 'utente')", [nome, email, hash]);
-        await conn.query("INSERT INTO utente (id_usuario, data_nascimento, sexo) VALUES (?, ?, ?)", [resUsuario.insertId, data_nascimento, sexo]);
+
+        const [resUsuario] = await conn.query(
+            "INSERT INTO usuario (nome, email, senha_hash, tipo_usuario) VALUES (?, ?, ?, 'utente')",
+            [nome, email, hash]
+        );
+
+        await conn.query(
+            "INSERT INTO utente (id_usuario, data_nascimento, sexo) VALUES (?, ?, ?)",
+            [resUsuario.insertId, data_nascimento, sexo]
+        );
+
         await conn.commit();
-        // res.send(`<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script>window.onload = () => { Swal.fire({title: 'Sucesso!', text: 'Cadastro realizado.', icon: 'success'}).then(() => window.location.href = '/'); };</script>`);
+
+        // RESPOSTA DE SUCESSO (Obrigatória para não cair no catch do frontend)
+        res.send(`
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                window.onload = () => { 
+                    Swal.fire({title: 'Sucesso!', text: 'Cadastro realizado.', icon: 'success'})
+                    .then(() => window.location.href = '/login'); 
+                };
+            </script>
+        `);
     } catch (error) {
         if (conn) await conn.rollback();
-        res.status(500).send("<script>alert('Erro no cadastro.'); window.history.back();</script>");
+        console.error("Erro no cadastro:", error); // Veja o erro real no terminal
+        res.status(500).send("<script>alert('Erro no cadastro: " + error.message + "'); window.history.back();</script>");
     }
 };
 
