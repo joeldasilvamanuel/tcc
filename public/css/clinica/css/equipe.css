@@ -1,0 +1,69 @@
+/* MAIN */
+.main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.main h1 {
+  font-size: 2.5rem;
+  color: var(--blue-primary);
+  margin-bottom: 10px;
+}
+
+.main p {
+  color: var(--gray-soft);
+  margin-bottom: 2rem;
+}
+
+/* GRID */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* CARD */
+.caixa {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: 0.3s;
+  border: 1px solid var(--border-light);
+}
+
+.caixa:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* IMG */
+.div-img {
+  width: 110px;
+  height: 110px;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--blue-soft);
+}
+
+.div-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TEXT */
+.div-inf h3 {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.div-inf p {
+  font-size: 0.9rem;
+  color: var(--gray-soft);
+  margin: 5px 0;
+}

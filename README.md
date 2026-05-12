@@ -1,7 +1,7 @@
 # Health Access Hub - Clínica Arco-Íris
 
-> **Status do Projeto:** Em Desenvolvimento (Fase de Reestruturação)
-> **Equipa:** Joel Manuel
+> **Status do Projeto:** Em Desenvolvimento
+> **Equipa:** Joel Manuel, Daniel Rogério, Genivaldo José, Felicidade Lourenço e Saron Kanda
 
 Este documento serve como o roteiro oficial para a implementação técnica do TCC. Todas as tarefas devem seguir a ordem cronológica abaixo para garantir a integridade dos dados e a segurança do sistema.
 

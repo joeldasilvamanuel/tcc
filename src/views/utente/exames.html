@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/utente/utenteDash.css">
+    <link rel="stylesheet" href="/css/utente/exames.css">
     <title>Health Access Hub | Monitoramento</title>
 </head>
 
@@ -22,8 +23,8 @@
 
                 <button id="toggleSidebar" class="toggle-btn">
                     <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                     <!-- <i class="fa-solid fa-columns"></i> -->
-                     <i class="fa-solid fa-angles-left"></i>
+                    <!-- <i class="fa-solid fa-columns"></i> -->
+                    <i class="fa-solid fa-angles-left"></i>
                 </button>
                 <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
@@ -103,36 +104,47 @@
                 </div>
             </header>
 
-            <h1>Aqui vou colocar uma div grande, para ser a caixa que nos permite ver os dados monitorados
-                <br>
-                O resto vai ser apenas umas metricas de apoio
-            </h1>
+            <!-- ÁREA PRINCIPAL: DIV GRANDE COM GRÁFICO CHART.JS -->
+            <section class="monitoring-overview">
+                <div class="main-chart-card">
+                    <div class="card-header-flex">
+                        <div>
+                            <h2>Monitoramento de Sinais Vitais</h2>
+                            <p class="subtitle">Dados em tempo real via ESP32</p>
+                        </div>
+                        <span class="status-badge live">LIVE</span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="vitalsChart"></canvas>
+                    </div>
+                </div>
+            </section>
 
-            <!-- CARDS DE MÉTRICAS DO DISPOSITIVO -->
+            <!-- CARDS DE MÉTRICAS DE APOIO -->
             <section class="metrics-section">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="metric-icon heart"><i class="fa-solid fa-heart-pulse"></i></div>
                     <div class="metric-content">
                         <h3 id="freqCardiaca">-- bpm</h3>
                         <p>Frequência Cardíaca</p>
                     </div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-droplet"></i></div>
+                    <div class="metric-icon pressure"><i class="fa-solid fa-droplet"></i></div>
                     <div class="metric-content">
                         <h3 id="pressaoArterial">--/-- mmHg</h3>
                         <p>Pressão Arterial</p>
                     </div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-temperature-high"></i></div>
+                    <div class="metric-icon temp"><i class="fa-solid fa-temperature-high"></i></div>
                     <div class="metric-content">
                         <h3 id="temperatura">--°C</h3>
                         <p>Temperatura</p>
                     </div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="metric-icon history"><i class="fa-solid fa-microchip"></i></div>
                     <div class="metric-content">
                         <h3 id="batimentoHistorico">Últimos 7 dias</h3>
                         <p>Histórico</p>
@@ -140,13 +152,14 @@
                 </div>
             </section>
 
-            <!-- STATUS DO DISPOSITIVO -->
+            <!-- STATUS E LISTA DE HISTÓRICO -->
             <section class="content-section">
                 <div class="content-card">
                     <h2>Dispositivo ESP32</h2>
                     <div class="device-info">
                         <p><strong>Modelo:</strong> ESP32 BLE</p>
-                        <p><strong>Status:</strong> <span id="deviceStatus">Desconectado</span></p>
+                        <p><strong>Status:</strong> <span id="deviceStatus" class="status-offline">Desconectado</span>
+                        </p>
                         <p><strong>Última atualização:</strong> <span id="lastUpdate">--:--</span></p>
                     </div>
                 </div>
@@ -175,25 +188,82 @@
         </main>
     </div>
 
+    <!-- ALL JAVASCRIPT LINK OF CODE -->
+    <script src="/js/utenteDash.js"></script>
+
+    <script src="/js/profDash.js"></script>
+
     <script src="/js/header.js"></script>
+
+    <!-- CHART.JS LINK -->
+    <!-- Certifique-se de que esta linha do CDN está no seu HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        // Simulação de dados vindos do ESP32 (para futuramente conectar via API/Socket)
-        const deviceStatus = document.getElementById('deviceStatus');
-        const lastUpdate = document.getElementById('lastUpdate');
-        const freqCardiaca = document.getElementById('freqCardiaca');
-        const pressaoArterial = document.getElementById('pressaoArterial');
-        const temperatura = document.getElementById('temperatura');
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('vitalsChart').getContext('2d');
 
-        function atualizarDadosSimulados() {
-            const now = new Date();
-            lastUpdate.textContent = now.toLocaleTimeString();
-            deviceStatus.textContent = "Conectado";
-            freqCardiaca.textContent = `${Math.floor(Math.random() * 40 + 60)} bpm`;
-            pressaoArterial.textContent = `${Math.floor(Math.random() * 20 + 110)}/${Math.floor(Math.random() * 10 + 70)} mmHg`;
-            temperatura.textContent = (Math.random() * 2 + 36).toFixed(1) + "°C";
-        }
+            // Configuração do Gráfico Estilo ECG
+            const vitalsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(40).fill(''), // 40 pontos no eixo X
+                    datasets: [{
+                        label: 'Heart Rate',
+                        data: Array(40).fill(70),
+                        borderColor: '#00ff00',
+                        borderWidth: 2,
+                        pointRadius: 0, // Sem pontos, apenas a linha
+                        tension: 0.4,   // Suaviza a onda
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false, // Importante: Gráfico hospitalar não tem delay
+                    scales: {
+                        y: {
+                            min: 40,
+                            max: 130,
+                            grid: { color: '#1a1a1a' },
+                            ticks: { color: '#008800', font: { family: 'monospace' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
 
-        setInterval(atualizarDadosSimulados, 3000);
+            // Função que gera o movimento do monitor
+            function updateMonitor() {
+                // Simula um batimento cardíaco com variação
+                let baseHeartRate = 72;
+                let pulse = baseHeartRate + (Math.random() * 10 - 5);
+
+                // Simula o "pico" do ECG ocasionalmente
+                if (Math.random() > 0.8) pulse += 20;
+                if (Math.random() > 0.9) pulse -= 30;
+
+                // Atualiza os dados
+                vitalsChart.data.datasets[0].data.push(pulse);
+                vitalsChart.data.datasets[0].data.shift();
+
+                // Renderiza sem animação para efeito de scroll contínuo
+                vitalsChart.update('none');
+
+                // Atualiza o texto no card
+                document.getElementById('freqCardiaca').innerText = Math.round(pulse) + ' bpm';
+            }
+
+            // Velocidade do monitor (150ms para parecer fluido)
+            setInterval(updateMonitor, 150);
+        });
     </script>
 </body>
 

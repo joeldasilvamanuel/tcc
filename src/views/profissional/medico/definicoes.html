@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo02.png">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/utente/utenteDash.css">
+
+    <title>Health Access Hub | Definições</title>
+    <style>
+        /* Estilização específica para os cards de definições caso não tenha no seu CSS geral */
+        .profile-section {
+            padding: 20px;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-header h2 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .profile-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card i {
+            font-size: 2.5rem;
+            color: #2563eb;
+            /* Azul padrão */
+            margin-bottom: 15px;
+        }
+
+        .profile-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .profile-card p {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="expanded">
+            <!-- TOPO -->
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                </div>
+
+                <button id="toggleSidebar" class="toggle-btn">
+                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
+                    <!-- <i class="fa-solid fa-columns"></i> -->
+                    <i class="fa-solid fa-angles-left"></i>
+                </button>
+                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
+            </div>
+
+            <!-- MENU -->
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/profissional" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="/dashboard/profissional/monitorar" class="nav-link">
+                            <i class="fa-solid fa-file-medical"></i><span>Monitorar</span>
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <a href="/dashboard/profissional/agendamento" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/alertas" class="nav-link">
+                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <a href="/dashboard/profissional/definicoes" class="nav-link active">
+                <i class="fa-solid fa-gear"></i>
+                <span>Definições</span>
+            </a>
+
+            <!-- LOGOUT -->
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span> </a>
+            </div>
+        </aside>
+        <main id="mainContent">
+            <!-- HEADER -->
+            <header class="main-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Pesquisar...">
+                </div>
+
+                <div class="header-right">
+                    <!-- Abas que outrora estavao no menu lateral -->
+                    <a href="/dashboard/profissional/agendamento" style="background: #007bff;" class="nav-link">
+                        <abbr title="Agendamento">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </abbr>
+                        <!-- <span>Agendamento</span> -->
+                    </a>
+                    <a href="/dashboard/profissional/alertas" style="background: #007bff;" class="nav-link">
+                        <abbr title="Alertas">
+                            <i class="fa-solid fa-bell"></i>
+                        </abbr>
+                        <!-- <span>Alertas</span> -->
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                        </div>
+                        <div class="user-info">
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <p class="user-role">Utente</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- wrapper i do not what is this fuck brho! -->
+            <div class="wrapper">
+                <main class="main-content">
+                    <section class="profile-section">
+                        <div class="profile-container">
+                            <div class="profile-header">
+                                <h2><i class="fa-solid fa-gear"></i> Definições de Conta</h2>
+                            </div>
+
+                            <div class="profile-cards">
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                    <h3>Dados Pessoais</h3>
+                                    <p>Editar nome, contacto e morada</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <h3>Segurança</h3>
+                                    <p>Alterar senha e autenticação</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-bell"></i>
+                                    <h3>Notificações</h3>
+                                    <p>Preferências de SMS e E-mail</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-file-waveform"></i>
+                                    <h3>Histórico Clínico</h3>
+                                    <p>Logs de exames e consultas</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    <h3>Dispositivos IoT</h3>
+                                    <p>Gerir sensores e conexões ESP32</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                    <h3>Privacidade</h3>
+                                    <p>Quem pode ver os seus dados</p>
+                                </div>
+
+                                <div class="profile-card">
+                                    <i class="fa-solid fa-language"></i>
+                                    <h3>Idioma</h3>
+                                    <p>Português (Angola)</p>
+                                </div>
+
+                                <div class="profile-card" style="border-color: #fee2e2;">
+                                    <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>
+                                    <h3 style="color: #ef4444;">Eliminar Conta</h3>
+                                    <p>Apagar permanentemente os dados</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- all code JS -->
+    <script src="/js/utenteDash.js"></script>
+
+    <script src="/js/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- js dashboard -->
+    <script src="/js/profDash.js"></script>
+</body>
+
+</html>

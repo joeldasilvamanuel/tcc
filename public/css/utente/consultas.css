@@ -1,0 +1,213 @@
+/* CONTAINER DO FORMULÁRIO */
+.booking-section {
+  margin-bottom: 25px;
+}
+
+.booking-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.05);
+}
+
+.card-header h2 {
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.card-header p {
+  color: #718096;
+  font-size: 0.9rem;
+  margin: 5px 0 25px 0;
+}
+
+/* FORMULÁRIO */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Estilo para a área de observações */
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-primary {
+  background-color: #3182ce;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #2b6cb0;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* MÉTRICAS REDUZIDAS */
+.metrics-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.metric-card-mini {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid #e2e8f0;
+}
+
+.metric-card-mini h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.metric-card-mini p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+/* LISTA DE CONSULTAS E HISTÓRICO */
+.content-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.content-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.appointment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #f7fafc;
+}
+
+.appointment-item:last-child {
+  border-bottom: none;
+}
+
+.appointment-time {
+  font-size: 0.8rem;
+  color: #3182ce;
+  font-weight: 700;
+  min-width: 90px;
+}
+
+.appointment-info h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.appointment-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #718096;
+}
+
+/* STATUS E AUXILIARES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge.confirmed {
+  background: #c6f6d5;
+  color: #2f855a;
+}
+
+.text-blue {
+  color: #3182ce;
+}
+
+.text-green {
+  color: #38a169;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .form-row,
+  .content-section {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid-mini {
+    grid-template-columns: 1fr;
+  }
+}

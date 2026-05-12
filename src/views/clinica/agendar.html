@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/img/clinica/img/g12Lz-removebg-preview.png">
+    <title>Agendar Consulta | Health Access Hub</title>
+    <link rel="stylesheet" href="/css/clinica/css/agendar.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header com logo e título -->
+        <div class="header">
+            <div class="logo">
+                <div><img src="/img/clinica/img/g12Lz-removebg-preview.png" alt="" style="height: 50px; width: auto;"></div>
+                <span class="logo-text">Clínica Arco-Íris</span>
+            </div>
+            <h1><i class="bi bi-journal-bookmark-fill"></i> Agendar Consulta</h1>
+            <p class="subtitle">Preencha os dados abaixo e agende a sua consulta de forma rápida e segura</p>
+        </div>
+
+        <!-- Card principal -->
+        <div class="booking-card">
+            <!-- Formulário -->
+            <div class="form-side">
+                <form id="appointmentForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <label><i class="bi bi-person-fill"></i> Nome Completo *</label>
+                            <input type="text" name="nome_completo" id="nome_completo" placeholder="Ex: Maria da Silva" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-telephone-fill"></i> Telefone *</label>
+                            <input type="tel" name="telefone" id="phone" placeholder="+244 9XX XXX XXX" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label><i class="bi bi-envelope-fill"></i> E-mail</label>
+                            <input type="email" name="email" id="email" placeholder="seuemail@exemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-hospital"></i> Especialidade *</label>
+                            <select name="id_esp" id="selectEspecialidade" required>
+                                <option value="">Carregando especialidades...</option>
+                            </select>
+                            <!-- <select id="specialty" required>
+                                <option value="">Selecione uma especialidade</option>
+                                <option value="Cardiologia">Cardiologia</option>
+                                <option value="Pediatria">Pediatria</option>
+                                <option value="Dermatologia">Dermatologia</option>
+                                <option value="Ortopedia">Ortopedia</option>
+                                <option value="Ginecologia">Ginecologia</option>
+                                <option value="Clínica Geral">Clínica Geral</option>
+                                <option value="Neurologia">Neurologia</option>
+                                <option value="Oftalmologia">Oftalmologia</option>
+                            </select> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label><i class="bi bi-calendar-date"></i> Data da Consulta *</label>
+                            <input type="date" name="data_consulta" id="dataConsulta" min="" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="bi bi-clock"></i> Horário Preferencial *</label>
+                            <div class="time-slots" id="timeSlots">
+                                <button type="button" class="time-btn" data-time="08:00">08:00</button>
+                                <button type="button" class="time-btn" data-time="09:00">09:00</button>
+                                <button type="button" class="time-btn" data-time="10:00">10:00</button>
+                                <button type="button" class="time-btn" data-time="11:00">11:00</button>
+                                <button type="button" class="time-btn" data-time="14:00">14:00</button>
+                                <button type="button" class="time-btn" data-time="15:00">15:00</button>
+                                <button type="button" class="time-btn" data-time="16:00">16:00</button>
+                                <button type="button" class="time-btn" data-time="17:00">17:00</button>
+                            </div>
+                            <input type="hidden" id="selectedTime" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="bi bi-chat-text"></i> Observações (opcional)</label>
+                        <textarea id="notes" name="observacoes" rows="3" placeholder="Informações adicionais, sintomas, etc..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-check2-circle"></i> Confirmar Agendamento
+                    </button>
+                </form>
+            </div>
+
+            <!-- Lado direito - Informações úteis -->
+            <div class="info-side">
+                <div>
+                    <h3><i class="bi bi-info-circle-fill"></i> Como funciona?</h3>
+                    <!-- <p style="font-size: 0.85rem; opacity: 0.9;">Após o agendamento, receberá uma confirmação por
+                        WhatsApp ou e-mail. Compareça 15 minutos antes.</p> -->
+                </div>
+
+                <div class="info-card">
+                    <h4 style="margin-bottom: 0.8rem;"><i class="bi bi-telephone-fill"></i> Contacto rápido</h4>
+                    <div class="info-item"><i class="bi bi-whatsapp"></i> +244 923 240 918</div>
+                    <div class="info-item"><i class="bi bi-envelope"></i> agendamentos@arcoiris.ao</div>
+                </div>
+
+                <div class="info-card">
+                    <h4 style="margin-bottom: 0.5rem;"><i class="bi bi-clock-history"></i> Horário de Atendimento</h4>
+                    <div class="info-item"><i class="bi bi-calendar-day"></i> Segunda a Sexta: 8h - 18h</div>
+                    <div class="info-item"><i class="bi bi-calendar-week"></i> Sábado: 8h - 13h</div>
+                </div>
+
+                <div class="info-card">
+                    <h4 style="margin-bottom: 0.5rem;"><i class="bi bi-file-medical"></i> Documentos necessários</h4>
+                    <div class="info-item"><i class="bi bi-id-card"></i> Identificação</div>
+                    <div class="info-item"><i class="bi bi-card-list"></i> Exames anteriores (se houver)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Link para voltar -->
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="/start" class="back-link"><i class="bi bi-arrow-left"></i> Voltar para o início</a>
+        </div>
+    </div>
+
+    <script>
+        // carregar especialidades quando a pagina abrir
+        document.addEventListener('DOMContentLoaded', async () => {
+            const select = document.getElementById('selectEspecialidade');
+            const dataInput = document.getElementById('dataConsulta');
+
+            // Bloquear datas passadas
+            const hoje = new Date().toISOString().split('T')[0];
+            dateInput.min = hoje;
+
+            try {
+                const res = await fetch('/utente/api/especialidades');
+                if (!res.ok) throw new Error('Falha ao buscar');
+
+                const especialidades = await res.json();
+                select.innerHTML = '<option value="">Selecione uma especialidade</option>';
+
+                especialidades.forEach(esp => {
+                    select.innerHTML += `<option value="${esp.id}">${esp.nome}</option>`
+                })
+            } catch (error) {
+                select.innerHTML = '<option value="">Erro ao carregar</option>';
+                console.error('Erro:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/utente/utenteDash.css">
+    <link rel="stylesheet" href="/css/utente/consultas.css">
     <title>Health Access Hub | Minha Consulta</title>
 </head>
 
@@ -22,8 +23,8 @@
 
                 <button id="toggleSidebar" class="toggle-btn">
                     <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                     <!-- <i class="fa-solid fa-columns"></i> -->
-                     <i class="fa-solid fa-angles-left"></i>
+                    <!-- <i class="fa-solid fa-columns"></i> -->
+                    <i class="fa-solid fa-angles-left"></i>
                 </button>
                 <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
@@ -94,9 +95,7 @@
                 </div>
                 <div class="header-right">
                     <div class="user-profile">
-                        <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                        </div>
+                        <div class="user-avatar"><img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar"></div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
                             <p class="user-role" id="userRole">Utente</p>
@@ -105,69 +104,95 @@
                 </div>
             </header>
 
-            <section class="metrics-section">
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="metric-content">
-                        <h3>3</h3>
-                        <p>Consultas Realizadas</p>
+            <section class="booking-section">
+                <div class="content-card booking-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-calendar-plus"></i> Agendar Consulta</h2>
+                        <p>Os campos com * são obrigatórios.</p>
                     </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="metric-content">
-                        <h3>5 dias</h3>
-                        <p>Próxima Consulta</p>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-message"></i></div>
-                    <div class="metric-content">
-                        <h3>4</h3>
-                        <p>Mensagens</p>
-                    </div>
+
+                    <!-- O 'name' de cada input deve ser igual à coluna da sua tabela SQL -->
+                    <form id="appointmentForm" action="processar_agendamento.php" method="POST" class="booking-form">
+
+                        <!-- Informações do Utente -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome_completo">Nome Completo *</label>
+                                <input type="text" name="nome_completo" id="nome_completo"
+                                    placeholder="Como consta no documento" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone *</label>
+                                <input type="tel" name="telefone" id="telefone" placeholder="(+244) ..." required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" name="email" id="email" placeholder="exemplo@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_esp">Especialidade *</label>
+                                <select name="id_esp" id="id_esp" required>
+                                    <option value="">Selecione a especialidade</option>
+                                    <!-- Aqui os dados virão da sua tabela 'especialidades' -->
+                                    <option value="1">Cardiologia</option>
+                                    <option value="2">Clínica Geral</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Dados da Consulta -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="data_consulta">Data da Consulta *</label>
+                                <input type="date" name="data_consulta" id="data_consulta" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="horario_consult">Horário *</label>
+                                <input type="time" name="horario_consult" id="horario_consult" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="observacoes">Observações / Sintomas</label>
+                            <textarea name="observacoes" id="observacoes" rows="3"
+                                placeholder="Algo que o médico deva saber antecipadamente..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-check"></i> Finalizar Agendamento
+                        </button>
+                    </form>
                 </div>
             </section>
 
-            <section class="content-section">
-                <div class="content-card">
-                    <h2>Próxima Consulta</h2>
-                    <div class="appointments-list">
-                        <div class="appointment-item">
-                            <div class="appointment-time">22 Fev - 10:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de acompanhamento</p>
-                            </div>
-                            <button class="status-btn confirmed">Confirmada</button>
-                        </div>
+            <!-- MANTENDO AS MÉTRICAS ABAIXO -->
+            <section class="metrics-grid-mini">
+                <div class="metric-card-mini">
+                    <i class="fa-solid fa-calendar-check text-blue"></i>
+                    <div>
+                        <h3 id="totalRealizadas">3</h3>
+                        <p>Realizadas</p>
                     </div>
                 </div>
-
-                <div class="content-card">
-                    <h2>Histórico de Consultas</h2>
-                    <div class="appointments-list">
-                        <div class="appointment-item">
-                            <div class="appointment-time">10 Fev - 09:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. Ana Costa</h4>
-                                <p>Consulta de rotina</p>
-                            </div>
-                        </div>
-                        <div class="appointment-item">
-                            <div class="appointment-time">05 Jan - 14:30</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de retorno</p>
-                            </div>
-                        </div>
+                <div class="metric-card-mini">
+                    <i class="fa-solid fa-clock text-blue"></i>
+                    <div>
+                        <h3>5 dias</h3>
+                        <p>Próxima</p>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- ALL JAVASCRIPT LINK OF CODE -->
     <script src="/js/header.js"></script>
+    <script src="/js/utenteDash.js"></script>
+    <!-- js dashboard -->
+    <script src="/js/profDash.js"></script>
 </body>
 
 </html>
