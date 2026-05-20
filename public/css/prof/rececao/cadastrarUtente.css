@@ -1,0 +1,103 @@
+:root {
+  --primary: #0d6efd;
+  --primary-dark: #0b5ed7;
+  --sucess: #198754;
+  --danger: #dc3545;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #212529;
+  --muted: #6c757d;
+  --border: #dee2e6;
+  --radius: #16px;
+}
+
+.cadaUtente {
+  display: flex;
+  border-radius: 16px;
+}
+
+.formCU {
+  flex: 60%;
+  padding: 30px;
+  background: #fff;
+  margin-right: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  height: 400px;
+}
+
+.imprimirCredenciais {
+  padding: 20px;
+  /* border-radius: 16px; */
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); */
+  margin-top: 80px;
+}
+
+.imprimirCredenciais h3 {
+  color: #444;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: var(--bg);
+  width: 100%;
+  max-width: 720px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 24px 28px;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+
+.card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.card-header p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+form {
+  padding: 28px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+}

@@ -41,16 +41,9 @@
                     </li>
 
                     <li>
-                        <a href="/dashboard/utente/consultas" class="nav-link active">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Minhas Consultas</span>
-                        </a>
-                    </li>
-
-                    <li>
                         <a href="/dashboard/utente/exames" class="nav-link">
                             <i class="fa-solid fa-file-medical"></i>
-                            <span>Monitoramento</span>
+                            <span>Sinais Vitais</span>
                         </a>
                     </li>
 
@@ -58,6 +51,27 @@
                         <a href="/dashboard/utente/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i>
                             <span>Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/consultas" class="nav-link active">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Agendar Consultas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/prescricao" class="nav-link">
+                            <i class="fa-solid fa-file-prescription"></i>
+                            <span>Prescrição</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/historico" class="nav-link">
+                            <i class="fa-solid fa-notes-medical"></i>
+                            <span>Histórico Clínico</span>
                         </a>
                     </li>
 
@@ -111,10 +125,10 @@
                         <p>Os campos com * são obrigatórios.</p>
                     </div>
 
-                    <!-- O 'name' de cada input deve ser igual à coluna da sua tabela SQL -->
-                    <form id="appointmentForm" action="processar_agendamento.php" method="POST" class="booking-form">
+                    <!-- Formulário preparado para manipulação via JS -->
+                    <form id="formAgendamento" class="">
 
-                        <!-- Informações do Utente -->
+                        <!-- Informações do Utente (Mantidos, mas podem vir pré-preenchidos ou readonly se preferir) -->
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nome_completo">Nome Completo *</label>
@@ -135,10 +149,7 @@
                             <div class="form-group">
                                 <label for="id_esp">Especialidade *</label>
                                 <select name="id_esp" id="id_esp" required>
-                                    <option value="">Selecione a especialidade</option>
-                                    <!-- Aqui os dados virão da sua tabela 'especialidades' -->
-                                    <option value="1">Cardiologia</option>
-                                    <option value="2">Clínica Geral</option>
+                                    <option value="">Carregando especialidades...</option>
                                 </select>
                             </div>
                         </div>
@@ -193,6 +204,68 @@
     <script src="/js/utenteDash.js"></script>
     <!-- js dashboard -->
     <script src="/js/profDash.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const selectEspecialidade = document.getElementById('id_esp');
+            const inputData = document.getElementById('data_consulta');
+            const form = document.getElementById('formAgendamento');
+
+            // 1. Impedir o agendamento em dias passados
+            const hoje = new Date().toISOString().split('T')[0];
+            inputData.min = hoje;
+
+            // 2. CORREÇÃO: Caminho absoluto apontando para o grupo de rotas do utente
+            try {
+                const resposta = await fetch('/dashboard/utente/api/especialidades');
+                if (!resposta.ok) throw new Error('Erro ao buscar do servidor');
+
+                const especialidades = await resposta.json();
+
+                selectEspecialidade.innerHTML = '<option value="">Selecione a especialidade</option>';
+                especialidades.forEach(esp => {
+                    selectEspecialidade.innerHTML += `<option value="${esp.id}">${esp.nome}</option>`;
+                });
+            } catch (error) {
+                selectEspecialidade.innerHTML = '<option value="">Erro ao carregar especialidades</option>';
+                console.error('Erro de API:', error);
+            }
+
+            // 3. Processar e enviar o agendamento via POST para o Controller
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Captura os dados digitados
+                const formData = new FormData(form);
+                const dadosObjeto = Object.fromEntries(formData.entries());
+
+                try {
+                    // CORREÇÃO: Caminho absoluto do POST alinhado com a plataforma
+                    const respostaEnvio = await fetch('/dashboard/utente/agendar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dadosObjeto)
+                    });
+
+                    const resultado = await respostaEnvio.json();
+
+                    if (respostaEnvio.ok) {
+                        alert(resultado.mensagem || 'Agendamento concluído com sucesso!');
+                        window.location.href = '/dashboard/utente/mensagens';
+                    } else {
+                        alert(resultado.mensagem || 'Ocorreu um erro ao tentar agendar.');
+                    }
+
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                    alert('Erro crítico de conexão com o servidor.');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

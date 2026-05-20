@@ -7,8 +7,10 @@
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <!-- Font Awesome (Ícones reais, não emoji) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/prof/rececao/cadastrarUtente.css">
     <link rel="stylesheet" href="/css/prof/perfil.css">
     <link rel="stylesheet" href="/css/prof/profUtentes.css">
+    <link rel="stylesheet" href="/css/prof/profDash.css">
     <style>
         img .img {
             width: 100vh;
@@ -40,46 +42,29 @@
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
-                        <a href="/dashboard/profissional/medico/" class="nav-link">
+                        <a href="/dashboard/profissional/rececao/" class="nav-link">
                             <i class="fa-solid fa-house"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/medico/utentes" class="nav-link active">
-                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        <a href="/dashboard/profissional/rececao/utentes" class="nav-link active">
+                            <i class="fa-solid fa-users"></i><span>Gerir Utentes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/medico/mensagens" class="nav-link">
+                        <a href="/dashboard/profissional/rececao/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i><span>Mensagens</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/medico/agendamento" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/profissional/medico/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
-                            <span>Prescrição</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/profissional/medico/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
-                            <span>Histórico Clínico</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/profissional/medico/perfil" class="nav-link">
+                        <a href="/dashboard/profissional/rececao/perfil" class="nav-link">
                             <i class="fa-solid fa-user"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <a href="/dashboard/profissional/medico/definicoes" class="nav-link">
+            <a href="/dashboard/profissional/rececao/definicoes" class="nav-link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Definições</span>
             </a>
@@ -101,7 +86,13 @@
 
                 <div class="header-right">
                     <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
+                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;" class="nav-link">
+                        <abbr title="Agendamento">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </abbr>
+                        <!-- <span>Agendamento</span> -->
+                    </a>
+                    <a href="/dashboard/profissional/rececao/alertas" style="background: #007bff;" class="nav-link">
                         <abbr title="Alertas">
                             <i class="fa-solid fa-bell"></i>
                         </abbr>
@@ -120,59 +111,95 @@
                 </div>
             </header>
 
-            <section class="utentes-container">
-                <div class="utentes-header">
-                    <div class="title-group">
-                        <h1>Gestão de Utentes</h1>
-                        <p>Total de 12 pacientes sob sua supervisão</p>
+            <section class="cadaUtente">
+                <!-- formCU -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Cadastro de Novo Utente</h3>
+                        <p>Preencha os dados abaixo para registar o paciente na clinica</p>
                     </div>
-                    <button class="btn-add-utente">
-                        <i class="fa-solid fa-user-plus"></i> Novo Utente
-                    </button>
-                </div>
 
-                <div class="table-card">
-                    <table class="utentes-table">
-                        <thead>
-                            <tr>
-                                <th>Paciente</th>
-                                <th>ID</th>
-                                <th>Estado</th>
-                                <th>Última Atividade</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="utentesList">
-                            <tr>
-                                <td>
-                                    <div class="paciente-info">
-                                        <img src="https://ui-avatars.com/api/?name=Mateus+Kiala&background=random"
-                                            alt="">
-                                        <div>
-                                            <p class="nome">Mateus Kiala</p>
-                                            <p class="sub">Masculino, 24 anos</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="id-tag">#8829</span></td>
-                                <td><span class="status-pill stable">Estável</span></td>
-                                <td>Há 5 minutos</td>
-                                <td>
-                                    <div class="actions-cell">
-                                        <button title="Ver Monitorização">
-                                            <i class="fa-solid fa-chart-line"></i>
-                                        </button>
-                                        <button title="Enviar Mensagem">
-                                            <i class="fa-solid fa-comment-medical"></i>
-                                        </button>
-                                        <button title="Prontuário">
-                                            <i class="fa-solid fa-file-medical"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form action="" id="formUtente" method="" novalidate>
+                        <div id="alertBox" class="alert"></div>
+
+                        <div class="grid">
+                            <div>
+                                <label class="required" for="name">Nome Completo</label>
+                                <input type="text" name="name" id="name" required>
+                            </div>
+
+                            <div>
+                                <label class="required" for="nascimento">Data de nascimento</label>
+                                <input type="date" name="nascimento" id="nascimento" required>
+                            </div>
+
+                            <div>
+                                <label class="required" for="genero">Genero</label>
+                                <select name="genero" id="genero">
+                                    <option value="">Selecione o Genero</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="bi" class="required"></label>
+                                <input type="text" name="bi" id="bi" required placeholder="Numero do BI">
+                                <div class="hint">Bilhete de Identidade</div>
+                            </div>
+
+                            <div>
+                                <label for="telefone" class="required">Telefone</label>
+                                <input type="tel" name="telefone" id="telefone" required placeholder="+244 9XX XXX XXX">
+                            </div>
+
+                            <div>
+                                <label class="required" for="email">Email</label>
+                                <input type="email" name="email" id="email" required placeholder="example@gmail.com">
+                            </div>
+
+                            <div class="full">
+                                <label class="required" for="endereco">Endereco completo</label>
+                                <input type="text" name="enderece" id="endereco" required>
+                            </div>
+
+                            <div>
+                                <label class="required" for="contactoEmergencia">Contacto de emergencia</label>
+                                <input type="text" name="contactoEmergencia" id="contactoEmergencia" required
+                                    placeholder="+244 9XX XXX XXX">
+                            </div>
+
+                            <div>
+                                <label class="required" for="convenio">Seguro de Saude</label>
+                                <input type="text" name="convenio" id="convenio" placeholder="Opcional">
+                            </div>
+
+                            <div class="full">
+                                <label for="obs">Observacoes Medicas</label>
+                                <textarea name="obs" id="obs" rows="3"
+                                    placeholder="Alergias, medicacoes em uso, doencas cronicas..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="required" for="senha">Senha</label>
+                                <input type="password" name="senha" id="senha" required placeholder="Digite uma senha">
+                            </div>
+
+                            <div>
+                                <label class="required" for="senha">Confirmar senha</label>
+                                <input type="password" name="confirmarsenha" id="confirmarsenha" required placeholder="Confirme a Senha">
+                            </div>
+
+                            <div class="actions">
+                                <button type="submit">Cadastrar Utente</button>
+                                <button type="reset">Limpar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="imprimirCredenciais">
+                    <h3>Baixe as credenciais do novo Utente ou imprima</h3>
+                    <button class="btn-add-utente" type="submit">Baixar | Imprimir</button>
                 </div>
             </section>
         </main>

@@ -41,16 +41,9 @@
                     </li>
 
                     <li>
-                        <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Minhas Consultas</span>
-                        </a>
-                    </li>
-
-                    <li>
                         <a href="/dashboard/utente/exames" class="nav-link active">
                             <i class="fa-solid fa-file-medical"></i>
-                            <span>Monitoramento</span>
+                            <span>Sinais Vitais</span>
                         </a>
                     </li>
 
@@ -58,6 +51,27 @@
                         <a href="/dashboard/utente/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i>
                             <span>Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/consultas" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Agendar Consultas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/prescricao" class="nav-link">
+                            <i class="fa-solid fa-file-prescription"></i>
+                            <span>Prescrição</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/historico" class="nav-link">
+                            <i class="fa-solid fa-notes-medical"></i>
+                            <span>Histórico Clínico</span>
                         </a>
                     </li>
 
@@ -105,7 +119,7 @@
             </header>
 
             <!-- ÁREA PRINCIPAL: DIV GRANDE COM GRÁFICO CHART.JS -->
-            <section class="monitoring-overview">
+            <section class="monitoring-overview" style="display: none;">
                 <div class="main-chart-card">
                     <div class="card-header-flex">
                         <div>
@@ -143,13 +157,13 @@
                         <p>Temperatura</p>
                     </div>
                 </div>
-                <div class="metric-card">
+                <!-- <div class="metric-card">
                     <div class="metric-icon history"><i class="fa-solid fa-microchip"></i></div>
                     <div class="metric-content">
                         <h3 id="batimentoHistorico">Últimos 7 dias</h3>
                         <p>Histórico</p>
                     </div>
-                </div>
+                </div> -->
             </section>
 
             <!-- STATUS E LISTA DE HISTÓRICO -->

@@ -1,26 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt" translate="no">
+<html lang="en" translate="no">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/img/logo02.png">
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/css/utente/utenteDash.css">
-
-    <title>Health Access Hub | Dashboard Utente</title>
+    <link rel="stylesheet" href="/css/prof/profDash.css">
+    <title>Health Access Hub | Dashboard Profissional</title>
 </head>
 
 <body>
     <div class="app">
-
         <!-- SIDEBAR -->
         <aside id="sidebar" class="expanded">
-
+            <!-- TOPO -->
             <div class="sidebar-top">
                 <div class="logo-box">
                     <img src="/img/logo02.png" alt="Health Access Hub">
@@ -34,63 +29,50 @@
                 <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
-            <!-- MENU UTENTE -->
+            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
-
                     <li>
-                        <a href="/dashboard/utente" class="nav-link active">
-                            <i class="fa-solid fa-house"></i>
-                            <span>Dashboard</span>
+                        <a href="/dashboard/profissional/medico/" class="nav-link">
+                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/exames" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i>
-                            <span>Sinais Vitais</span>
+                        <a href="/dashboard/profissional/medico/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Utentes</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
-                            <span>Mensagens</span>
+                        <a href="/dashboard/profissional/medico/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Agendar Consultas</span>
+                        <a href="/dashboard/profissional/medico/agendamento" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/prescricao" class="nav-link">
+                        <a href="/dashboard/profissional/medico/prescricao" class="nav-link">
                             <i class="fa-solid fa-file-prescription"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/historico" class="nav-link">
+                        <a href="/dashboard/profissional/medico/historico" class="nav-link active">
                             <i class="fa-solid fa-notes-medical"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
-
                     <li>
-                        <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Perfil</span>
+                        <a href="/dashboard/profissional/medico/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i><span>Perfil</span>
                         </a>
                     </li>
-
                 </ul>
             </nav>
 
-            <a href="/dashboard/utente/definicoes" class="nav-link">
+            <a href="/dashboard/profissional/medico/definicoes" class="nav-link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Definições</span>
             </a>
@@ -99,145 +81,165 @@
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span>
-                </a>
+                    <span>Sair</span> </a>
             </div>
-
         </aside>
 
-        <!-- MAIN -->
+        <!-- MAIN CONTENT -->
         <main id="mainContent">
-            <!-- HEADER -->
+            <!-- HEADER COM BUSCA E PERFIL -->
             <header class="main-header">
-
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar consultas ou exames...">
+                    <input type="search" placeholder="Pesquise por...">
                 </div>
 
                 <div class="header-right">
+                    <!-- Abas que outrora estavao no menu lateral -->
+                    <!-- <a href="/dashboard/profissional/medico/agendamento" style="background: #007bff;" class="nav-link">
+                        <abbr title="Agendamento">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </abbr>
+                    </a> -->
+                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
+                        <abbr title="Alertas">
+                            <i class="fa-solid fa-bell"></i>
+                        </abbr>
+                        <!-- <span>Alertas</span> -->
+                    </a>
 
-                    <div class="notification-icon">
-                        <i class="fa-solid fa-bell"></i>
-                        <span class="notification-badge">2</span>
-                    </div>
 
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                            alt="Dr. Silva">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Utente</p>
+                            <p class="user-role" id="userRole">Carregando...</p>
+
                         </div>
                     </div>
                 </div>
-
             </header>
 
-            <!-- BOAS-VINDAS -->
+            <!-- BANNER DE BOAS-VINDAS -->
             <section class="welcome-section">
                 <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
-                    <p>Você tem 1 consulta agendada para esta semana</p>
-                    <!-- <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
-                        Ver Consultas
-                    </button> -->
+                    <h1>Bem-vindo, <span id="welcomeName">Carregando...</span></h1>
+                    <p id="todayAppointments">Você tem 3 consultas agendadas para hoje</p>
+                    <button class="action-btn" id="viewAgendaBtn">Ver Agenda</button>
                 </div>
                 <div class="welcome-icon">
-                    <i class="fa-solid fa-heart-pulse"></i>
+                    <i class="fa-solid fa-stethoscope"></i>
                 </div>
             </section>
 
-            <!-- MÉTRICAS DO UTENTE -->
+            <!-- CARDS DE MÉTRICAS -->
             <section class="metrics-section">
-
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
                     <div class="metric-content">
-                        <h3>3</h3>
-                        <p>Consultas Realizadas</p>
+                        <h3 id="totalPatients">Carregando...</h3>
+                        <p>Utentes</p>
                     </div>
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-file-medical"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-calendar-check"></i></div>
                     <div class="metric-content">
-                        <h3>2</h3>
-                        <p>Exames Pendentes</p>
+                        <h3 id="todaysAppointments">Carregando...</h3>
+                        <p>Consultas Hoje</p>
                     </div>
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-message"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-message"></i></div>
                     <div class="metric-content">
-                        <h3>4</h3>
+                        <h3 id="totalMessages">Carregando...</h3>
                         <p>Mensagens</p>
                     </div>
                 </div>
 
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-clock"></i></div>
                     <div class="metric-content">
-                        <h3>5 dias</h3>
+                        <h3 id="nextAppointment">Carregando...</h3>
                         <p>Próxima Consulta</p>
                     </div>
                 </div>
-
             </section>
 
-            <!-- CONTEÚDO -->
+            <!-- CONTEÚDO PRINCIPAL -->
             <section class="content-section">
+                <div class="content-card"
+                    style="background: #ffffff; border: 1px solid #e0e6ed; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                    <div
+                        style="padding: 15px; border-bottom: 1px solid #f0f2f5; display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="color: #334155; font-size: 1.1rem; margin: 0;">
+                            <i class="fa-solid fa-heart-pulse" style="color: #ef4444; margin-right: 8px;"></i>
+                            Monitorização de Sinais Vitais
+                        </h2>
+                        <span
+                            style="font-size: 0.75rem; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;">Ao
+                            vivo</span>
+                    </div>
 
-                <div class="content-card">
-                    <h2>Próxima Consulta</h2>
-                    <div class="appointments-list">
+                    <div style="height: 220px; padding: 10px;">
+                        <canvas id="hospitalChart"></canvas>
+                    </div>
 
-                        <div class="appointment-item">
-                            <div class="appointment-time">22 Fev - 10:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de acompanhamento</p>
-                            </div>
-                            <button class="status-btn confirmed">Confirmada</button>
+                    <div
+                        style="display: flex; gap: 15px; padding: 15px; background: #f8fafc; border-radius: 0 0 12px 12px;">
+                        <div
+                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                            <p
+                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
+                                Frequência (BPM)</p>
+                            <span id="bpmValue"
+                                style="font-size: 1.8rem; font-weight: 700; color: #0f172a; font-family: sans-serif;">--</span>
                         </div>
-
+                        <div
+                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                            <p
+                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
+                                Oxigenação (SpO2)</p>
+                            <span style="font-size: 1.8rem; font-weight: 700; color: #0284c7;">98%</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="content-card">
                     <h2>Últimas Mensagens</h2>
-
                     <div class="messages-list">
                         <div class="message-item">
                             <div class="message-avatar">
-                                <i class="fa-solid fa-user-doctor"></i>
+                                <i class="fa-solid fa-user"></i>
                             </div>
                             <div class="message-content">
-                                <h4>Dr. João Silva</h4>
-                                <p>Bom dia, não se esqueça de levar os exames.</p>
-                                <span class="message-time">30 min atrás</span>
+                                <h4>Pedro Alves</h4>
+                                <p>Bom dia, gostaria de remarcar a consulta...</p>
+                                <span class="message-time">10 min atrás</span>
+                            </div>
+                        </div>
+
+                        <div class="message-item">
+                            <div class="message-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="message-content">
+                                <h4>Sofia Martins</h4>
+                                <p>Recebi os resultados dos exames...</p>
+                                <span class="message-time">1 hora atrás</span>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </section>
         </main>
     </div>
 
     <!-- all code JS -->
-    <script src="/js/utenteDash.js"></script>
-
     <script src="/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

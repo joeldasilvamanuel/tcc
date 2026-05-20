@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Health Access Hub | Dashboard Administrador</title>
     <link rel="stylesheet" href="/css/admin/adminDah.css">
+    <link rel="stylesheet" href="/css/admin/gestUsers.css">
 </head>
 
 <body>
@@ -32,42 +33,27 @@
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
-                        <a href="/dashboard/admin" class="nav-link">
+                        <a href="/dashboard/admin/adminGeral/" class="nav-link">
                             <i class="fa-solid fa-house"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/admin/visao-geral" class="nav-link active">
-                            <i class="fa-solid fa-eye"></i><span>Visão Geral</span>
-                        </a>
-                    </li>
-                    <!-- <li>
-                        <a href="/dashboard/admin/profissionais" class="nav-link">
-                            <i class="fa-solid fa-users"></i><span>Gestão de Profissionais</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/admin/utentes" class="nav-link">
-                            <i class="fa-solid fa-message"></i><span>Gestão de Utentes</span>
-                        </a>
-                    </li> -->
-                    <li>
-                        <a href="/dashboard/admin/consultas" class="nav-link">
+                        <a href="/dashboard/admin/adminGeral/utilizadores" class="nav-link active">
                             <i class="fa-solid fa-user"></i><span>Utilizadores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/admin/relatorios" class="nav-link">
+                        <a href="/dashboard/admin/adminGeral/relatorios" class="nav-link">
                             <i class="fa-solid fa-calendar-check"></i><span>Relatórios</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/admin/configuracoes" class="nav-link">
+                        <a href="/dashboard/admin/adminGeral/configuracoes" class="nav-link">
                             <i class="fa-solid fa-bell"></i><span>Configurações</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/admin/perfil" class="nav-link">
+                        <a href="/dashboard/admin/adminGeral/perfil" class="nav-link">
                             <i class="fa-solid fa-user"></i><span>Perfil</span>
                         </a>
                     </li>
@@ -114,6 +100,34 @@
                     </div>
                 </div>
             </header>
+
+            <!-- Cards para ir nas abas de gestao de cada utilizador -->
+            <div class="sect">
+                <section class="escolhaUser01">
+                    <div class="perfil-card" style="text-align: center; padding: 20px;">
+                        <div class="avatar-container" style="position: relative; display: inline-block;">
+                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil"
+                                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
+                        </div>
+
+                        <a href="/dashboard/admin/adminGeral/profissionais" class="aa">
+                            <h2>Profissionais</h2>
+                        </a>
+                    </div>
+                </section>
+                <section class="escolhaUser02">
+                    <div class="perfil-card" style="text-align: center; padding: 20px;">
+                        <div class="avatar-container" style="position: relative; display: inline-block;">
+                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil"
+                                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
+                        </div>
+
+                        <a href="/dashboard/admin/adminGeral/utentes" class="aa">
+                            <h2>Utentes</h2>
+                        </a>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
 

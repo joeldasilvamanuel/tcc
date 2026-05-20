@@ -33,44 +33,29 @@
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
-                        <a href="/dashboard/profissional" class="nav-link active">
+                        <a href="/dashboard/profissional/rececao/" class="nav-link active">
                             <i class="fa-solid fa-house"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/utentes" class="nav-link">
-                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                        <a href="/dashboard/profissional/rececao/utentes" class="nav-link">
+                            <i class="fa-solid fa-users"></i><span>Gerir Utentes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/mensagens" class="nav-link">
+                        <a href="/dashboard/profissional/rececao/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i><span>Mensagens</span>
                         </a>
                     </li>
-                    <!-- <li>
-                        <a href="/dashboard/profissional/monitorar" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i> <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a href="/dashboard/profissional/agendamento" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
-                        </a>
-                    </li>
                     <li>
-                        <a href="/dashboard/profissional/alertas" class="nav-link">
-                            <i class="fa-solid fa-bell"></i><span>Alertas</span>
-                        </a>
-                    </li> -->
-                    <li>
-                        <a href="/dashboard/profissional/perfil" class="nav-link">
+                        <a href="/dashboard/profissional/rececao/perfil" class="nav-link">
                             <i class="fa-solid fa-user"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <a href="/dashboard/profissional/definicoes" class="nav-link">
+            <a href="/dashboard/profissional/rececao/definicoes" class="nav-link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Definições</span>
             </a>
@@ -94,13 +79,13 @@
 
                 <div class="header-right">
                     <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/agendamento" style="background: #007bff;" class="nav-link">
+                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;" class="nav-link">
                         <abbr title="Agendamento">
                             <i class="fa-solid fa-calendar-check"></i>
                         </abbr>
                         <!-- <span>Agendamento</span> -->
                     </a>
-                    <a href="/dashboard/profissional/alertas" style="background: #007bff;" class="nav-link">
+                    <a href="/dashboard/profissional/rececao/alertas" style="background: #007bff;" class="nav-link">
                         <abbr title="Alertas">
                             <i class="fa-solid fa-bell"></i>
                         </abbr>
@@ -121,18 +106,6 @@
                     </div>
                 </div>
             </header>
-
-            <!-- BANNER DE BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Carregando...</span></h1>
-                    <p id="todayAppointments">Você tem 3 consultas agendadas para hoje</p>
-                    <button class="action-btn" id="viewAgendaBtn">Ver Agenda</button>
-                </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-stethoscope"></i>
-                </div>
-            </section>
 
             <!-- CARDS DE MÉTRICAS -->
             <section class="metrics-section">
@@ -165,73 +138,6 @@
                     <div class="metric-content">
                         <h3 id="nextAppointment">Carregando...</h3>
                         <p>Próxima Consulta</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CONTEÚDO PRINCIPAL -->
-            <section class="content-section">
-                <div class="content-card"
-                    style="background: #ffffff; border: 1px solid #e0e6ed; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                    <div
-                        style="padding: 15px; border-bottom: 1px solid #f0f2f5; display: flex; justify-content: space-between; align-items: center;">
-                        <h2 style="color: #334155; font-size: 1.1rem; margin: 0;">
-                            <i class="fa-solid fa-heart-pulse" style="color: #ef4444; margin-right: 8px;"></i>
-                            Monitorização de Sinais Vitais
-                        </h2>
-                        <span
-                            style="font-size: 0.75rem; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;">Ao
-                            vivo</span>
-                    </div>
-
-                    <div style="height: 220px; padding: 10px;">
-                        <canvas id="hospitalChart"></canvas>
-                    </div>
-
-                    <div
-                        style="display: flex; gap: 15px; padding: 15px; background: #f8fafc; border-radius: 0 0 12px 12px;">
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Frequência (BPM)</p>
-                            <span id="bpmValue"
-                                style="font-size: 1.8rem; font-weight: 700; color: #0f172a; font-family: sans-serif;">--</span>
-                        </div>
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Oxigenação (SpO2)</p>
-                            <span style="font-size: 1.8rem; font-weight: 700; color: #0284c7;">98%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h2>Últimas Mensagens</h2>
-                    <div class="messages-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="message-content">
-                                <h4>Pedro Alves</h4>
-                                <p>Bom dia, gostaria de remarcar a consulta...</p>
-                                <span class="message-time">10 min atrás</span>
-                            </div>
-                        </div>
-
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="message-content">
-                                <h4>Sofia Martins</h4>
-                                <p>Recebi os resultados dos exames...</p>
-                                <span class="message-time">1 hora atrás</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>

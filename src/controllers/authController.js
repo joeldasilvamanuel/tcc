@@ -76,8 +76,8 @@ const handleLogin = async (req, res) => {
             'medico': '/dashboard/profissional/medico',
             'enfermeiro': '/dashboard/profissional/enfermeiro',
             'recepcionista': '/dashboard/profissional/rececao',
-            'admin_geral': '/dashboard/admin/visao-geral',
-            'admin_clinica': '/dashboard/admin/relatorios'
+            'admin_geral': '/dashboard/admin/adminGeral',
+            'admin_clinica': '/dashboard/admin/adminClinica'
         };
 
         // Redireciona ou volta para a home caso o tipo seja inválido

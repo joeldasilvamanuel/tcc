@@ -1,0 +1,34 @@
+/* BANNER BOAS-VINDAS */
+.welcome-section {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.welcome-content h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.action-btn {
+  background: white;
+  color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* FORMULARIO DE CADASTRO */

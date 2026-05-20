@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-AO">
+<html lang="pt-ao">
 
 <head>
     <meta charset="UTF-8">
@@ -49,17 +49,6 @@
                             <select name="id_esp" id="selectEspecialidade" required>
                                 <option value="">Carregando especialidades...</option>
                             </select>
-                            <!-- <select id="specialty" required>
-                                <option value="">Selecione uma especialidade</option>
-                                <option value="Cardiologia">Cardiologia</option>
-                                <option value="Pediatria">Pediatria</option>
-                                <option value="Dermatologia">Dermatologia</option>
-                                <option value="Ortopedia">Ortopedia</option>
-                                <option value="Ginecologia">Ginecologia</option>
-                                <option value="Clínica Geral">Clínica Geral</option>
-                                <option value="Neurologia">Neurologia</option>
-                                <option value="Oftalmologia">Oftalmologia</option>
-                            </select> -->
                         </div>
                     </div>
 
@@ -80,7 +69,8 @@
                                 <button type="button" class="time-btn" data-time="16:00">16:00</button>
                                 <button type="button" class="time-btn" data-time="17:00">17:00</button>
                             </div>
-                            <input type="hidden" id="selectedTime" required>
+                            <!-- Adicionado o atributo name para ser enviado no formulário -->
+                            <input type="hidden" name="hora_consulta" id="selectedTime" required>
                         </div>
                     </div>
 
@@ -99,8 +89,6 @@
             <div class="info-side">
                 <div>
                     <h3><i class="bi bi-info-circle-fill"></i> Como funciona?</h3>
-                    <!-- <p style="font-size: 0.85rem; opacity: 0.9;">Após o agendamento, receberá uma confirmação por
-                        WhatsApp ou e-mail. Compareça 15 minutos antes.</p> -->
                 </div>
 
                 <div class="info-card">
@@ -130,15 +118,18 @@
     </div>
 
     <script>
-        // carregar especialidades quando a pagina abrir
         document.addEventListener('DOMContentLoaded', async () => {
             const select = document.getElementById('selectEspecialidade');
             const dataInput = document.getElementById('dataConsulta');
+            const timeButtons = document.querySelectorAll('.time-btn');
+            const selectedTimeInput = document.getElementById('selectedTime');
+            const appointmentForm = document.getElementById('appointmentForm');
 
-            // Bloquear datas passadas
+            // 1. Bloquear datas passadas (Corrigido o nome da variável de dateInput para dataInput)
             const hoje = new Date().toISOString().split('T')[0];
-            dateInput.min = hoje;
+            dataInput.min = hoje;
 
+            // 2. Carregar especialidades da API
             try {
                 const res = await fetch('/utente/api/especialidades');
                 if (!res.ok) throw new Error('Falha ao buscar');
@@ -147,12 +138,62 @@
                 select.innerHTML = '<option value="">Selecione uma especialidade</option>';
 
                 especialidades.forEach(esp => {
-                    select.innerHTML += `<option value="${esp.id}">${esp.nome}</option>`
-                })
+                    select.innerHTML += `<option value="${esp.id}">${esp.nome}</option>`;
+                });
             } catch (error) {
-                select.innerHTML = '<option value="">Erro ao carregar</option>';
+                select.innerHTML = '<option value="">Erro ao carregar especialidades</option>';
                 console.error('Erro:', error);
             }
+
+            // 3. Gerenciar seleção dos botões de horário (Time Slots)
+            timeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove a classe 'active' de todos os botões
+                    timeButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Adiciona a classe apenas ao botão clicado
+                    button.classList.add('active');
+                    
+                    // Salva o valor no input hidden
+                    selectedTimeInput.value = button.getAttribute('data-time');
+                });
+            });
+
+            // 4. Enviar formulário para o Backend
+            appointmentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Validação manual do horário se nenhum foi clicado
+                if (!selectedTimeInput.value) {
+                    alert('Por favor, selecione um horário para a consulta.');
+                    return;
+                }
+
+                // Captura todos os dados do formulário de forma simples
+                const formData = new FormData(appointmentForm);
+                const dadosAgendamento = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('/dashboard/utente/agendar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dadosAgendamento)
+                    });
+
+                    if (response.ok) {
+                        alert('Consulta agendada com sucesso!');
+                        window.location.href = '/dashboard/utente/mensagens'; // Ou a rota de histórico
+                    } else {
+                        const erro = await response.json();
+                        alert('Erro ao agendar: ' + (erro.mensagem || 'Tente novamente.'));
+                    }
+                } catch (error) {
+                    console.error('Erro no envio:', error);
+                    alert('Erro de conexão com o servidor.');
+                }
+            });
         });
     </script>
 </body>

@@ -46,13 +46,21 @@ const verificarToken = (req, res, next) => {
     } catch (err) { res.status(401).json({ message: 'Token inválido' }); }
 };
 
+
+
 // ================== ROTAS PÚBLICAS & UTENTE (SEM ALTERAÇÕES) ==================
 app.use('/auth', authRoutes);
 app.get('/auth/logout', handleLogout);
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/login.html')));
-app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/login.html')));
+app.get('/recuperar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/recuperar.html')));
+
+// ROTAS PARA O SITE DA CLINICA
 app.get('/start', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/start.html')));
+app.get('/equipa', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/equipa.html')));
+app.get('/servicos', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/servicos.html')));
 app.get('/agendar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/agendar.html')));
+
+// --- UTENTE ---
 
 app.get('/dashboard/utente', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'));
@@ -78,26 +86,128 @@ app.get('/dashboard/utente/exames', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/exames.html'));
 });
 
+app.get('/dashboard/utente/prescricao', verificarAcesso(['utente']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/utente/prescricao.html'));
+});
+
+app.get('/dashboard/utente/historico', verificarAcesso(['utente']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/utente/historico.html'));
+});
+
+
+
 // ================== DASHBOARD: PROFISSIONAL (ACTUALIZADO COM SUBPASTAS) ==================
 
-// MÉDICO - Pasta: src/views/profissional/medico/
+
+
+// --- MÉDICO ---
+// Pasta: src/views/profissional/medico/
 app.get('/dashboard/profissional/medico', verificarAcesso(['medico']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/medico/dashboard.html'));
 });
 
-// ENFERMEIRO - Pasta: src/views/profissional/enfermeiro/
+app.get('/dashboard/profissional/medico/utentes', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/utentes.html'));
+});
+
+app.get('/dashboard/profissional/medico/mensagens', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/mensagens.html'));
+});
+
+app.get('/dashboard/profissional/medico/perfil', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/perfil.html'));
+});
+
+app.get('/dashboard/profissional/medico/definicoes', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/definicoes.html'));
+});
+
+app.get('/dashboard/profissional/medico/monitorar', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/monitorar.html'));
+});
+
+app.get('/dashboard/profissional/medico/agendamento', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/agendamento.html'));
+});
+
+app.get('/dashboard/profissional/medico/alertas', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/alertas.html'));
+});
+
+app.get('/dashboard/profissional/medico/prescricao', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/prescricao.html'));
+});
+
+app.get('/dashboard/profissional/medico/historico', verificarAcesso(['medico']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/historico.html'));
+});
+
+// --- ENFERMEIRO ---
+// Pasta: src/views/profissional/enfermeiro/
 app.get('/dashboard/profissional/enfermeiro', verificarAcesso(['enfermeiro']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/dashboard.html'));
 });
 
-// RECEÇÃO - Pasta: src/views/profissional/rececao/
+app.get('/dashboard/profissional/enfermeiro/utentes', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/utentes.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/mensagens', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/mensagens.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/perfil', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/perfil.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/definicoes', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/definicoes.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/monitorar', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/monitorar.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/agendamento', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/agendamento.html'));
+});
+
+app.get('/dashboard/profissional/enfermeiro/alertas', verificarAcesso(['enfermeiro']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/alertas.html'));
+});
+
+// --- RECEÇÃO ---
+// Pasta: src/views/profissional/rececao/
 app.get('/dashboard/profissional/rececao', verificarAcesso(['recepcionista']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/dashboard.html'));
 });
 
-// Rotas internas que podem estar dentro das subpastas de cada um
-app.get('/dashboard/profissional/medico/monitorar', verificarAcesso(['medico']), (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/views/profissional/medico/monitorar.html'));
+app.get('/dashboard/profissional/rececao/utentes', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/utentes.html'));
+});
+
+app.get('/dashboard/profissional/rececao/mensagens', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/mensagens.html'));
+});
+
+app.get('/dashboard/profissional/rececao/perfil', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/perfil.html'));
+});
+
+app.get('/dashboard/profissional/rececao/definicoes', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/definicoes.html'));
+});
+
+app.get('/dashboard/profissional/rececao/monitorar', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/monitorar.html'));
+});
+
+app.get('/dashboard/profissional/rececao/agendamento', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/agendamento.html'));
+});
+
+app.get('/dashboard/profissional/rececao/alertas', verificarAcesso(['recepcionista']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/alertas.html'));
 });
 
 // ================== DASHBOARD: ADMIN (ACTUALIZADO COM SUBPASTAS) ==================
@@ -105,34 +215,60 @@ app.get('/dashboard/profissional/medico/monitorar', verificarAcesso(['medico']),
 
 // --- ADMIN GERAL ---
 // Localização: src/views/admin/adminGeral/
-app.get('/dashboard/admin/geral', verificarAcesso(['admin_geral']), (req, res) => {
+app.get('/dashboard/admin/adminGeral', verificarAcesso(['admin_geral']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/dashboard.html'));
 });
 
-app.get('/dashboard/admin/geral/profissionais', verificarAcesso(['admin_geral']), (req, res) => {
+app.get('/dashboard/admin/adminGeral/utilizadores', verificarAcesso(['admin_geral']), (req, res) => {
     // Rota para gerir a lista de médicos, enfermeiros e rececionistas
-    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/profissionais.html'));
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/utilizadores.html'));
 });
 
-app.get('/dashboard/admin/geral/configuracoes', verificarAcesso(['admin_geral']), (req, res) => {
+app.get('/dashboard/admin/adminGeral/relatorios', verificarAcesso(['admin_geral']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/relatorios.html'));
+});
+
+app.get('/dashboard/admin/adminGeral/configuracoes', verificarAcesso(['admin_geral']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/configuracoes.html'));
 });
 
+app.get('/dashboard/admin/adminGeral/perfil', verificarAcesso(['admin_geral']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/perfil.html'));
+});
+
+// rotas de administracao e cadastro de utilizadores
+app.get('/dashboard/admin/adminGeral/profissionais', verificarAcesso(['admin_geral']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/profissionais.html'));
+});
+
+app.get('/dashboard/admin/adminGeral/utentes', verificarAcesso(['admin_geral']), (req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/utentes.html'));
+});
 
 // --- ADMIN CLÍNICA ---
 // Localização: src/views/admin/adminClinica/
-app.get('/dashboard/admin/clinica', verificarAcesso(['admin_clinica']), (req, res) => {
+app.get('/dashboard/admin/adminClinica', verificarAcesso(['admin_clinica']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/dashboard.html'));
 });
 
-app.get('/dashboard/admin/clinica/relatorios', verificarAcesso(['admin_clinica']), (req, res) => {
+app.get('/dashboard/admin/adminClinica/relatorios', verificarAcesso(['admin_clinica']), (req, res) => {
     // Rota para ver estatísticas de agendamentos e performance
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/relatorios.html'));
 });
 
-app.get('/dashboard/admin/clinica/utentes', verificarAcesso(['admin_clinica', 'admin_geral']), (req, res) => {
+app.get('/dashboard/admin/adminClinica/utentes', verificarAcesso(['admin_clinica', 'admin_geral']), (req, res) => {
     // Ambos os admins podem gerir a base de dados de utentes
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/utentes.html'));
+});
+
+app.get('/dashboard/admin/adminClinica/configuracoes', verificarAcesso(['admin_clinica']), (req, res) => {
+    // Ambos os admins podem gerir a base de dados de utentes
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/configuracoes.html'));
+});
+
+app.get('/dashboard/admin/adminClinica/perfil', verificarAcesso(['admin_clinica']), (req, res) => {
+    // Ambos os admins podem gerir a base de dados de utentes
+    res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/perfil.html'));
 });
 
 // ================== APIS & CONFIGURAÇÕES (MANTIDAS) ==================
