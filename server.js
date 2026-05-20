@@ -46,6 +46,8 @@ const verificarToken = (req, res, next) => {
     } catch (err) { res.status(401).json({ message: 'Token inválido' }); }
 };
 
+const utenteRouter = require('./src/routes/utenteRoutes');
+
 
 
 // ================== ROTAS PÚBLICAS & UTENTE (SEM ALTERAÇÕES) ==================
@@ -61,6 +63,7 @@ app.get('/servicos', (req, res) => res.sendFile(path.join(__dirname, 'src/views/
 app.get('/agendar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/agendar.html')));
 
 // --- UTENTE ---
+app.use('/dashboard/utente', verificarToken, utenteRouter);
 
 app.get('/dashboard/utente', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'));

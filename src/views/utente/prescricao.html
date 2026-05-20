@@ -11,6 +11,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/utente/utenteDash.css">
+    <link rel="stylesheet" href="/css/utente/prescricao.css">
 
     <title>Health Access Hub | Dashboard Utente</title>
 </head>
@@ -135,103 +136,74 @@
 
             </header>
 
-            <!-- BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
-                    <p>Você tem 1 consulta agendada para esta semana</p>
-                    <!-- <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
-                        Ver Consultas
-                    </button> -->
-                </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                </div>
-            </section>
+            <!-- PRESCRIÇÕES -->
+            <div class="cards-wrapper">
 
-            <!-- MÉTRICAS DO UTENTE -->
-            <section class="metrics-section">
+                <!-- CARD 1 -->
+                <div class="card pdf">
+                    <div class="icon">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
 
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
+                    <div class="content">
+                        <h3>Medical Check Up Report</h3>
+                        <p>Relatório geral de avaliação clínica</p>
                     </div>
-                    <div class="metric-content">
-                        <h3>3</h3>
-                        <p>Consultas Realizadas</p>
-                    </div>
+
+                    <a href="/docs/Medical_Check_Up_Report.pdf" download class="btn">
+                        <i class="fa-solid fa-download"></i>
+                    </a>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-file-medical"></i>
+                <!-- CARD 2 -->
+                <div class="card doc">
+                    <div class="icon">
+                        <i class="fa-solid fa-file-word"></i>
                     </div>
-                    <div class="metric-content">
-                        <h3>2</h3>
-                        <p>Exames Pendentes</p>
+
+                    <div class="content">
+                        <h3>Blood Count Report</h3>
+                        <p>Hemograma completo</p>
                     </div>
+
+                    <a href="/docs/Blood_Count_Report.docx" download class="btn">
+                        <i class="fa-solid fa-download"></i>
+                    </a>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-message"></i>
+                <!-- CARD 3 -->
+                <div class="card ecg">
+                    <div class="icon">
+                        <i class="fa-solid fa-heart-pulse"></i>
                     </div>
-                    <div class="metric-content">
-                        <h3>4</h3>
-                        <p>Mensagens</p>
+
+                    <div class="content">
+                        <h3>Heart ECG Report</h3>
+                        <p>Eletrocardiograma</p>
                     </div>
+
+                    <a href="/docs/Heart_ECG_Report.docx" download class="btn">
+                        <i class="fa-solid fa-download"></i>
+                    </a>
                 </div>
 
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-clock"></i>
+                <!-- CARD 4 -->
+                <div class="card img">
+                    <div class="icon">
+                        <i class="fa-solid fa-brain"></i>
                     </div>
-                    <div class="metric-content">
-                        <h3>5 dias</h3>
-                        <p>Próxima Consulta</p>
+
+                    <div class="content">
+                        <h3>MRI Brain Report</h3>
+                        <p>Imagem de ressonância magnética</p>
                     </div>
+
+                    <a href="/docs/MRI_Brain_Report.png" download class="btn">
+                        <i class="fa-solid fa-download"></i>
+                    </a>
                 </div>
 
-            </section>
-
-            <!-- CONTEÚDO -->
-            <section class="content-section">
-
-                <div class="content-card">
-                    <h2>Próxima Consulta</h2>
-                    <div class="appointments-list">
-
-                        <div class="appointment-item">
-                            <div class="appointment-time">22 Fev - 10:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de acompanhamento</p>
-                            </div>
-                            <button class="status-btn confirmed">Confirmada</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h2>Últimas Mensagens</h2>
-
-                    <div class="messages-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user-doctor"></i>
-                            </div>
-                            <div class="message-content">
-                                <h4>Dr. João Silva</h4>
-                                <p>Bom dia, não se esqueça de levar os exames.</p>
-                                <span class="message-time">30 min atrás</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
+            </div>
         </main>
     </div>
 

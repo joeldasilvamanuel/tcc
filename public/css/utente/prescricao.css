@@ -1,0 +1,91 @@
+/* GRID PRINCIPAL */
+.cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+/* CARD BASE */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ICON */
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* TEXT */
+.content {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.content h3 {
+  font-size: 14px;
+  margin: 0;
+  color: #0f172a;
+}
+
+.content p {
+  font-size: 12px;
+  margin: 4px 0 0;
+  color: #64748b;
+}
+
+/* BUTTON */
+.btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #22c55e;
+}
+
+/* VARIAÇÕES DE COR */
+.card.pdf .icon {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.card.doc .icon {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.card.ecg .icon {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.card.img .icon {
+  background: #fef3c7;
+  color: #f59e0b;
+}

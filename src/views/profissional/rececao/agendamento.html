@@ -569,7 +569,7 @@
 
 <body>
     <div class="app">
-       <aside id="sidebar" class="expanded">
+        <aside id="sidebar" class="expanded">
             <!-- TOPO -->
             <div class="sidebar-top">
                 <div class="logo-box">
@@ -632,7 +632,8 @@
 
                 <div class="header-right">
                     <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;" class="nav-link active">
+                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;"
+                        class="nav-link active">
                         <abbr title="Agendamento">
                             <i class="fa-solid fa-calendar-check"></i>
                         </abbr>
@@ -658,219 +659,109 @@
             </header>
 
             <div class="agendamento-container">
+
                 <div class="agendamento-header">
                     <h1>
                         <i class="fa-solid fa-calendar-check"></i>
-                        Agendamento de Consultas
+                        Gestão de Agendamentos
                     </h1>
+
                     <button class="btn-nova-consulta" id="btnNovaConsulta">
                         <i class="fa-solid fa-plus"></i>
-                        Nova Consulta
+                        Novo Agendamento
                     </button>
                 </div>
 
-                <!-- Cards de estatísticas -->
-                <div class="stats-grid">
+                <!-- FILTRO SIMPLES DE DATA -->
+                <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+                    <button class="filtro-btn active">Hoje</button>
+                    <button class="filtro-btn">Amanhã</button>
+                    <button class="filtro-btn">Semana</button>
+
+                    <input type="date" class="form-control" style="max-width:200px;" id="dataFiltro">
+                </div>
+
+                <!-- RESUMO SIMPLIFICADO -->
+                <div class="stats-grid" style="margin-bottom:20px;">
                     <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fa-solid fa-calendar"></i>
-                        </div>
+                        <div class="stat-icon blue"><i class="fa-solid fa-calendar-day"></i></div>
                         <div class="stat-info">
                             <h3>28</h3>
-                            <p>Consultas hoje</p>
+                            <p>Hoje</p>
                         </div>
                     </div>
+
                     <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fa-solid fa-check-circle"></i>
-                        </div>
+                        <div class="stat-icon green"><i class="fa-solid fa-check"></i></div>
                         <div class="stat-info">
-                            <h3>156</h3>
+                            <h3>18</h3>
                             <p>Confirmadas</p>
                         </div>
                     </div>
+
                     <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
+                        <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
                         <div class="stat-info">
-                            <h3>12</h3>
+                            <h3>10</h3>
                             <p>Pendentes</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon red">
-                            <i class="fa-solid fa-user-plus"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>8</h3>
-                            <p>Novos pacientes</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Agenda principal -->
-                <div class="agenda-wrapper">
-                    <!-- Calendário -->
-                    <div class="calendario-card">
-                        <div class="calendario-header">
-                            <h2>
-                                <i class="fa-solid fa-calendar"></i>
-                                <span id="mesAno">Fevereiro 2026</span>
-                            </h2>
-                            <div class="calendario-nav">
-                                <button id="btnMesAnterior">
-                                    <i class="fa-solid fa-chevron-left"></i>
-                                </button>
-                                <button id="btnMesProximo">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
+                <!-- LISTA PRINCIPAL (SIMPLIFICADA) -->
+                <div class="consultas-card">
 
-                        <div class="dias-semana">
-                            <span>DOM</span>
-                            <span>SEG</span>
-                            <span>TER</span>
-                            <span>QUA</span>
-                            <span>QUI</span>
-                            <span>SEX</span>
-                            <span>SÁB</span>
-                        </div>
-
-                        <div class="dias-grid" id="diasGrid">
-                            <!-- Dias serão preenchidos via JavaScript -->
-                        </div>
+                    <div class="consultas-header">
+                        <h2>
+                            <i class="fa-solid fa-list"></i>
+                            Consultas do dia
+                        </h2>
                     </div>
 
-                    <!-- Lista de consultas do dia -->
-                    <div class="consultas-card">
-                        <div class="consultas-header">
-                            <h2>
-                                <i class="fa-solid fa-list-check"></i>
-                                Consultas de <span id="dataSelecionada">12/02/2026</span>
-                            </h2>
-                            <div class="filtros-consulta">
-                                <button class="filtro-btn active">Todas</button>
-                                <button class="filtro-btn">Confirmadas</button>
-                                <button class="filtro-btn">Pendentes</button>
+                    <div class="lista-consultas">
+
+                        <!-- ITEM -->
+                        <div class="consulta-item">
+                            <div class="consulta-horario">
+                                <div class="hora">09:00</div>
+                            </div>
+
+                            <div class="consulta-info">
+                                <div class="consulta-paciente">Maria Santos</div>
+                                <div class="consulta-detalhes">
+                                    <span><i class="fa-solid fa-stethoscope"></i> Check-up</span>
+                                </div>
+                            </div>
+
+                            <div class="consulta-status status-confirmada">OK</div>
+
+                            <div class="consulta-acoes">
+                                <button class="btn-acao"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-acao"><i class="fa-solid fa-pen"></i></button>
                             </div>
                         </div>
 
-                        <div class="lista-consultas" id="listaConsultas">
-                            <!-- Consultas serão carregadas aqui -->
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">09:00</div>
-                                    <div class="periodo">Manhã</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Maria Santos</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-stethoscope"></i> Check-up</span>
-                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
+                        <!-- ITEM -->
+                        <div class="consulta-item">
+                            <div class="consulta-horario">
+                                <div class="hora">10:30</div>
+                            </div>
+
+                            <div class="consulta-info">
+                                <div class="consulta-paciente">João Pereira</div>
+                                <div class="consulta-detalhes">
+                                    <span><i class="fa-solid fa-heart"></i> Cardiologia</span>
                                 </div>
                             </div>
 
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">10:30</div>
-                                    <div class="periodo">Manhã</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">João Pereira</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-heart"></i> Cardiologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 45 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-pendente">
-                                    Pendente
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <div class="consulta-status status-pendente">Pendente</div>
 
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">14:00</div>
-                                    <div class="periodo">Tarde</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Ana Oliveira</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-lungs"></i> Pneumologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">15:30</div>
-                                    <div class="periodo">Tarde</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Carlos Souza</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-brain"></i> Neurologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 50 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
+                            <div class="consulta-acoes">
+                                <button class="btn-acao"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-acao"><i class="fa-solid fa-calendar"></i></button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

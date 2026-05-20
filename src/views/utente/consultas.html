@@ -205,21 +205,20 @@
     <!-- js dashboard -->
     <script src="/js/profDash.js"></script>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const selectEspecialidade = document.getElementById('id_esp');
             const inputData = document.getElementById('data_consulta');
             const form = document.getElementById('formAgendamento');
 
-            // 1. Impedir o agendamento em dias passados
+            // 1. Impedir agendamentos retroativos
             const hoje = new Date().toISOString().split('T')[0];
             inputData.min = hoje;
 
-            // 2. CORREÇÃO: Caminho absoluto apontando para o grupo de rotas do utente
+            // 2. Buscar especialidades da API aninhada na plataforma
             try {
                 const resposta = await fetch('/dashboard/utente/api/especialidades');
-                if (!resposta.ok) throw new Error('Erro ao buscar do servidor');
+                if (!resposta.ok) throw new Error('Erro ao buscar especialidades');
 
                 const especialidades = await resposta.json();
 
@@ -229,19 +228,17 @@
                 });
             } catch (error) {
                 selectEspecialidade.innerHTML = '<option value="">Erro ao carregar especialidades</option>';
-                console.error('Erro de API:', error);
+                console.error(error);
             }
 
-            // 3. Processar e enviar o agendamento via POST para o Controller
+            // 3. Enviar os dados do agendamento
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // Captura os dados digitados
                 const formData = new FormData(form);
                 const dadosObjeto = Object.fromEntries(formData.entries());
 
                 try {
-                    // CORREÇÃO: Caminho absoluto do POST alinhado com a plataforma
                     const respostaEnvio = await fetch('/dashboard/utente/agendar', {
                         method: 'POST',
                         headers: {
@@ -253,15 +250,14 @@
                     const resultado = await respostaEnvio.json();
 
                     if (respostaEnvio.ok) {
-                        alert(resultado.mensagem || 'Agendamento concluído com sucesso!');
+                        alert(resultado.mensagem || 'Agendamento concluído!');
                         window.location.href = '/dashboard/utente/mensagens';
                     } else {
                         alert(resultado.mensagem || 'Ocorreu um erro ao tentar agendar.');
                     }
-
                 } catch (error) {
-                    console.error('Erro na requisição:', error);
-                    alert('Erro crítico de conexão com o servidor.');
+                    console.error(error);
+                    alert('Erro de conexão com o servidor.');
                 }
             });
         });
