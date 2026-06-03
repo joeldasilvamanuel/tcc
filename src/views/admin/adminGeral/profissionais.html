@@ -6,169 +6,1374 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Health Access Hub | Gerir profissionais</title>
-    <!-- CSS -->
+    <title>Health Access Hub | Gestão de Profissionais</title>
+    <!-- CSS EXISTENTES (mantidos) -->
     <link rel="stylesheet" href="/css/admin/adminDah.css">
     <link rel="stylesheet" href="/css/admin/profissionais.css">
+
+    <!-- ESTILOS EXCLUSIVOS PARA ESTA TELA (sem conflito) -->
+    <style>
+        /* ================= TOAST ================= */
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            min-width: 320px;
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            animation: toastIn .25s ease;
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        .toast.warning {
+            background: #f59e0b;
+        }
+
+        .toast i {
+            font-size: 1.1rem;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ================= CONFIRM MODAL ================= */
+
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99998;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: .2s;
+        }
+
+        .confirm-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confirm-box {
+            width: 90%;
+            max-width: 420px;
+            background: white;
+            border-radius: 22px;
+            padding: 2rem;
+            text-align: center;
+            animation: modalUp .2s ease;
+        }
+
+        .confirm-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50%;
+            background: #fef3c7;
+            color: #f59e0b;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .confirm-box h3 {
+            margin-bottom: .6rem;
+            font-size: 1.2rem;
+        }
+
+        .confirm-box p {
+            color: #64748b;
+            font-size: .92rem;
+            line-height: 1.5;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.7rem;
+        }
+
+        .confirm-actions button {
+            flex: 1;
+            border: none;
+            padding: .9rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-cancel {
+            background: #f1f5f9;
+        }
+
+        .btn-confirm {
+            background: #ef4444;
+            color: white;
+        }
+
+        @keyframes modalUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos específicos para gestão de profissionais - não interfere nos globais */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Cards estatísticos */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2ff;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.08);
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-info p {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: #e0f0ff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            font-size: 1.3rem;
+        }
+
+        /* Filtros */
+        .filters-bar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            border: 1px solid #edf2f7;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .search-input i {
+            color: #94a3b8;
+        }
+
+        .search-input input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .filter-select {
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn-filter {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-filter:hover {
+            background: #0056b3;
+        }
+
+        /* Tabela moderna */
+        .table-container {
+            background: white;
+            border-radius: 1.2rem;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #edf2f7;
+        }
+
+        .professionals-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .professionals-table th {
+            text-align: left;
+            padding: 1rem 1rem;
+            background: #f8fafc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .professionals-table td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.85rem;
+            color: #334155;
+        }
+
+        .professionals-table tr:hover {
+            background: #fafcff;
+        }
+
+        .user-avatar-small {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e0f0ff;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-inactive {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            background: transparent;
+        }
+
+        .action-btn-icon.edit {
+            color: #007bff;
+        }
+
+        .action-btn-icon.edit:hover {
+            background: #e0f0ff;
+        }
+
+        .action-btn-icon.view {
+            color: #10b981;
+        }
+
+        .action-btn-icon.view:hover {
+            background: #dcfce7;
+        }
+
+        .action-btn-icon.toggle {
+            color: #f59e0b;
+        }
+
+        .action-btn-icon.toggle:hover {
+            background: #fef3c7;
+        }
+
+        .action-btn-icon.delete {
+            color: #ef4444;
+        }
+
+        .action-btn-icon.delete:hover {
+            background: #fee2e2;
+        }
+
+        /* Modal moderno */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: 1.5rem;
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #1e293b;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+        }
+
+        .specialties-group {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .specialties-group.show {
+            display: block;
+        }
+
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .specialty-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .specialty-check input {
+            width: auto;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .empty-row td {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .filter-select,
+            .btn-filter {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (totalmente mantida) -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
             <div class="sidebar-top">
                 <div class="logo-box">
                     <img src="/img/logo02.png" alt="Health Access Hub">
                 </div>
-
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
                     <i class="fa-solid fa-angles-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
-
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
-                    <li>
-                        <a href="/dashboard/admin/adminGeral/" class="nav-link">
-                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/admin/adminGeral/utilizadores" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Utilizadores</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/admin/adminGeral/relatorios" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i><span>Relatórios</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/admin/adminGeral/configuracoes" class="nav-link">
-                            <i class="fa-solid fa-gear"></i><span>Configurações</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/admin/adminGeral/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Perfil</span>
-                        </a>
-                    </li>
+                    <li><a href="/dashboard/admin/adminGeral/" class="nav-link"><i
+                                class="fa-solid fa-house"></i><span>Dashboard</span></a></li>
+                    <li><a href="/dashboard/admin/adminGeral/utilizadores" class="nav-link"><i
+                                class="fa-solid fa-user"></i><span>Utilizadores</span></a></li>
+                    <li><a href="/dashboard/admin/adminGeral/relatorios" class="nav-link"><i
+                                class="fa-solid fa-calendar-check"></i><span>Relatórios</span></a></li>
+                    <li><a href="/dashboard/admin/adminGeral/configuracoes" class="nav-link"><i
+                                class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                    <li><a href="/dashboard/admin/adminGeral/perfil" class="nav-link"><i
+                                class="fa-solid fa-user"></i><span>Perfil</span></a></li>
                 </ul>
             </nav>
-
-            <!-- LOGOUT -->
             <div class="logout-area">
-                <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                <a href="/auth/logout" class="nav-link logout"><i
+                        class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
             </div>
-            <!-- <div class="logout-area">
-                <a href="/auth/logout" style="color: white; text-decoration: none; font-weight: bold;"><i
-                        class="fa-solid fa-right-from-bracket"></i> Sair</a>
-            </div> -->
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT (conteúdo principal substituído pela tela de Gestão de Profissionais) -->
         <main id="mainContent">
-            <!-- HEADER -->
+            <!-- HEADER (mantido integralmente) -->
             <header class="main-header">
-
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar consultas ou exames...">
+                    <input type="search" placeholder="Pesquisar...">
                 </div>
-
                 <div class="header-right">
-
-                    <!-- <div class="notification-icon">
-                        <i class="fa-solid fa-bell"></i>
-                        <span class="notification-badge">2</span>
-                    </div> -->
-
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Utente</p>
+                            <p class="user-role" id="userRole">Administrador</p>
                         </div>
                     </div>
                 </div>
-
             </header>
 
-            <!-- BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
-                    <p>Você tem 1 consulta agendada para esta semana</p>
-                    <!-- <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
-                        Ver Consultas
-                    </button> -->
+            <!-- NOVO CONTEÚDO: GESTÃO DE PROFISSIONAIS -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Gestão de Profissionais</h1>
+                    <p>Gerencie médicos, enfermeiros, recepcionistas e administradores.</p>
                 </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-heart-pulse"></i>
+                <button class="btn-primary" id="openModalBtn">
+                    <i class="fa-solid fa-plus"></i> Novo Utilizador
+                </button>
+            </div>
+
+            <!-- CARDS ESTATÍSTICOS -->
+            <div class="stats-grid" id="statsContainer">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3 id="totalCount">0</h3>
+                        <p>Total Profissionais</p>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
                 </div>
-            </section>
-
-            <!-- FORMULARIO PARA CADASTRAR OS PROFISSIONAIS -->
-            <section class="form">
-                <form class="form-card register" action="" method="POST">
-                    <h5>considerar as metricas, e fazer com que elas sejam links que nos levam para novas abas que vao
-                        cadastrar os utilizadores de forma separada</h5>
-                    <h2>Crie um novo utilizador</h2>
-                    <h4>{ Utentes, Médicos(as), Enfermeiros(as), Recepcionaistas(as) e Adminstrador Administrativo da
-                        Clínica }</h4>
-                    <div class="input-group">
-                        <i class="bi bi-person"></i>
-                        <input type="text" name="nome" placeholder="Nome Completo" required>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3 id="medicosCount">0</h3>
+                        <p>Médicos</p>
                     </div>
-
-                    <div class="input-group">
-                        <i class="bi bi-envelope"></i>
-                        <input type="email" name="email" placeholder="Email" required>
+                    <div class="stat-icon"><i class="fa-solid fa-stethoscope"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3 id="enfermeirosCount">0</h3>
+                        <p>Enfermeiros</p>
                     </div>
-
-                    <div class="input-group">
-                        <i class="bi bi-lock"></i>
-                        <input type="password" name="password" id="registerPassword" placeholder="Senha" required>
-                        <span class="toggle-password" onclick="togglePassword('registerPassword', this)">
-                            <i class="bi bi-eye"></i>
-                        </span>
+                    <div class="stat-icon"><i class="fa-solid fa-syringe"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3 id="recepCount">0</h3>
+                        <p>Recepcionistas</p>
                     </div>
+                    <div class="stat-icon"><i class="fa-solid fa-headset"></i></div>
+                </div>
+            </div>
 
-                    <label class="label">Data de Nascimento</label>
-                    <input type="date" name="data_nascimento" required>
+            <!-- FILTROS -->
+            <div class="filters-bar">
+                <div class="search-input">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Pesquisar por nome ou email...">
+                </div>
+                <select id="typeFilter" class="filter-select">
+                    <option value="todos">Todos os tipos</option>
+                    <option value="medico">Médico</option>
+                    <option value="enfermeiro">Enfermeiro</option>
+                    <option value="recepcionista">Recepcionista</option>
+                    <option value="admin_clinica">Admin Clínica</option>
+                </select>
+                <button id="filterBtn" class="btn-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
+            </div>
 
-                    <select name="sexo" required>
-                        <option value="">Selecione o Gênero</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                        <option value="outro">Outro</option>
-                    </select>
-
-                    <button type="submit">Cadastrar</button>
-
-                    <div class="divider"></div>
-
-                    <div class="switch">
-                        Já tem conta?
-                        <a href="" onclick="toggle()">Entrar</a>
-                    </div>
-                </form>
-            </section>
+            <!-- TABELA DE PROFISSIONAIS -->
+            <div class="table-container">
+                <table class="professionals-table" id="professionalsTable">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Especialidade</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr class="empty-row">
+                            <td colspan="7">Carregando profissionais...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 
-    <!-- all code JS -->
+    <!-- MODAL DE CADASTRO -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-md"></i> Novo Profissional</h3>
+                <button class="close-modal" id="closeModalBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="professionalForm">
+                    <div class="form-group"><label>Nome completo *</label><input type="text" id="fullName" required
+                            placeholder="Dr. Ana Silva"></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="email" required
+                            placeholder="ana@healthaccess.com"></div>
+                    <div class="form-group"><label>Senha *</label><input type="password" id="password" required
+                            placeholder="********"></div>
+                    <div class="form-group"><label>Confirmar senha *</label><input type="password" id="confirmPassword"
+                            required placeholder="********"></div>
+                    <div class="form-group"><label>Tipo de Utilizador *</label>
+                        <select id="profType" required>
+                            <option value="">Selecione</option>
+                            <option value="medico">Médico</option>
+                            <option value="enfermeiro">Enfermeiro</option>
+                            <option value="recepcionista">Recepcionista</option>
+                            <option value="admin_clinica">Admin Clínica</option>
+                        </select>
+                    </div>
+                    <div id="specialtiesSection" class="specialties-group">
+                        <label>Especialidades (apenas médico)</label>
+                        <div class="specialties-grid">
+                            <label class="specialty-check"><input type="checkbox" value="Cardiologia">
+                                Cardiologia</label>
+                            <label class="specialty-check"><input type="checkbox" value="Clínica Geral"> Clínica
+                                Geral</label>
+                            <label class="specialty-check"><input type="checkbox" value="Dermatologia">
+                                Dermatologia</label>
+                            <label class="specialty-check"><input type="checkbox" value="Ginecologia">
+                                Ginecologia</label>
+                            <label class="specialty-check"><input type="checkbox" value="Neurologia"> Neurologia</label>
+                            <label class="specialty-check"><input type="checkbox" value="Ortopedia"> Ortopedia</label>
+                            <label class="specialty-check"><input type="checkbox" value="Pediatria"> Pediatria</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fa-solid fa-save"></i> Cadastrar
+                        Profissional</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- MODAL CONFIRMAÇÃO -->
+    <div id="confirmModal" class="confirm-overlay">
+        <div class="confirm-box">
+            <div class="confirm-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <h3 id="confirmTitle">Confirmar ação</h3>
+
+            <p id="confirmText">
+                Tem certeza que deseja continuar?
+            </p>
+
+            <div class="confirm-actions">
+                <button class="btn-cancel" id="cancelConfirm">
+                    Cancelar
+                </button>
+
+                <button class="btn-confirm" id="acceptConfirm">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- all code JS (mantidos) -->
     <script src="/js/header.js"></script>
     <script src="/js/profDash.js"></script>
+
+    <!-- LÓGICA FRONTEND COMPLETA (mock data + filtros + modal) -->
+    <!-- LÓGICA FRONTEND COMPLETA -->
+    <script>
+        let professionals = [];
+
+        // ================== HELPERS ==================
+        function getTipoLabel(tipo) {
+            const tipos = {
+                medico: "Médico",
+                enfermeiro: "Enfermeiro",
+                recepcionista: "Recepcionista",
+                admin_clinica: "Admin Clínica"
+            };
+
+            return tipos[tipo] || tipo;
+        }
+
+        function getEspecialidadesText(prof) {
+
+            if (prof.tipo === "medico" && prof.especialidades?.length > 0) {
+                return prof.especialidades.join(", ");
+            }
+
+            if (prof.tipo === "medico") {
+                return "Sem especialidade";
+            }
+
+            return "—";
+        }
+
+        // ================== TOAST ==================
+        function showToast(message, type = "success") {
+
+            const container = document.getElementById('toastContainer');
+
+            const toast = document.createElement('div');
+
+            toast.className = `toast ${type}`;
+
+            toast.innerHTML = `
+            <i class="fa-solid ${type === 'success'
+                    ? 'fa-circle-check'
+                    : type === 'error'
+                        ? 'fa-circle-xmark'
+                        : 'fa-triangle-exclamation'
+                }"></i>
+
+            <span>${message}</span>
+        `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // ================== CONFIRM MODAL ==================
+        function showConfirm({
+            title = "Confirmar ação",
+            text = "Deseja continuar?",
+            onConfirm = () => { }
+        }) {
+
+            const modal = document.getElementById('confirmModal');
+
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmText').innerText = text;
+
+            modal.classList.add('active');
+
+            const confirmBtn = document.getElementById('acceptConfirm');
+            const cancelBtn = document.getElementById('cancelConfirm');
+
+            const close = () => {
+                modal.classList.remove('active');
+            };
+
+            cancelBtn.onclick = close;
+
+            confirmBtn.onclick = () => {
+                close();
+                onConfirm();
+            };
+        }
+
+        // ================== LOAD PROFISSIONAIS ==================
+        async function loadProfessionals() {
+
+            try {
+
+                const res = await fetch('/api/profissionais', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await res.json();
+
+                console.log("PROFISSIONAIS:", data);
+
+                if (!Array.isArray(data)) {
+                    throw new Error(data.error || "Resposta inválida");
+                }
+
+                professionals = data;
+
+                renderTable(professionals);
+
+            } catch (err) {
+
+                console.error(err);
+
+                const tbody = document.getElementById('tableBody');
+
+                tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7">
+                        Erro ao carregar profissionais
+                    </td>
+                </tr>
+            `;
+
+                professionals = [];
+
+                updateStats([]);
+
+                showToast(
+                    err.message || "Erro ao carregar profissionais",
+                    "error"
+                );
+            }
+        }
+
+        // ================== RENDER TABLE ==================
+        function renderTable(lista) {
+
+            const tbody = document.getElementById('tableBody');
+
+            if (!lista || !lista.length) {
+
+                tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7">
+                        Nenhum profissional encontrado.
+                    </td>
+                </tr>
+            `;
+
+                updateStats([]);
+
+                return;
+            }
+
+            tbody.innerHTML = lista.map(prof => `
+
+            <tr>
+
+                <td>
+                    <img 
+                        src="${prof.foto || '/img/fotoPadra.png'}" 
+                        class="user-avatar-small"
+                    >
+                </td>
+
+                <td>
+                    <strong>${prof.nome}</strong>
+                </td>
+
+                <td>
+                    ${prof.email}
+                </td>
+
+                <td>
+                    ${getTipoLabel(prof.tipo)}
+                </td>
+
+                <td>
+                    ${getEspecialidadesText(prof)}
+                </td>
+
+                <td>
+                    <span class="badge-status ${prof.status === 'ativo'
+                    ? 'badge-active'
+                    : 'badge-inactive'
+                }">
+
+                        ${prof.status === 'ativo'
+                    ? 'Ativo'
+                    : 'Inativo'
+                }
+
+                    </span>
+                </td>
+
+                <td class="action-buttons">
+
+                    <button onclick="deleteProfessional(${prof.id_usuario ?? prof.id})">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+
+                    <button
+                        class="action-btn-icon view"
+                        onclick="viewProfessional(${prof.id})"
+                        title="Visualizar"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+
+                    <button
+                        class="action-btn-icon toggle"
+                        onclick="toggleStatus(${prof.id})"
+                        title="Ativar / Desativar"
+                    >
+                        <i class="fa-solid fa-toggle-on"></i>
+                    </button>
+
+                    <button 
+                        class="action-btn-icon delete"
+                        onclick="deleteProfessional(${prof.id})"
+                        title="Eliminar"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join('');
+
+            updateStats(professionals);
+        }
+
+        // ================== STATS ==================
+        function updateStats(lista) {
+
+            const total = lista.length;
+
+            const medicos =
+                lista.filter(p => p.tipo === "medico").length;
+
+            const enfermeiros =
+                lista.filter(p => p.tipo === "enfermeiro").length;
+
+            const recepcionistas =
+                lista.filter(p => p.tipo === "recepcionista").length;
+
+            document.getElementById('totalCount').innerText = total;
+
+            document.getElementById('medicosCount').innerText = medicos;
+
+            document.getElementById('enfermeirosCount').innerText = enfermeiros;
+
+            document.getElementById('recepCount').innerText = recepcionistas;
+        }
+
+        // ================== FILTER ==================
+        function filterProfessionals() {
+
+            const search =
+                document.getElementById('searchInput')
+                    .value
+                    .toLowerCase();
+
+            const type =
+                document.getElementById('typeFilter').value;
+
+            const filtered = professionals.filter(p => {
+
+                const matchSearch =
+                    p.nome.toLowerCase().includes(search) ||
+                    p.email.toLowerCase().includes(search);
+
+                const matchType =
+                    type === 'todos' || p.tipo === type;
+
+                return matchSearch && matchType;
+            });
+
+            renderTable(filtered);
+        }
+
+        window.filterProfessionals = filterProfessionals;
+
+        // ================== VIEW ==================
+        window.viewProfessional = (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showToast(
+                `${prof.nome} • ${getTipoLabel(prof.tipo)}`,
+                "success"
+            );
+        };
+
+        // ================== EDIT ==================
+        window.editProfessional = (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showToast(
+                `Edição de ${prof.nome} será implementada`,
+                "warning"
+            );
+        };
+
+        // ================== TOGGLE STATUS ==================
+        window.toggleStatus = async (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showConfirm({
+
+                title: "Atualizar status",
+
+                text: `Deseja alterar o estado de ${prof.nome}?`,
+
+                onConfirm: async () => {
+
+                    try {
+
+                        const res = await fetch(
+                            `/api/profissionais/${id}/status`,
+                            {
+                                method: 'PATCH',
+                                credentials: 'include'
+                            }
+                        );
+
+                        if (!res.ok) {
+                            throw new Error();
+                        }
+
+                        await loadProfessionals();
+
+                        showToast(
+                            "Status atualizado com sucesso"
+                        );
+
+                    } catch (err) {
+
+                        console.error(err);
+
+                        showToast(
+                            "Erro ao atualizar status",
+                            "error"
+                        );
+                    }
+                }
+            });
+        };
+
+        // ================== DELETE ==================
+        window.deleteProfessional = async (id) => {
+            showConfirm({
+                title: "Eliminar profissional",
+                text: "Tens a certeza que queres eliminar?",
+                onConfirm: async () => {
+                    try {
+                        const res = await fetch(`/api/profissionais/${id}`, {
+                            method: 'DELETE',
+                            credentials: 'include'
+                        });
+
+                        const data = await res.json();
+
+                        if (!res.ok) throw new Error(data.error || "Erro ao eliminar");
+
+                        showToast("Profissional eliminado com sucesso", "success");
+
+                        await loadProfessionals();
+
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+                }
+            });
+        };
+
+        // ================== MODAL ==================
+        const modal = document.getElementById('modalOverlay');
+
+        const openModal = () => {
+            modal.classList.add('active');
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+        };
+
+        document.getElementById('openModalBtn').onclick = openModal;
+
+        document.getElementById('closeModalBtn').onclick = closeModal;
+
+        modal.onclick = (e) => {
+
+            if (e.target === modal) {
+                closeModal();
+            }
+        };
+
+        // ================== ESPECIALIDADES ==================
+        const profTypeSelect =
+            document.getElementById('profType');
+
+        const specialtiesDiv =
+            document.getElementById('specialtiesSection');
+
+        profTypeSelect.addEventListener('change', function () {
+
+            specialtiesDiv.classList.toggle(
+                'show',
+                this.value === 'medico'
+            );
+        });
+
+        // ================== CREATE PROFESSIONAL ==================
+        document
+            .getElementById('professionalForm')
+            .addEventListener('submit', async function (e) {
+
+                e.preventDefault();
+
+                const nome =
+                    document.getElementById('fullName')
+                        .value
+                        .trim();
+
+                const email =
+                    document.getElementById('email')
+                        .value
+                        .trim();
+
+                const password =
+                    document.getElementById('password')
+                        .value;
+
+                const confirm =
+                    document.getElementById('confirmPassword')
+                        .value;
+
+                const tipo = profTypeSelect.value;
+
+                // VALIDAÇÕES
+                if (!nome || !email || !password || !tipo) {
+
+                    return showToast(
+                        "Preencha todos os campos obrigatórios",
+                        "warning"
+                    );
+                }
+
+                if (password !== confirm) {
+
+                    return showToast(
+                        "As senhas não coincidem",
+                        "warning"
+                    );
+                }
+
+                // ESPECIALIDADES
+                let especialidades = [];
+
+                if (tipo === "medico") {
+
+                    document
+                        .querySelectorAll(
+                            '#specialtiesSection input[type="checkbox"]:checked'
+                        )
+                        .forEach(cb => {
+                            especialidades.push(cb.value);
+                        });
+                }
+
+                // PAYLOAD
+                const payload = {
+                    nome,
+                    email,
+                    senha: password,
+                    tipo_usuario: tipo,
+                    especialidades
+                };
+
+                console.log("ENVIANDO:", payload);
+
+                try {
+
+                    const response = await fetch(
+                        '/api/profissionais',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+
+                            credentials: 'include',
+
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    console.log("RESPOSTA API:", data);
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.error ||
+                            "Erro ao cadastrar profissional"
+                        );
+                    }
+
+                    showToast(
+                        "Profissional cadastrado com sucesso"
+                    );
+
+                    closeModal();
+
+                    this.reset();
+
+                    specialtiesDiv.classList.remove('show');
+
+                    await loadProfessionals();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showToast(
+                        error.message || "Erro ao criar profissional",
+                        "error"
+                    );
+                }
+            });
+
+        // ================== FILTER EVENTS ==================
+        document
+            .getElementById('filterBtn')
+            .addEventListener('click', filterProfessionals);
+
+        document
+            .getElementById('searchInput')
+            .addEventListener('keyup', filterProfessionals);
+
+        document
+            .getElementById('typeFilter')
+            .addEventListener('change', filterProfessionals);
+
+        // ================== INIT ==================
+        loadProfessionals();
+
+        // ================== HEADER ==================
+        document.getElementById('userName').innerText =
+            "Administrador";
+
+        document.getElementById('userRole').innerText =
+            "Administrador Geral";
+    </script>
 </body>
 
 </html>

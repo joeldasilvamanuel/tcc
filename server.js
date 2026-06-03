@@ -1,4 +1,3 @@
-// ================== IMPORTS & MIDDLEWARES GLOBAIS (Mantidos) ==================
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
@@ -11,12 +10,27 @@ const { connection: db, testConnection } = require('./src/config/db');
 const authRoutes = require('./src/routes/authRoutes');
 const { handleLogout } = require('./src/controllers/authController');
 
+// para o agendamento
+const utenteRouter = require('./src/routes/utenteRoutes');
+const agendamentoRoutes = require('./src/routes/agendamentoRoutes');
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../02_siteHAH/hah')));
+
+// ================== ROTAS PROFISSIONAIS ==================
+const profissionalRoutes = require('./src/routes/profissionalRoutes');
+app.use('/api/profissionais', profissionalRoutes);
+
+// ================== ROTAS UTENTES ==================
+app.use('/api/utentes', utenteRouter);
+
+// RECECAO E BLA BLA BLA
+const rececaoRoutes = require('./src/routes/rececaoRoutes');
+app.use('/api/rececao', rececaoRoutes);
 
 // ================== SISTEMA DE PROTEÇÃO (Mantido/Refinado) ==================
 const verificarAcesso = (rolesPermitidos) => {
@@ -46,9 +60,6 @@ const verificarToken = (req, res, next) => {
     } catch (err) { res.status(401).json({ message: 'Token inválido' }); }
 };
 
-const utenteRouter = require('./src/routes/utenteRoutes');
-
-
 
 // ================== ROTAS PÚBLICAS & UTENTE (SEM ALTERAÇÕES) ==================
 app.use('/auth', authRoutes);
@@ -63,7 +74,7 @@ app.get('/servicos', (req, res) => res.sendFile(path.join(__dirname, 'src/views/
 app.get('/agendar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/agendar.html')));
 
 // --- UTENTE ---
-app.use('/dashboard/utente', verificarToken, utenteRouter);
+// app.use('/dashboard/utente', verificarToken, utenteRouter);
 
 app.get('/dashboard/utente', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'));
@@ -274,8 +285,10 @@ app.get('/dashboard/admin/adminClinica/perfil', verificarAcesso(['admin_clinica'
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/perfil.html'));
 });
 
-// ================== APIS & CONFIGURAÇÕES (MANTIDAS) ==================
+// ================== ROTAS DE AGENDAMENTO ==================
+app.use('/api/agendamentos', agendamentoRoutes);
 
+// ================== APIS & CONFIGURAÇÕES (MANTIDAS) ==================
 app.get('/api/user-info', verificarToken, (req, res) => {
     db.query(`SELECT nome, email, tipo_usuario AS role FROM usuario WHERE id_usuario = ?`, [req.user.userId], (err, results) => {
         if (err || results.length === 0) return res.status(404).json({ message: 'Erro' });

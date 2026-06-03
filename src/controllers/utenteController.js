@@ -141,4 +141,105 @@ const utenteController = {
     }
 };
 
+// ===================== CRUD UTENTES (ADMIN) =====================
+
+// LISTAR UTENTES
+utenteController.listarUtentes = (req, res) => {
+    const sql = `
+        SELECT id_usuario, nome, email, ativo
+        FROM usuario
+        WHERE tipo_usuario = 'utente'
+        ORDER BY id_usuario DESC
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Erro listar utentes:", err);
+            return res.status(500).json({ error: err.message });
+        }
+
+        const utentes = results.map(u => ({
+            id: u.id_usuario,
+            nome: u.nome,
+            email: u.email,
+            status: u.ativo ? "ativo" : "inativo"
+        }));
+
+        res.json(utentes);
+    });
+};
+
+// CRIAR UTENTE
+utenteController.criarUtente = async (req, res) => {
+    const { nome, email, senha } = req.body;
+
+    if (!nome || !email || !senha) {
+        return res.status(400).json({ error: "Campos obrigatórios em falta" });
+    }
+
+    const bcrypt = require('bcrypt');
+    const hash = await bcrypt.hash(senha, 10);
+
+    const sql = `
+        INSERT INTO usuario (nome, email, senha_hash, tipo_usuario)
+        VALUES (?, ?, ?, 'utente')
+    `;
+
+    db.query(sql, [nome, email, hash], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: err.message });
+        }
+
+        res.json({ success: true, id: result.insertId });
+    });
+};
+
+// GET UTENTE POR ID
+utenteController.getUtenteById = (req, res) => {
+    const sql = `
+        SELECT id_usuario, nome, email, ativo
+        FROM usuario
+        WHERE id_usuario = ?
+    `;
+
+    db.query(sql, [req.params.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        res.json(results[0]);
+    });
+};
+
+// TOGGLE STATUS
+utenteController.toggleStatusUtente = (req, res) => {
+    const sql = `
+        UPDATE usuario
+        SET ativo = NOT ativo
+        WHERE id_usuario = ?
+    `;
+
+    db.query(sql, [req.params.id], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        res.json({ success: true });
+    });
+};
+
+// DELETE UTENTE
+utenteController.deleteUtente = (req, res) => {
+    const sql = `
+        DELETE FROM usuario
+        WHERE id_usuario = ?
+    `;
+
+    db.query(sql, [req.params.id], (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: err.message });
+        }
+
+        res.json({ success: true });
+    });
+};
+
 module.exports = utenteController;

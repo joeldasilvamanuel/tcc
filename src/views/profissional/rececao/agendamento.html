@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="pt" translate="no">
 
 <head>
     <meta charset="UTF-8">
@@ -8,55 +8,60 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/prof/registro.css">
     <link rel="stylesheet" href="/css/prof/perfil.css">
-    <title>Health Access Hub | Agendamento de Consultas</title>
+    <link rel="stylesheet" href="/css/prof/profDash.css">
+    <title>Health Access Hub | Gestão de Consultas</title>
     <style>
-        /* Estilos específicos para agendamento */
-        .agendamento-container {
-            padding: 20px 0;
+        /* ===== MANTER CORES ORIGINAIS DO SISTEMA ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .agendamento-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* CONTAINER PRINCIPAL */
+        .container {
+            padding: 20px;
+            animation: fadeInPage 0.5s ease-out;
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* HEADER DA PÁGINA */
+        .page-header {
             margin-bottom: 30px;
         }
 
-        .agendamento-header h1 {
-            font-size: 1.8rem;
+        .page-header h1 {
+            font-size: 28px;
             color: #1e293b;
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 8px;
         }
 
-        .agendamento-header h1 i {
+        .page-header h1 i {
             color: #007bff;
+            font-size: 32px;
         }
 
-        .btn-nova-consulta {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+        .page-header p {
+            color: #64748b;
+            font-size: 14px;
+            margin-left: 44px;
         }
 
-        .btn-nova-consulta:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
-        }
-
-        /* Cards de estatísticas */
+        /* ESTATÍSTICAS RÁPIDAS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -67,502 +72,420 @@
         .stat-card {
             background: white;
             padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .stat-icon.blue {
-            background: rgba(0, 123, 255, 0.1);
-            color: #007bff;
-        }
-
-        .stat-icon.green {
-            background: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-        }
-
-        .stat-icon.orange {
-            background: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-        }
-
-        .stat-icon.red {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            border-color: #007bff20;
         }
 
         .stat-info h3 {
-            font-size: 1.8rem;
+            font-size: 28px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
         .stat-info p {
             color: #64748b;
-            font-size: 0.9rem;
+            font-size: 13px;
             font-weight: 500;
         }
 
-        /* Calendário e agenda */
-        .agenda-wrapper {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 25px;
-        }
-
-        /* Calendário */
-        .calendario-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-        }
-
-        .calendario-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .calendario-header h2 {
-            font-size: 1.2rem;
-            color: #1e293b;
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-size: 24px;
         }
 
-        .calendario-nav {
-            display: flex;
-            gap: 8px;
+        .stat-icon.total {
+            background: #e0f0ff;
+            color: #007bff;
         }
 
-        .calendario-nav button {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+        .stat-icon.pending {
+            background: #fef9c3;
+            color: #a16207;
+        }
+
+        .stat-icon.confirmed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .stat-icon.cancelled {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* BARRA DE FILTROS */
+        .filters-bar {
             background: white;
-            color: #64748b;
+            padding: 8px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            display: inline-flex;
+            gap: 8px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .calendario-nav button:hover {
+        .filter-btn i {
+            font-size: 14px;
+        }
+
+        .filter-btn:hover {
             background: #f1f5f9;
             color: #007bff;
         }
 
-        .dias-semana {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-
-        .dias-semana span {
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #64748b;
-            padding: 8px 0;
-        }
-
-        .dias-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-
-        .dia {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-            border: 1px solid transparent;
-        }
-
-        .dia:hover {
-            background: #f1f5f9;
-            border-color: #e2e8f0;
-        }
-
-        .dia.hoje {
+        .filter-btn.active {
             background: #007bff;
             color: white;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
         }
 
-        .dia.selecionado {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .dia.com-consulta {
-            position: relative;
-            font-weight: 600;
-        }
-
-        .dia.com-consulta::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #007bff;
-        }
-
-        .dia.hoje.com-consulta::after,
-        .dia.selecionado.com-consulta::after {
+        /* LISTA DE CONSULTAS */
+        .consultas-container {
             background: white;
-        }
-
-        .dia.outro-mes {
-            color: #cbd5e1;
-        }
-
-        /* Lista de consultas */
-        .consultas-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 24px;
+            border: 1px solid #edf2f7;
+            overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .consultas-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .consultas-header h2 {
-            font-size: 1.2rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filtros-consulta {
-            display: flex;
-            gap: 10px;
-        }
-
-        .filtro-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            background: white;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            padding: 18px 24px;
+            background: #f8fafc;
+            border-bottom: 1px solid #edf2f7;
+            font-weight: 700;
+            font-size: 13px;
             color: #64748b;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .filtro-btn.active {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .lista-consultas {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .consulta-item {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            border-radius: 16px;
-            background: #f8fafc;
-            transition: all 0.3s;
-            border: 1px solid transparent;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            padding: 20px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .consulta-item:hover {
-            background: white;
-            border-color: #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            background: #fafcff;
+            transform: scale(1.01);
         }
 
-        .consulta-horario {
-            min-width: 80px;
-            text-align: center;
-            padding-right: 20px;
-        }
-
-        .consulta-horario .hora {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .consulta-horario .periodo {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-
-        .consulta-info {
-            flex: 1;
-        }
-
-        .consulta-paciente {
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 4px;
-        }
-
-        .consulta-detalhes {
+        /* INFORMAÇÕES DO PACIENTE */
+        .paciente-info {
             display: flex;
-            gap: 15px;
-            font-size: 0.8rem;
-            color: #64748b;
+            flex-direction: column;
+            gap: 4px;
         }
 
-        .consulta-detalhes i {
-            margin-right: 5px;
+        .paciente-nome {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .paciente-nome i {
             color: #007bff;
+            font-size: 14px;
         }
 
-        .consulta-status {
+        .paciente-email {
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* DATA E HORA */
+        .data-hora {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .data {
+            font-size: 14px;
+            color: #1e293b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hora {
+            font-size: 12px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* STATUS */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            border-radius: 100px;
+            font-size: 12px;
             font-weight: 600;
+            width: fit-content;
         }
 
-        .status-confirmada {
-            background: rgba(40, 167, 69, 0.1);
-            color: #28a745;
+        .status-badge i {
+            font-size: 11px;
         }
 
         .status-pendente {
-            background: rgba(255, 193, 7, 0.1);
-            color: #b85e00;
+            background: #fef9c3;
+            color: #a16207;
         }
 
-        .status-concluida {
-            background: rgba(100, 116, 139, 0.1);
-            color: #475569;
+        .status-confirmada {
+            background: #dcfce7;
+            color: #15803d;
         }
 
-        .consulta-acoes {
+        .status-cancelada {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* AÇÕES */
+        .acoes {
             display: flex;
-            gap: 8px;
-            margin-left: 15px;
+            gap: 12px;
+            align-items: center;
         }
 
         .btn-acao {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-acao:hover {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        /* Modal de agendamento */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-header h2 {
-            font-size: 1.4rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-close {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            padding: 8px 16px;
             border: none;
-            background: #f1f5f9;
-            color: #64748b;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .modal-close:hover {
-            background: #007bff;
-            color: white;
+        .btn-confirmar {
+            background: #dcfce7;
+            color: #15803d;
         }
 
-        .form-group {
+        .btn-confirmar:hover {
+            background: #bbf7d0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-cancelar {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .btn-cancelar:hover {
+            background: #fecaca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-acao:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #cbd5e1;
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
+        .empty-state h3 {
             color: #1e293b;
             margin-bottom: 8px;
         }
 
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+        .empty-state p {
+            color: #94a3b8;
+        }
+
+        /* LOADING */
+        .loading-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             background: white;
-        }
-
-        .form-control:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .horarios-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .horario-btn {
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            background: white;
-            color: #1e293b;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .horario-btn:hover {
-            border-color: #007bff;
-            color: #007bff;
-        }
-
-        .horario-btn.selected {
-            background: #007bff;
-            border-color: #007bff;
-            color: white;
-        }
-
-        .btn-agendar {
-            width: 100%;
-            padding: 14px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 16px 24px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
+            gap: 12px;
+            z-index: 1000;
+            animation: toastIn 0.3s ease-out;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #007bff;
         }
 
-        .btn-agendar:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        /* Responsividade */
-        @media (max-width: 1200px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @keyframes toastIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
 
-            .agenda-wrapper {
-                grid-template-columns: 1fr;
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
 
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
+        .toast.success {
+            border-left-color: #15803d;
+        }
+
+        .toast.error {
+            border-left-color: #b91c1c;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .consultas-header {
+                display: none;
             }
 
             .consulta-item {
-                flex-wrap: wrap;
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 16px;
             }
 
-            .consulta-acoes {
-                width: 100%;
+            .acoes {
                 justify-content: flex-end;
-                margin-left: 0;
-                margin-top: 10px;
+                margin-top: 8px;
             }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .filters-bar {
+                width: 100%;
+                overflow-x: auto;
+                border-radius: 20px;
+                padding: 8px;
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+                padding: 10px 20px;
+            }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #007bff;
         }
     </style>
 </head>
@@ -570,21 +493,15 @@
 <body>
     <div class="app">
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
             <div class="sidebar-top">
                 <div class="logo-box">
                     <img src="/img/logo02.png" alt="Health Access Hub">
                 </div>
-
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
                     <i class="fa-solid fa-angles-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
@@ -615,11 +532,11 @@
                 <span>Definições</span>
             </a>
 
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                    <span>Sair</span>
+                </a>
             </div>
         </aside>
 
@@ -627,23 +544,20 @@
             <header class="main-header">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por consultas, pacientes...">
+                    <input type="search" id="searchInput" placeholder="Pesquisar por paciente, email...">
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
                     <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;"
                         class="nav-link active">
                         <abbr title="Agendamento">
                             <i class="fa-solid fa-calendar-check"></i>
                         </abbr>
-                        <!-- <span>Agendamento</span> -->
                     </a>
                     <a href="/dashboard/profissional/rececao/alertas" style="background: #007bff;" class="nav-link">
                         <abbr title="Alertas">
                             <i class="fa-solid fa-bell"></i>
                         </abbr>
-                        <!-- <span>Alertas</span> -->
                     </a>
 
                     <div class="user-profile">
@@ -658,190 +572,97 @@
                 </div>
             </header>
 
-            <div class="agendamento-container">
-
-                <div class="agendamento-header">
+            <div class="container">
+                <!-- CABEÇALHO -->
+                <div class="page-header">
                     <h1>
                         <i class="fa-solid fa-calendar-check"></i>
-                        Gestão de Agendamentos
+                        Gestão de Consultas
                     </h1>
-
-                    <button class="btn-nova-consulta" id="btnNovaConsulta">
-                        <i class="fa-solid fa-plus"></i>
-                        Novo Agendamento
-                    </button>
+                    <p>Gerencie todas as consultas agendadas, confirme ou cancele atendimentos</p>
                 </div>
 
-                <!-- FILTRO SIMPLES DE DATA -->
-                <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
-                    <button class="filtro-btn active">Hoje</button>
-                    <button class="filtro-btn">Amanhã</button>
-                    <button class="filtro-btn">Semana</button>
-
-                    <input type="date" class="form-control" style="max-width:200px;" id="dataFiltro">
-                </div>
-
-                <!-- RESUMO SIMPLIFICADO -->
-                <div class="stats-grid" style="margin-bottom:20px;">
-                    <div class="stat-card">
-                        <div class="stat-icon blue"><i class="fa-solid fa-calendar-day"></i></div>
+                <!-- ESTATÍSTICAS -->
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card" onclick="filtrarConsultas('todas')">
                         <div class="stat-info">
-                            <h3>28</h3>
-                            <p>Hoje</p>
+                            <h3 id="totalCount">0</h3>
+                            <p>Total de Consultas</p>
+                        </div>
+                        <div class="stat-icon total">
+                            <i class="fa-solid fa-calendar"></i>
                         </div>
                     </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon green"><i class="fa-solid fa-check"></i></div>
+                    <div class="stat-card" onclick="filtrarConsultas('Pendente')">
                         <div class="stat-info">
-                            <h3>18</h3>
-                            <p>Confirmadas</p>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon orange"><i class="fa-solid fa-clock"></i></div>
-                        <div class="stat-info">
-                            <h3>10</h3>
+                            <h3 id="pendenteCount">0</h3>
                             <p>Pendentes</p>
                         </div>
+                        <div class="stat-icon pending">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="filtrarConsultas('Confirmado')">
+                        <div class="stat-info">
+                            <h3 id="confirmadaCount">0</h3>
+                            <p>Confirmadas</p>
+                        </div>
+                        <div class="stat-icon confirmed">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="filtrarConsultas('Cancelado')">
+                        <div class="stat-info">
+                            <h3 id="canceladaCount">0</h3>
+                            <p>Canceladas</p>
+                        </div>
+                        <div class="stat-icon cancelled">
+                            <i class="fa-solid fa-times-circle"></i>
+                        </div>
                     </div>
                 </div>
 
-                <!-- LISTA PRINCIPAL (SIMPLIFICADA) -->
-                <div class="consultas-card">
+                <!-- FILTROS -->
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 15px;">
+                    <div class="filters-bar">
+                        <button class="filter-btn active" onclick="filtrarConsultas('todas')" data-filter="todas">
+                            <i class="fa-solid fa-list"></i> Todos
+                        </button>
+                        <button class="filter-btn" onclick="filtrarConsultas('Pendente')" data-filter="Pendente">
+                            <i class="fa-solid fa-clock"></i> Pendentes
+                        </button>
+                        <button class="filter-btn" onclick="filtrarConsultas('Confirmado')" data-filter="Confirmado">
+                            <i class="fa-solid fa-check-circle"></i> Confirmadas
+                        </button>
+                        <button class="filter-btn" onclick="filtrarConsultas('Cancelado')" data-filter="Cancelado">
+                            <i class="fa-solid fa-times-circle"></i> Canceladas
+                        </button>
+                    </div>
 
+                    <div style="display: flex; gap: 12px;">
+                        <input type="date" id="dataFiltro"
+                            style="padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px;">
+                        <button onclick="filtrarPorData()"
+                            style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 500;">
+                            <i class="fa-solid fa-filter"></i> Filtrar
+                        </button>
+                        <button onclick="limparFiltroData()"
+                            style="padding: 10px 20px; background: #64748b; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 500;">
+                            <i class="fa-solid fa-undo"></i> Limpar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LISTA DE CONSULTAS -->
+                <div class="consultas-container">
                     <div class="consultas-header">
-                        <h2>
-                            <i class="fa-solid fa-list"></i>
-                            Consultas do dia
-                        </h2>
+                        <span>Paciente</span>
+                        <span>Data e Hora</span>
+                        <span>Status</span>
+                        <span>Ações</span>
                     </div>
-
-                    <div class="lista-consultas">
-
-                        <!-- ITEM -->
-                        <div class="consulta-item">
-                            <div class="consulta-horario">
-                                <div class="hora">09:00</div>
-                            </div>
-
-                            <div class="consulta-info">
-                                <div class="consulta-paciente">Maria Santos</div>
-                                <div class="consulta-detalhes">
-                                    <span><i class="fa-solid fa-stethoscope"></i> Check-up</span>
-                                </div>
-                            </div>
-
-                            <div class="consulta-status status-confirmada">OK</div>
-
-                            <div class="consulta-acoes">
-                                <button class="btn-acao"><i class="fa-solid fa-eye"></i></button>
-                                <button class="btn-acao"><i class="fa-solid fa-pen"></i></button>
-                            </div>
-                        </div>
-
-                        <!-- ITEM -->
-                        <div class="consulta-item">
-                            <div class="consulta-horario">
-                                <div class="hora">10:30</div>
-                            </div>
-
-                            <div class="consulta-info">
-                                <div class="consulta-paciente">João Pereira</div>
-                                <div class="consulta-detalhes">
-                                    <span><i class="fa-solid fa-heart"></i> Cardiologia</span>
-                                </div>
-                            </div>
-
-                            <div class="consulta-status status-pendente">Pendente</div>
-
-                            <div class="consulta-acoes">
-                                <button class="btn-acao"><i class="fa-solid fa-eye"></i></button>
-                                <button class="btn-acao"><i class="fa-solid fa-calendar"></i></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal de Nova Consulta -->
-            <div class="modal" id="modalAgendamento">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>
-                            <i class="fa-solid fa-calendar-plus"></i>
-                            Nova Consulta
-                        </h2>
-                        <button class="modal-close" id="btnFecharModal">
-                            <i class="fa-solid fa-times"></i>
-                        </button>
-                    </div>
-
-                    <form id="formAgendamento">
-                        <div class="form-group">
-                            <label for="paciente">Paciente</label>
-                            <select class="form-control" id="paciente" required>
-                                <option value="">Selecione um paciente</option>
-                                <option value="1">Maria Santos</option>
-                                <option value="2">João Pereira</option>
-                                <option value="3">Ana Oliveira</option>
-                                <option value="4">Carlos Souza</option>
-                                <option value="5">Fernanda Lima</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="data">Data da Consulta</label>
-                            <input type="date" class="form-control" id="data" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Horário Disponível</label>
-                            <div class="horarios-grid">
-                                <button type="button" class="horario-btn">08:00</button>
-                                <button type="button" class="horario-btn">08:30</button>
-                                <button type="button" class="horario-btn">09:00</button>
-                                <button type="button" class="horario-btn">09:30</button>
-                                <button type="button" class="horario-btn">10:00</button>
-                                <button type="button" class="horario-btn">10:30</button>
-                                <button type="button" class="horario-btn">11:00</button>
-                                <button type="button" class="horario-btn">11:30</button>
-                                <button type="button" class="horario-btn">14:00</button>
-                                <button type="button" class="horario-btn">14:30</button>
-                                <button type="button" class="horario-btn">15:00</button>
-                                <button type="button" class="horario-btn">15:30</button>
-                                <button type="button" class="horario-btn">16:00</button>
-                                <button type="button" class="horario-btn">16:30</button>
-                                <button type="button" class="horario-btn">17:00</button>
-                                <button type="button" class="horario-btn">17:30</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="especialidade">Especialidade</label>
-                            <select class="form-control" id="especialidade" required>
-                                <option value="">Selecione a especialidade</option>
-                                <option value="cardiologia">Cardiologia</option>
-                                <option value="pneumologia">Pneumologia</option>
-                                <option value="neurologia">Neurologia</option>
-                                <option value="ortopedia">Ortopedia</option>
-                                <option value="dermatologia">Dermatologia</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="observacoes">Observações</label>
-                            <textarea class="form-control" id="observacoes" rows="3"
-                                placeholder="Observações adicionais..."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-agendar">
-                            <i class="fa-solid fa-check"></i>
-                            Agendar Consulta
-                        </button>
-                    </form>
+                    <div id="listaConsultas"></div>
                 </div>
             </div>
         </main>
@@ -849,289 +670,249 @@
 
     <script>
         // Estado da aplicação
-        let currentDate = new Date(2026, 1, 12); // Fevereiro 2026
-        let selectedDate = new Date(2026, 1, 12);
-        let selectedHorario = null;
+        let todasConsultas = [];
+        let consultasFiltradas = [];
+        let filtroStatusAtual = "todas";
+        let termoBusca = "";
+        let filtroData = null;
 
-        // Consultas simuladas
-        const consultas = [
-            { id: 1, paciente: 'Maria Santos', data: '2026-02-12', horario: '09:00', especialidade: 'Check-up', status: 'confirmada', duracao: 30 },
-            { id: 2, paciente: 'João Pereira', data: '2026-02-12', horario: '10:30', especialidade: 'Cardiologia', status: 'pendente', duracao: 45 },
-            { id: 3, paciente: 'Ana Oliveira', data: '2026-02-12', horario: '14:00', especialidade: 'Pneumologia', status: 'confirmada', duracao: 30 },
-            { id: 4, paciente: 'Carlos Souza', data: '2026-02-12', horario: '15:30', especialidade: 'Neurologia', status: 'confirmada', duracao: 50 },
-            { id: 5, paciente: 'Fernanda Lima', data: '2026-02-13', horario: '09:00', especialidade: 'Dermatologia', status: 'confirmada', duracao: 30 },
-            { id: 6, paciente: 'Roberto Alves', data: '2026-02-13', horario: '11:00', especialidade: 'Ortopedia', status: 'pendente', duracao: 40 },
-        ];
+        const searchInput = document.getElementById('searchInput');
+        const listaContainer = document.getElementById('listaConsultas');
 
-        // Elementos DOM
-        const diasGrid = document.getElementById('diasGrid');
-        const mesAno = document.getElementById('mesAno');
-        const dataSelecionada = document.getElementById('dataSelecionada');
-        const btnMesAnterior = document.getElementById('btnMesAnterior');
-        const btnMesProximo = document.getElementById('btnMesProximo');
-        const modalAgendamento = document.getElementById('modalAgendamento');
-        const btnNovaConsulta = document.getElementById('btnNovaConsulta');
-        const btnFecharModal = document.getElementById('btnFecharModal');
-        const formAgendamento = document.getElementById('formAgendamento');
-        const horarioBtns = document.querySelectorAll('.horario-btn');
-
-        // Funções do calendário
-        function renderCalendario() {
-            const ano = currentDate.getFullYear();
-            const mes = currentDate.getMonth();
-
-            const primeiroDia = new Date(ano, mes, 1);
-            const ultimoDia = new Date(ano, mes + 1, 0);
-
-            const diasNoMes = ultimoDia.getDate();
-            const diaSemanaInicio = primeiroDia.getDay();
-
-            const mesAnterior = new Date(ano, mes, 0);
-            const diasMesAnterior = mesAnterior.getDate();
-
-            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-            mesAno.textContent = `${meses[mes]} ${ano}`;
-
-            let html = '';
-
-            // Dias do mês anterior
-            for (let i = diaSemanaInicio - 1; i >= 0; i--) {
-                const dia = diasMesAnterior - i;
-                html += `<div class="dia outro-mes">${dia}</div>`;
-            }
-
-            // Dias do mês atual
-            for (let i = 1; i <= diasNoMes; i++) {
-                const dataAtual = new Date(ano, mes, i);
-                const hoje = new Date(2026, 1, 12);
-
-                let classes = 'dia';
-
-                if (dataAtual.toDateString() === hoje.toDateString()) {
-                    classes += ' hoje';
-                }
-
-                if (selectedDate && dataAtual.toDateString() === selectedDate.toDateString()) {
-                    classes += ' selecionado';
-                }
-
-                // Verifica se há consultas neste dia
-                const dataStr = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                const temConsulta = consultas.some(c => c.data === dataStr);
-
-                if (temConsulta) {
-                    classes += ' com-consulta';
-                }
-
-                html += `<div class="${classes}" data-dia="${i}" data-mes="${mes}" data-ano="${ano}">${i}</div>`;
-            }
-
-            // Dias do próximo mês
-            const totalDiasRenderizados = diaSemanaInicio + diasNoMes;
-            const diasRestantes = 42 - totalDiasRenderizados;
-
-            for (let i = 1; i <= diasRestantes; i++) {
-                html += `<div class="dia outro-mes">${i}</div>`;
-            }
-
-            diasGrid.innerHTML = html;
-
-            // Adiciona eventos aos dias
-            document.querySelectorAll('.dia:not(.outro-mes)').forEach(dia => {
-                dia.addEventListener('click', function () {
-                    document.querySelectorAll('.dia').forEach(d => d.classList.remove('selecionado'));
-                    this.classList.add('selecionado');
-
-                    const diaNum = this.dataset.dia;
-                    const mesNum = this.dataset.mes;
-                    const anoNum = this.dataset.ano;
-
-                    selectedDate = new Date(anoNum, mesNum, diaNum);
-                    dataSelecionada.textContent = formatarData(selectedDate);
-
-                    // Aqui você carregaria as consultas do dia selecionado
-                    carregarConsultasDoDia(selectedDate);
-                });
-            });
+        // Atualizar estatísticas
+        function atualizarEstatisticas() {
+            document.getElementById('totalCount').textContent = todasConsultas.length;
+            document.getElementById('pendenteCount').textContent = todasConsultas.filter(c => c.status === 'Pendente').length;
+            document.getElementById('confirmadaCount').textContent = todasConsultas.filter(c => c.status === 'Confirmado').length;
+            document.getElementById('canceladaCount').textContent = todasConsultas.filter(c => c.status === 'Cancelado').length;
         }
 
-        function formatarData(data) {
-            return data.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
+        // Mostrar toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            toast.innerHTML = `<i class="fa-solid ${icon}" style="font-size: 20px;"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'toastIn 0.3s reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
-        function carregarConsultasDoDia(data) {
-            const dataStr = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}-${String(data.getDate()).padStart(2, '0')}`;
-            const consultasDoDia = consultas.filter(c => c.data === dataStr);
+        // Carregar consultas
+        async function carregarConsultas() {
+            listaContainer.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Carregando consultas...</p>
+                </div>
+            `;
 
-            const listaConsultas = document.getElementById('listaConsultas');
-
-            if (consultasDoDia.length === 0) {
-                listaConsultas.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #64748b;">
-                        <i class="fa-solid fa-calendar-check" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>Nenhuma consulta agendada para este dia</p>
+            try {
+                const response = await fetch('/api/agendamentos');
+                if (!response.ok) throw new Error('Erro ao carregar');
+                todasConsultas = await response.json();
+                atualizarEstatisticas();
+                aplicarFiltros();
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao carregar consultas', 'error');
+                listaContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-exclamation-triangle"></i>
+                        <h3>Erro ao carregar</h3>
+                        <p>Tente novamente mais tarde</p>
                     </div>
                 `;
-            } else {
-                let html = '';
-                consultasDoDia.forEach(consulta => {
-                    const statusClass = consulta.status === 'confirmada' ? 'status-confirmada' : 'status-pendente';
-                    const statusText = consulta.status === 'confirmada' ? 'Confirmada' : 'Pendente';
-
-                    html += `
-                        <div class="consulta-item">
-                            <div class="consulta-horario">
-                                <div class="hora">${consulta.horario}</div>
-                                <div class="periodo">${parseInt(consulta.horario) < 12 ? 'Manhã' : 'Tarde'}</div>
-                            </div>
-                            <div class="consulta-info">
-                                <div class="consulta-paciente">${consulta.paciente}</div>
-                                <div class="consulta-detalhes">
-                                    <span><i class="fa-solid fa-stethoscope"></i> ${consulta.especialidade}</span>
-                                    <span><i class="fa-solid fa-clock"></i> ${consulta.duracao} min</span>
-                                </div>
-                            </div>
-                            <div class="consulta-status ${statusClass}">
-                                ${statusText}
-                            </div>
-                            <div class="consulta-acoes">
-                                <button class="btn-acao" title="Editar">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn-acao" title="Reagendar">
-                                    <i class="fa-solid fa-calendar"></i>
-                                </button>
-                                <button class="btn-acao" title="Cancelar">
-                                    <i class="fa-solid fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                listaConsultas.innerHTML = html;
             }
         }
 
-        // Event listeners
-        btnMesAnterior.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendario();
-        });
+        // Aplicar filtros
+        function aplicarFiltros() {
+            let resultado = [...todasConsultas];
 
-        btnMesProximo.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendario();
-        });
-
-        btnNovaConsulta.addEventListener('click', () => {
-            modalAgendamento.classList.add('active');
-
-            // Preenche a data atual no campo de data
-            const dataInput = document.getElementById('data');
-            dataInput.value = selectedDate.toISOString().split('T')[0];
-        });
-
-        btnFecharModal.addEventListener('click', () => {
-            modalAgendamento.classList.remove('active');
-            selectedHorario = null;
-            document.querySelectorAll('.horario-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-        });
-
-        // Fechar modal ao clicar fora
-        modalAgendamento.addEventListener('click', (e) => {
-            if (e.target === modalAgendamento) {
-                modalAgendamento.classList.remove('active');
+            // Filtro por status
+            if (filtroStatusAtual !== "todas") {
+                resultado = resultado.filter(c => c.status === filtroStatusAtual);
             }
-        });
 
-        // Seleção de horário
-        horarioBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                horarioBtns.forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                selectedHorario = this.textContent;
+            // Filtro por busca
+            if (termoBusca) {
+                resultado = resultado.filter(c =>
+                    (c.nome_completo && c.nome_completo.toLowerCase().includes(termoBusca)) ||
+                    (c.email && c.email.toLowerCase().includes(termoBusca))
+                );
+            }
+
+            // Filtro por data
+            if (filtroData) {
+                resultado = resultado.filter(c => c.data_consulta === filtroData);
+            }
+
+            consultasFiltradas = resultado;
+            renderizarConsultas();
+        }
+
+        // Filtrar por status
+        function filtrarConsultas(status) {
+            filtroStatusAtual = status;
+
+            // Atualizar UI dos botões
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-filter') === status) {
+                    btn.classList.add('active');
+                }
             });
-        });
 
-        // Submit do formulário
-        formAgendamento.addEventListener('submit', (e) => {
-            e.preventDefault();
+            aplicarFiltros();
+        }
 
-            const paciente = document.getElementById('paciente').value;
-            const data = document.getElementById('data').value;
-            const especialidade = document.getElementById('especialidade').value;
-            const observacoes = document.getElementById('observacoes').value;
+        // Filtrar por data
+        function filtrarPorData() {
+            const data = document.getElementById('dataFiltro').value;
+            if (!data) {
+                showToast('Selecione uma data', 'error');
+                return;
+            }
+            filtroData = data;
+            aplicarFiltros();
+            showToast(`Filtrando consultas do dia ${formatarDataBR(data)}`, 'success');
+        }
 
-            if (!selectedHorario) {
-                alert('Por favor, selecione um horário para a consulta.');
+        function limparFiltroData() {
+            filtroData = null;
+            document.getElementById('dataFiltro').value = '';
+            aplicarFiltros();
+            showToast('Filtro de data removido', 'success');
+        }
+
+        function formatarDataBR(dataString) {
+            if (!dataString) return '';
+            const [ano, mes, dia] = dataString.split('-');
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        // Busca
+        function buscarConsultas() {
+            termoBusca = searchInput.value;
+            aplicarFiltros();
+        }
+
+        // Renderizar consultas
+        function renderizarConsultas() {
+            if (consultasFiltradas.length === 0) {
+                listaContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                        <h3>Nenhuma consulta encontrada</h3>
+                        <p>Tente ajustar os filtros de busca</p>
+                    </div>
+                `;
                 return;
             }
 
-            // Aqui você enviaria os dados para o servidor
-            console.log({
-                paciente,
-                data,
-                horario: selectedHorario,
-                especialidade,
-                observacoes
+            listaContainer.innerHTML = '';
+            consultasFiltradas.forEach(consulta => {
+                const item = document.createElement('div');
+                item.className = 'consulta-item';
+
+                const statusClass = consulta.status === 'Pendente' ? 'status-pendente' :
+                    consulta.status === 'Confirmada' ? 'status-confirmado' : 'status-cancelado';
+                const statusIcon = consulta.status === 'Pendente' ? 'fa-clock' :
+                    consulta.status === 'Confirmado' ? 'fa-check-circle' : 'fa-times-circle';
+
+                item.innerHTML = `
+                    <div class="paciente-info">
+                        <div class="paciente-nome">
+                            <i class="fa-solid fa-user-circle"></i>
+                            ${consulta.nome_completo || 'Paciente não identificado'}
+                        </div>
+                        <div class="paciente-email">
+                            <i class="fa-solid fa-envelope"></i>
+                            ${consulta.email || 'Email não informado'}
+                        </div>
+                    </div>
+                    
+                    <div class="data-hora">
+                        <div class="data">
+                            <i class="fa-regular fa-calendar"></i>
+                            ${consulta.data_consulta ? formatarDataBR(consulta.data_consulta) : 'Data não definida'}
+                        </div>
+                        <div class="hora">
+                            <i class="fa-regular fa-clock"></i>
+                            ${consulta.horario_consulta || 'Horário não definido'}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <span class="status-badge ${statusClass}">
+                            <i class="fa-solid ${statusIcon}"></i>
+                            ${consulta.status}
+                        </span>
+                    </div>
+                    
+                    <div class="acoes">
+                        <button class="btn-acao btn-confirmar" 
+                                onclick="atualizarStatus(${consulta.id_agenda}, 'Confirmado')"
+                                ${consulta.status === 'Confirmado' ? 'disabled' : ''}>
+                            <i class="fa-solid fa-check"></i> Confirmar
+                        </button>
+                        <button class="btn-acao btn-cancelar" 
+                                onclick="atualizarStatus(${consulta.id_agenda}, 'Cancelado')"
+                                ${consulta.status === 'Cancelado' ? 'disabled' : ''}>
+                            <i class="fa-solid fa-ban"></i> Cancelar
+                        </button>
+                    </div>
+                `;
+                listaContainer.appendChild(item);
             });
+        }
 
-            alert('Consulta agendada com sucesso!');
-            modalAgendamento.classList.remove('active');
-            formAgendamento.reset();
-            selectedHorario = null;
-            document.querySelectorAll('.horario-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-        });
-
-        // Inicialização
-        renderCalendario();
-        dataSelecionada.textContent = formatarData(selectedDate);
-
-        // Carregar consultas do dia selecionado
-        carregarConsultasDoDia(selectedDate);
-
-        // Configurar sidebar toggle
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-        const app = document.querySelector('.app');
-
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            sidebar.classList.toggle('expanded');
-            app.classList.toggle('collapsed');
-
-            const icon = toggleBtn.querySelector('i');
-            if (sidebar.classList.contains('collapsed')) {
-                icon.classList.remove('fa-chevron-left');
-                icon.classList.add('fa-chevron-right');
-            } else {
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-left');
+        // Atualizar status
+        async function atualizarStatus(id, novoStatus) {
+            if (novoStatus === 'Cancelado') {
+                if (!confirm('⚠️ Tem certeza que deseja CANCELAR esta consulta?\nEsta ação não pode ser desfeita.')) return;
             }
+            if (novoStatus === 'Confirmado') {
+                if (!confirm('✅ Confirmar esta consulta?')) return;
+            }
+
+            try {
+                const response = await fetch(`/api/agendamentos/${id}/status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: novoStatus })
+                });
+
+                if (!response.ok) throw new Error('Erro ao atualizar');
+
+                showToast(`Consulta ${novoStatus === 'Confirmado' ? 'confirmado' : 'cancelado'} com sucesso!`, 'success');
+                await carregarConsultas();
+            } catch (error) {
+                showToast('Erro ao atualizar status', 'error');
+            }
+        }
+
+        // Eventos
+        let timeoutId;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(buscarConsultas, 300);
         });
 
-        // Filtros de consulta
-        document.querySelectorAll('.filtro-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+        // Inicializar
+        carregarConsultas();
 
-                // Aqui você aplicaria o filtro nas consultas
-                const filtro = this.textContent.toLowerCase();
-                console.log('Filtrar por:', filtro);
-            });
-        });
+        // Exportar funções globais
+        window.filtrarConsultas = filtrarConsultas;
+        window.filtrarPorData = filtrarPorData;
+        window.limparFiltroData = limparFiltroData;
+        window.atualizarStatus = atualizarStatus;
     </script>
 
+    <script src="/js/profDash.js"></script>
     <script src="/js/header.js"></script>
 </body>
 

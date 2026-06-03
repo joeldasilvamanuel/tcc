@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const Especialidade = require('../models/especialidadeModel');
 const Agendamento = require('../models/agendamentoModel');
 
-// 1. REGISTO DE UTENTE (Mantido e Seguro)
+// 1. REGISTO DE UTENTE
 const handleRegisterUtente = async (req, res) => {
     const { nome, email, password, data_nascimento, sexo } = req.body;
     const conn = db.promise();
@@ -43,7 +43,7 @@ const handleRegisterUtente = async (req, res) => {
     }
 };
 
-// 2. LOGIN (Melhorado para 6 perfis sem apagar a lógica de redirecionamento)
+// 2. LOGIN
 const handleLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -89,7 +89,7 @@ const handleLogin = async (req, res) => {
     }
 };
 
-// 3. ESQUECEU SENHA (Mantido)
+// 3. ESQUECEU SENHA
 const handleForgotPassword = async (req, res) => {
     const { email } = req.body;
     try {
@@ -114,7 +114,7 @@ const handleForgotPassword = async (req, res) => {
     }
 };
 
-// 4. REDEFINIR SENHA (Mantido)
+// 4. REDEFINIR SENHA
 const handleResetPassword = async (req, res) => {
     const { token, password } = req.body;
     if (!token || !password) return res.status(400).redirect('/error.html?erro=dados');
@@ -139,7 +139,7 @@ const handleResetPassword = async (req, res) => {
     }
 };
 
-// 5. LOGOUT (Mantido)
+// 5. LOGOUT
 const handleLogout = (req, res) => {
     res.clearCookie('token');
     res.redirect('/');

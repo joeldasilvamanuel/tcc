@@ -9,6 +9,36 @@
     <link rel="stylesheet" href="/css/utente/utenteDash.css">
     <link rel="stylesheet" href="/css/utente/consultas.css">
     <title>Health Access Hub | Minha Consulta</title>
+    <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #28a745;
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+    </style>
 </head>
 
 <body>
@@ -162,7 +192,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="horario_consult">Horário *</label>
-                                <input type="time" name="horario_consult" id="horario_consult" required>
+                                <input type="time" name="horario_consulta" id="horario_consulta" required>
                             </div>
                         </div>
 
@@ -199,6 +229,8 @@
         </main>
     </div>
 
+    <div id="toast" class="toast"></div>
+
     <!-- ALL JAVASCRIPT LINK OF CODE -->
     <script src="/js/header.js"></script>
     <script src="/js/utenteDash.js"></script>
@@ -207,59 +239,126 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+
             const selectEspecialidade = document.getElementById('id_esp');
             const inputData = document.getElementById('data_consulta');
             const form = document.getElementById('formAgendamento');
 
-            // 1. Impedir agendamentos retroativos
+            // =========================
+            // TOAST SYSTEM (SEM HTML EXTRA)
+            // =========================
+            function showToast(message, type = 'success') {
+
+                const toast = document.createElement('div');
+
+                toast.textContent = message;
+
+                toast.style.position = 'fixed';
+                toast.style.top = '20px';
+                toast.style.right = '20px';
+                toast.style.padding = '12px 18px';
+                toast.style.borderRadius = '10px';
+                toast.style.color = '#fff';
+                toast.style.fontSize = '14px';
+                toast.style.zIndex = '9999';
+                toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+                toast.style.transition = 'all 0.3s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+
+                if (type === 'success') {
+                    toast.style.background = '#28a745';
+                } else {
+                    toast.style.background = '#dc3545';
+                }
+
+                document.body.appendChild(toast);
+
+                // animação entrada
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateY(0)';
+                }, 50);
+
+                // remover automático
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-10px)';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // =========================
+            // bloquear datas passadas
+            // =========================
             const hoje = new Date().toISOString().split('T')[0];
             inputData.min = hoje;
 
-            // 2. Buscar especialidades da API aninhada na plataforma
-            try {
-                const resposta = await fetch('/dashboard/utente/api/especialidades');
-                if (!resposta.ok) throw new Error('Erro ao buscar especialidades');
+            // =========================
+            // CARREGAR ESPECIALIDADES
+            // =========================
+            async function carregarEspecialidades() {
+                try {
+                    const res = await fetch('/api/agendamentos/especialidades');
 
-                const especialidades = await resposta.json();
+                    if (!res.ok) throw new Error('Erro API especialidades');
 
-                selectEspecialidade.innerHTML = '<option value="">Selecione a especialidade</option>';
-                especialidades.forEach(esp => {
-                    selectEspecialidade.innerHTML += `<option value="${esp.id}">${esp.nome}</option>`;
-                });
-            } catch (error) {
-                selectEspecialidade.innerHTML = '<option value="">Erro ao carregar especialidades</option>';
-                console.error(error);
+                    const data = await res.json();
+
+                    selectEspecialidade.innerHTML =
+                        '<option value="">Selecione a especialidade</option>';
+
+                    data.forEach(esp => {
+                        selectEspecialidade.innerHTML += `
+                    <option value="${esp.id_esp}">
+                        ${esp.nome_esp}
+                    </option>
+                `;
+                    });
+
+                } catch (err) {
+                    console.error('Erro especialidades:', err);
+                    selectEspecialidade.innerHTML =
+                        '<option value="">Erro ao carregar especialidades</option>';
+
+                    showToast('Erro ao carregar especialidades', 'error');
+                }
             }
 
-            // 3. Enviar os dados do agendamento
+            // =========================
+            // SUBMIT AGENDAMENTO
+            // =========================
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const formData = new FormData(form);
-                const dadosObjeto = Object.fromEntries(formData.entries());
+                const dados = Object.fromEntries(new FormData(form).entries());
 
                 try {
-                    const respostaEnvio = await fetch('/dashboard/utente/agendar', {
+                    const res = await fetch('/api/agendamentos', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(dadosObjeto)
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(dados)
                     });
 
-                    const resultado = await respostaEnvio.json();
+                    const json = await res.json();
 
-                    if (respostaEnvio.ok) {
-                        alert(resultado.mensagem || 'Agendamento concluído!');
-                        window.location.href = '/dashboard/utente/mensagens';
-                    } else {
-                        alert(resultado.mensagem || 'Ocorreu um erro ao tentar agendar.');
+                    if (!res.ok) {
+                        showToast(json.mensagem || 'Erro ao agendar', 'error');
+                        return;
                     }
-                } catch (error) {
-                    console.error(error);
-                    alert('Erro de conexão com o servidor.');
+
+                    showToast('Agendamento realizado com sucesso!', 'success');
+                    form.reset();
+
+                } catch (err) {
+                    console.error(err);
+                    showToast('Erro de ligação ao servidor', 'error');
                 }
             });
+
+            // INIT
+            carregarEspecialidades();
+
         });
     </script>
 </body>

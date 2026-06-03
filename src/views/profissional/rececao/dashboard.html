@@ -5,9 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/img/logo02.png">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="/css/prof/profDash.css">
+    <link rel="stylesheet" href="/css/prof/rececao/dash.css">
+
     <title>Health Access Hub | Dashboard Profissional</title>
 </head>
 
@@ -107,40 +112,273 @@
                 </div>
             </header>
 
-            <!-- CARDS DE MÉTRICAS -->
-            <section class="metrics-section">
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="metric-content">
-                        <h3 id="totalPatients">Carregando...</h3>
-                        <p>Utentes</p>
-                    </div>
-                </div>
+            <!-- HERO -->
+            <section class="hero">
+                <h1>Painel da Recepção</h1>
 
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="metric-content">
-                        <h3 id="todaysAppointments">Carregando...</h3>
-                        <p>Consultas Hoje</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-message"></i></div>
-                    <div class="metric-content">
-                        <h3 id="totalMessages">Carregando...</h3>
-                        <p>Mensagens</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="metric-content">
-                        <h3 id="nextAppointment">Carregando...</h3>
-                        <p>Próxima Consulta</p>
-                    </div>
-                </div>
+                <p>
+                    Gerencie o cadastro de utentes, agendamentos,
+                    consultas pendentes e informações básicas dos pacientes
+                    da Clínica Arco-Íris.
+                </p>
             </section>
+
+            <!-- STATS -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div>
+                            <p>Total Utentes</p>
+                            <h2>245</h2>
+                        </div>
+
+                        <div class="stat-icon bg-blue">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div>
+                            <p>Consultas Hoje</p>
+                            <h2>32</h2>
+                        </div>
+
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div>
+                            <p>Pendentes</p>
+                            <h2>12</h2>
+                        </div>
+
+                        <div class="stat-icon bg-orange">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div>
+                            <p>Canceladas</p>
+                            <h2>4</h2>
+                        </div>
+
+                        <div class="stat-icon bg-red">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CONTENT -->
+            <section class="content-grid">
+
+                <!-- QUICK ACTIONS -->
+                <div class="card">
+
+                    <h2 class="card-title">
+                        Ações Rápidas
+                    </h2>
+
+                    <div class="actions-grid">
+
+                        <a href="/dashboard/profissional/rececao/utentes" style="text-decoration: none;">
+                            <div class="action-card">
+                                <i class="fa-solid fa-user-plus"></i>
+
+                                <h3>Cadastrar Utente</h3>
+
+                                <p>
+                                    Criar nova conta de paciente
+                                    no sistema da clínica.
+                                </p>
+                            </div>
+                        </a>
+
+                        <a href="/dashboard/profissional/rececao/agendamento" style="text-decoration: none;">
+                            <div class="action-card">
+                                <i class="fa-solid fa-calendar-plus"></i>
+
+                                <h3>Agendar Consulta</h3>
+
+                                <p>
+                                    Marcar novos horários
+                                    para atendimento médico.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/dashboard/profissional/rececao/utentes" style="text-decoration: none;">
+                            <div class="action-card">
+                                <i class="fa-solid fa-print"></i>
+
+                                <h3>Imprimir Credenciais</h3>
+
+                                <p>
+                                    Gerar PDF ou imprimir
+                                    dados do novo utente.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/dashboard/profissional/rececao/utentes" style="text-decoration: none;">
+                            <div class="action-card">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <h3>Pesquisar Utente</h3>
+
+                                <p>
+                                    Procurar paciente por nome,
+                                    BI ou telefone.
+                                </p>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- ACTIVITY -->
+                <div class="card">
+
+                    <h2 class="card-title">
+                        Atividade Recente
+                    </h2>
+
+                    <div class="activity-list">
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                <i class="fa-solid fa-user-plus"></i>
+                            </div>
+
+                            <div class="activity-info">
+                                <h4>Novo Utente Registado</h4>
+                                <p>
+                                    Karina Francisco • há 2 minutos
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+
+                            <div class="activity-info">
+                                <h4>Consulta Agendada</h4>
+                                <p>
+                                    Cardiologia • 14:30
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+
+                            <div class="activity-info">
+                                <h4>Horário Ocupado</h4>
+                                <p>
+                                    O horário das 10:00 já foi reservado.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TABLE -->
+            <!-- <section class="card table-card">
+
+                <h2 class="card-title">
+                    Últimos Utentes
+                </h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Utente</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <div class="utente">
+                                    <img src="/img/fotoPadra.png">
+
+                                    <div>
+                                        <strong>João Manuel</strong>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>923 000 111</td>
+
+                            <td>joao@gmail.com</td>
+
+                            <td>
+                                <span class="status ativo">
+                                    Ativo
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="table-actions">
+                                    <button>
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+
+                                    <button>
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section> -->
+
         </main>
     </div>
 

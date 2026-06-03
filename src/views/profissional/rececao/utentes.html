@@ -1,28 +1,529 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="pt">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link rel="icon" type="image/png" href="/img/logo02.png">
-    <!-- Font Awesome (Ícones reais, não emoji) -->
+
+    <title>Health Access Hub | Gestão de Utentes</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/css/prof/rececao/cadastrarUtente.css">
-    <link rel="stylesheet" href="/css/prof/perfil.css">
+
+    <!-- Google Fonts: Inter moderno -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/css/prof/profUtentes.css">
     <link rel="stylesheet" href="/css/prof/profDash.css">
     <style>
-        img .img {
-            width: 100vh;
-            height: auto;
+        /* ================= ESTILOS PARA GESTÃO DE UTENTES ================= */
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 0 8px;
+        }
+
+        /* ================= STATS CARDS COM ÍCONES ================= */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px 20px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .stat-info p {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            background: #e0f0ff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 24px;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.05);
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            background: #e0f0ff;
+            color: #2563eb;
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .stat-card:nth-child(1):hover .stat-icon {
+            background: #2563eb;
+            color: white;
+        }
+
+        .stat-card:nth-child(2):hover .stat-icon {
+            background: #16a34a;
+            color: white;
+        }
+
+        .stat-card:nth-child(3):hover .stat-icon {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* ================= TOOLBAR ================= */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid #eef2ff;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .filters input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ================= TABLE ================= */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #eef2ff;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        thead {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            color: #334155;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #fafcff;
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e0f0ff;
+        }
+
+        /* Badge Status */
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .badge.ativo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge.inativo {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Action Buttons */
+        td button {
+            border: none;
+            width: 34px;
+            height: 34px;
+            margin: 0 3px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        td button:hover {
+            transform: scale(1.08);
+        }
+
+        td button:nth-child(1) {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        td button:nth-child(1):hover {
+            background: #bae6fd;
+        }
+
+        td button:nth-child(2) {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        td button:nth-child(2):hover {
+            background: #bbf7d0;
+        }
+
+        td button:nth-child(3) {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        td button:nth-child(3):hover {
+            background: #fecaca;
+        }
+
+        /* ================= MODAL ================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 28px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            animation: modalFadeIn 0.2s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal h2 i {
+            color: #2563eb;
+        }
+
+        .modal input {
+            width: 100%;
+            margin: 8px 0;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .modal input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-actions button:first-child {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .modal-actions button:first-child:hover {
+            background: #e2e8f0;
+        }
+
+        .modal-actions button:last-child {
+            background: #2563eb;
+            color: white;
+        }
+
+        .modal-actions button:last-child:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= TOAST ================= */
+        #toastContainer {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: slideInRight 0.3s ease;
+            min-width: 300px;
+        }
+
+        .toast i {
+            font-size: 18px;
+        }
+
+        .toast.success {
+            background: #16a34a;
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+        .toast.warning {
+            background: #f59e0b;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .stats-grid {
+                gap: 12px;
+            }
+            
+            .stat-card {
+                padding: 16px;
+            }
+            
+            .stat-info h3 {
+                font-size: 22px;
+            }
+            
+            .stat-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filters input,
+            .filters select,
+            .btn-primary {
+                width: 100%;
+            }
+            
+            .modal {
+                margin: 16px;
+                padding: 20px;
+            }
+            
+            #toastContainer {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+            }
+            
+            .toast {
+                min-width: auto;
+                width: calc(100vw - 32px);
+            }
+        }
+
+        /* Scrollbar */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
-    <title>Health Access Hub | Utentes</title>
 </head>
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
         <aside id="sidebar" class="expanded">
             <!-- TOPO -->
             <div class="sidebar-top">
@@ -77,200 +578,316 @@
             </div>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <main id="mainContent">
+            <!-- HEADER -->
             <header class="main-header">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="searchUtente" placeholder="Pesquisar utente por nome ou ID...">
+                    <input type="search" placeholder="Pesquisar consultas ou exames...">
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;" class="nav-link">
-                        <abbr title="Agendamento">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </abbr>
-                        <!-- <span>Agendamento</span> -->
-                    </a>
-                    <a href="/dashboard/profissional/rececao/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
-                    </a>
-
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
                         </div>
                         <div class="user-info">
-                            <p class="user-name" id="userName">...</p>
-                            <p class="user-role" id="userRole">...</p>
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <p class="user-role" id="userRole">Utente</p>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <section class="cadaUtente">
-                <!-- formCU -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Cadastro de Novo Utente</h3>
-                        <p>Preencha os dados abaixo para registar o paciente na clinica</p>
+            <!-- ================= UTENTES DASHBOARD ================= -->
+            <section class="content">
+
+                <!-- STATS COM ÍCONES -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="totalCount">0</h3>
+                            <p>Total Utentes</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
                     </div>
 
-                    <form action="" id="formUtente" method="" novalidate>
-                        <div id="alertBox" class="alert"></div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="ativosCount">0</h3>
+                            <p>Ativos</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
 
-                        <div class="grid">
-                            <div>
-                                <label class="required" for="name">Nome Completo</label>
-                                <input type="text" name="name" id="name" required>
-                            </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="inativosCount">0</h3>
+                            <p>Inativos</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </div>
+                    </div>
+                </div>
 
-                            <div>
-                                <label class="required" for="nascimento">Data de nascimento</label>
-                                <input type="date" name="nascimento" id="nascimento" required>
-                            </div>
+                <!-- ACTION BAR -->
+                <div class="toolbar">
+                    <div class="filters">
+                        <input type="text" id="searchInput" placeholder="Pesquisar utente...">
+                        <select id="statusFilter">
+                            <option value="todos">Todos</option>
+                            <option value="ativo">Ativos</option>
+                            <option value="inativo">Inativos</option>
+                        </select>
+                    </div>
 
-                            <div>
-                                <label class="required" for="genero">Genero</label>
-                                <select name="genero" id="genero">
-                                    <option value="">Selecione o Genero</option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                </select>
-                            </div>
+                    <button id="openModalBtn" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i> Novo Utente
+                    </button>
+                </div>
 
-                            <div>
-                                <label for="bi" class="required"></label>
-                                <input type="text" name="bi" id="bi" required placeholder="Numero do BI">
-                                <div class="hint">Bilhete de Identidade</div>
-                            </div>
+                <!-- TABLE -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
 
-                            <div>
-                                <label for="telefone" class="required">Telefone</label>
-                                <input type="tel" name="telefone" id="telefone" required placeholder="+244 9XX XXX XXX">
-                            </div>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </section>
 
-                            <div>
-                                <label class="required" for="email">Email</label>
-                                <input type="email" name="email" id="email" required placeholder="example@gmail.com">
-                            </div>
+            <!-- ================= MODAL ================= -->
+            <div class="modal-overlay" id="modalOverlay">
+                <div class="modal">
+                    <h2>
+                        <i class="fa-solid fa-user-plus"></i>
+                        Novo Utente
+                    </h2>
 
-                            <div class="full">
-                                <label class="required" for="endereco">Endereco completo</label>
-                                <input type="text" name="enderece" id="endereco" required>
-                            </div>
+                    <form id="utenteForm">
+                        <input type="text" id="fullName" placeholder="Nome completo" required>
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="password" id="password" placeholder="Senha" required>
+                        <input type="password" id="confirmPassword" placeholder="Confirmar senha" required>
 
-                            <div>
-                                <label class="required" for="contactoEmergencia">Contacto de emergencia</label>
-                                <input type="text" name="contactoEmergencia" id="contactoEmergencia" required
-                                    placeholder="+244 9XX XXX XXX">
-                            </div>
-
-                            <div>
-                                <label class="required" for="convenio">Seguro de Saude</label>
-                                <input type="text" name="convenio" id="convenio" placeholder="Opcional">
-                            </div>
-
-                            <div class="full">
-                                <label for="obs">Observacoes Medicas</label>
-                                <textarea name="obs" id="obs" rows="3"
-                                    placeholder="Alergias, medicacoes em uso, doencas cronicas..."></textarea>
-                            </div>
-
-                            <div>
-                                <label class="required" for="senha">Senha</label>
-                                <input type="password" name="senha" id="senha" required placeholder="Digite uma senha">
-                            </div>
-
-                            <div>
-                                <label class="required" for="senha">Confirmar senha</label>
-                                <input type="password" name="confirmarsenha" id="confirmarsenha" required placeholder="Confirme a Senha">
-                            </div>
-
-                            <div class="actions">
-                                <button type="submit">Cadastrar Utente</button>
-                                <button type="reset">Limpar</button>
-                            </div>
+                        <div class="modal-actions">
+                            <button type="button" id="closeModalBtn">
+                                <i class="fa-solid fa-times"></i> Cancelar
+                            </button>
+                            <button type="submit">
+                                <i class="fa-solid fa-save"></i> Criar
+                            </button>
                         </div>
                     </form>
                 </div>
-                <div class="imprimirCredenciais">
-                    <h3>Baixe as credenciais do novo Utente ou imprima</h3>
-                    <button class="btn-add-utente" type="submit">Baixar | Imprimir</button>
-                </div>
-            </section>
+            </div>
+
+            <!-- TOAST -->
+            <div id="toastContainer"></div>
         </main>
     </div>
 
-    <script src="/js/profDash.js"></script>
+    <!-- all code JS -->
     <script src="/js/header.js"></script>
+    <script src="/js/profDash.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Se estivermos na página de utentes, carrega a lista
-            if (document.getElementById('utentesList')) {
-                carregarUtentesDoBanco();
+        let utentes = [];
+
+        // ================= TOAST =================
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toastContainer');
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-circle-check' :
+                    type === 'error' ? 'fa-circle-xmark' :
+                        'fa-triangle-exclamation'
+                }"></i>
+        <span>${message}</span>
+    `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ================= LOAD =================
+        async function loadUtentes() {
+            try {
+                const res = await fetch('/api/utentes');
+                const data = await res.json();
+
+                if (!Array.isArray(data)) throw new Error("Resposta inválida");
+
+                utentes = data;
+                renderTable(utentes);
+
+            } catch (err) {
+                showToast("Erro ao carregar utentes", "error");
+                console.error(err);
+            }
+        }
+
+        // ================= RENDER =================
+        function renderTable(list) {
+            const tbody = document.getElementById('tableBody');
+
+            if (!list.length) {
+                tbody.innerHTML = `<tr><td colspan="5">Nenhum utente encontrado</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(u => `
+        <tr>
+            <td><img src="${u.foto}" class="avatar"></td>
+            <td>${u.nome}</td>
+            <td>${u.email}</td>
+            <td>
+                <span class="badge ${u.status}">
+                    ${u.status}
+                </span>
+            </td>
+            <td>
+                <button onclick="viewUser(${u.id})"><i class="fa fa-eye"></i></button>
+                <button onclick="toggleStatus(${u.id})"><i class="fa fa-toggle-on"></i></button>
+                <button onclick="deleteUser(${u.id})"><i class="fa fa-trash"></i></button>
+            </td>
+         `
+            ).join('');
+
+            updateStats(list);
+        }
+
+        // ================= STATS =================
+        function updateStats(list) {
+            document.getElementById('totalCount').innerText = list.length;
+            document.getElementById('ativosCount').innerText =
+                list.filter(u => u.status === 'ativo').length;
+            document.getElementById('inativosCount').innerText =
+                list.filter(u => u.status === 'inativo').length;
+        }
+
+        // ================= FILTER =================
+        function filterUtentes() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = utentes.filter(u => {
+                const matchSearch =
+                    u.nome.toLowerCase().includes(search) ||
+                    u.email.toLowerCase().includes(search);
+
+                const matchStatus = status === 'todos' || u.status === status;
+
+                return matchSearch && matchStatus;
+            });
+
+            renderTable(filtered);
+        }
+
+        // ================= ACTIONS =================
+        async function toggleStatus(id) {
+            try {
+                await fetch(`/api/utentes/${id}/status`, { method: 'PATCH' });
+                showToast("Status atualizado");
+                loadUtentes();
+            } catch {
+                showToast("Erro ao atualizar status", "error");
+            }
+        }
+
+        async function deleteUser(id) {
+            if (!confirm("Eliminar utente?")) return;
+
+            try {
+                await fetch(`/api/utentes/${id}`, { method: 'DELETE' });
+                showToast("Utente removido");
+                loadUtentes();
+            } catch {
+                showToast("Erro ao eliminar", "error");
+            }
+        }
+
+        function viewUser(id) {
+            showToast("Abrir detalhes do utente #" + id);
+        }
+
+        // ================= MODAL =================
+        const modal = document.getElementById('modalOverlay');
+
+        document.getElementById('openModalBtn').onclick = () =>
+            modal.classList.add('active');
+
+        document.getElementById('closeModalBtn').onclick = () =>
+            modal.classList.remove('active');
+
+        modal.onclick = e => {
+            if (e.target === modal) modal.classList.remove('active');
+        };
+
+        // ================= CREATE =================
+        document.getElementById('utenteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nome = fullName.value.trim();
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (!nome || !email || !senha) {
+                return showToast("Preencha todos os campos", "warning");
+            }
+
+            if (senha !== confirm) {
+                return showToast("Senhas não coincidem", "error");
+            }
+
+            try {
+                const res = await fetch('/api/utentes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, email, senha })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error);
+
+                showToast("Utente criado com sucesso");
+
+                modal.classList.remove('active');
+                e.target.reset();
+
+                loadUtentes();
+
+            } catch (err) {
+                showToast(err.message, "error");
             }
         });
 
-        async function carregarUtentesDoBanco() {
-            try {
-                const response = await fetch('/api/utentes');
-                const utentes = await response.json();
+        // ================= EVENTS =================
+        document.getElementById('searchInput').addEventListener('keyup', filterUtentes);
+        document.getElementById('statusFilter').addEventListener('change', filterUtentes);
 
-                const tabelaCorpo = document.getElementById('utentesList');
-                tabelaCorpo.innerHTML = ''; // Limpa o exemplo estático
-
-                utentes.forEach(utente => {
-                    // Calcular idade básica (opcional)
-                    const idade = utente.data_nascimento ?
-                        new Date().getFullYear() - new Date(utente.data_nascimento).getFullYear() : 'N/A';
-
-                    // Definir classe de status (estável ou crítico)
-                    const statusClass = utente.status_saude === 'Crítico' ? 'critical' : 'stable';
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                <td>
-                    <div class="paciente-info">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(utente.nome)}&background=random" alt="Avatar">
-                        <div>
-                            <p class="nome">${utente.nome}</p>
-                            <p class="sub">${utente.genero || 'Não definido'}, ${idade} anos</p>
-                        </div>
-                    </div>
-                </td>
-                <td><span class="id-tag">#${utente.id}</span></td>
-                <td><span class="status-pill ${statusClass}">${utente.status_saude || 'Estável'}</span></td>
-                <td>Há momentos</td>
-                <td>
-                    <div class="actions-cell">
-                        <a href="/dashboard/profissional/monitorar">
-                           <button onclick="verMonitorizacao(${utente.id})" title="Ver Monitorização"><i class="fa-solid fa-chart-line"></i></button>
-                        </a>
-                        <a href="/dashboard/profissional/mensagens">
-                            <button onclick="abrirChat(${utente.id})" title="Enviar Mensagem"><i class="fa-solid fa-comment-medical"></i></button>
-                        </a>
-                        <a href="/dashboard/profissional/mensagens">
-                            <button onclick="verProntuario(${utente.id})" title="Prontuário"><i class="fa-solid fa-file-medical"></i></button>
-                        </a>
-                    </div>
-                </td>
-            `;
-                    tabelaCorpo.appendChild(tr);
-                });
-
-                // Atualiza o contador no topo
-                const contador = document.querySelector('.title-group p');
-                if (contador) contador.textContent = `Total de ${utentes.length} pacientes sob sua supervisão`;
-
-            } catch (err) {
-                console.error('Erro ao carregar utentes:', err);
-            }
-        }
+        // INIT
+        loadUtentes();
     </script>
 </body>
 

@@ -1,37 +1,115 @@
-const db = require('../config/db');
+const { connection: db } = require('../config/db');
 
 const AgendamentoModel = {
-    // Buscar todas as especialidades para carregar no select da tela
-    buscarEspecialidades: async () => {
-        // Exemplo SQL: SELECT id, nome FROM especialidades
-        // return await db.query("SELECT id, nome FROM especialidades ORDER BY nome");
 
-        // Mock de dados temporário para testes:
-        return [
-            { id: 1, nome: "Clínica Geral" },
-            { id: 2, nome: "Pediatria" },
-            { id: 3, nome: "Cardiologia" },
-            { id: 4, nome: "Ginecologia" }
-        ];
+    // =========================
+    // BUSCAR ESPECIALIDADES
+    // =========================
+    buscarEspecialidades: () => {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                SELECT id_esp, nome_esp
+                FROM especialidades
+                ORDER BY nome_esp ASC
+            `;
+
+            db.query(sql, (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+
+                resolve(results);
+            });
+        });
     },
 
-    // Verificar se o horário já está ocupado por outro paciente
-    verificarDisponibilidade: async (id_esp, data, hora) => {
-        // Evita que duas pessoas agendem a mesma especialidade/médico no mesmo minuto
-        // return await db.query("SELECT id FROM agendamentos WHERE id_esp = ? AND data_consulta = ? AND hora_consulta = ?", [id_esp, data, hora]);
+    // =========================
+    // VERIFICAR DISPONIBILIDADE
+    // =========================
+    verificarDisponibilidade: async (id_esp, data, horario_consulta) => {
 
-        return false; // Retorna false se o horário estiver LIVRE
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                SELECT *
+                FROM agendamentos
+                WHERE id_esp = ?
+                AND data_consulta = ?
+                AND horario_consulta = ?
+                AND status != 'Cancelado'
+            `;
+
+            db.query(sql, [id_esp, data, horario_consulta], (err, results) => {
+
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+
+                resolve(results.length > 0);
+            });
+        });
     },
 
-    // Salvar o agendamento no banco
-    criar: async (dados) => {
-        const { nome_completo, telefone, email, id_esp, data_consulta, hora_consulta, observacoes } = dados;
+    // =========================
+    // CRIAR AGENDAMENTO
+    // =========================
+    criar: (dados) => {
 
-        // Exemplo SQL: INSERT INTO agendamentos (...) VALUES (...)
-        // const resultado = await db.query("INSERT INTO agendamentos ...", [...]);
-        // return resultado;
+        return new Promise((resolve, reject) => {
 
-        return { id: Math.floor(Math.random() * 10000), ...dados };
+            const {
+                nome_completo,
+                telefone,
+                email,
+                id_esp,
+                data_consulta,
+                horario_consulta,
+                observacoes
+            } = dados;
+
+            const sql = `
+                INSERT INTO agendamentos
+                (
+                    nome_completo,
+                    telefone,
+                    email,
+                    id_esp,
+                    data_consulta,
+                    horario_consulta,
+                    observacoes,
+                    status
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+
+            const valores = [
+                nome_completo,
+                telefone,
+                email,
+                id_esp,
+                data_consulta,
+                horario_consulta,
+                observacoes || null,
+                'Pendente'
+            ];
+
+            db.query(sql, valores, (err, result) => {
+
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+
+                resolve({
+                    id_agenda: result.insertId,
+                    ...dados,
+                    status: 'Pendente'
+                });
+            });
+        });
     }
 };
 

@@ -641,6 +641,7 @@
         </aside>
 
         <main id="mainContent">
+
             <header class="main-header">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -648,91 +649,104 @@
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
+
                     <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
+
                         <abbr title="Alertas">
                             <i class="fa-solid fa-bell"></i>
                         </abbr>
-                        <!-- <span>Alertas</span> -->
+
                     </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
                         </div>
+
                         <div class="user-info">
                             <p class="user-name" id="userName">Dr. João Silva</p>
                             <p class="user-role" id="userRole">Cardiologista</p>
                         </div>
                     </div>
+
                 </div>
             </header>
 
             <div class="agendamento-container">
+
                 <div class="agendamento-header">
                     <h1>
                         <i class="fa-solid fa-calendar-check"></i>
                         Agendamento de Consultas
                     </h1>
+
                     <button class="btn-nova-consulta" id="btnNovaConsulta">
                         <i class="fa-solid fa-plus"></i>
                         Nova Consulta
                     </button>
                 </div>
 
-                <!-- Cards de estatísticas -->
+                <!-- STATS DINÂMICOS -->
                 <div class="stats-grid">
+
                     <div class="stat-card">
                         <div class="stat-icon blue">
                             <i class="fa-solid fa-calendar"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>28</h3>
-                            <p>Consultas hoje</p>
+                            <h3 id="totalConsultas">0</h3>
+                            <p>Consultas</p>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-icon green">
                             <i class="fa-solid fa-check-circle"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>156</h3>
+                            <h3 id="totalConfirmadas">0</h3>
                             <p>Confirmadas</p>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-icon orange">
                             <i class="fa-solid fa-clock"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>12</h3>
+                            <h3 id="totalPendentes">0</h3>
                             <p>Pendentes</p>
                         </div>
                     </div>
+
                     <div class="stat-card">
                         <div class="stat-icon red">
-                            <i class="fa-solid fa-user-plus"></i>
+                            <i class="fa-solid fa-xmark"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>8</h3>
-                            <p>Novos pacientes</p>
+                            <h3 id="totalCanceladas">0</h3>
+                            <p>Canceladas</p>
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Agenda principal -->
+                <!-- CALENDÁRIO -->
                 <div class="agenda-wrapper">
-                    <!-- Calendário -->
+
                     <div class="calendario-card">
+
                         <div class="calendario-header">
                             <h2>
                                 <i class="fa-solid fa-calendar"></i>
-                                <span id="mesAno">Fevereiro 2026</span>
+                                <span id="mesAno">Carregando...</span>
                             </h2>
+
                             <div class="calendario-nav">
                                 <button id="btnMesAnterior">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </button>
+
                                 <button id="btnMesProximo">
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </button>
@@ -749,144 +763,35 @@
                             <span>SÁB</span>
                         </div>
 
-                        <div class="dias-grid" id="diasGrid">
-                            <!-- Dias serão preenchidos via JavaScript -->
-                        </div>
+                        <div class="dias-grid" id="diasGrid"></div>
+
                     </div>
 
-                    <!-- Lista de consultas do dia -->
+                    <!-- CONSULTAS DO DIA (DINÂMICO) -->
                     <div class="consultas-card">
+
                         <div class="consultas-header">
                             <h2>
                                 <i class="fa-solid fa-list-check"></i>
-                                Consultas de <span id="dataSelecionada">12/02/2026</span>
+                                Consultas de <span id="dataSelecionada">--/--/----</span>
                             </h2>
-                            <div class="filtros-consulta">
-                                <button class="filtro-btn active">Todas</button>
-                                <button class="filtro-btn">Confirmadas</button>
-                                <button class="filtro-btn">Pendentes</button>
-                            </div>
                         </div>
 
                         <div class="lista-consultas" id="listaConsultas">
-                            <!-- Consultas serão carregadas aqui -->
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">09:00</div>
-                                    <div class="periodo">Manhã</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Maria Santos</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-stethoscope"></i> Check-up</span>
-                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
+
+                            <div style="text-align:center;padding:40px;color:#64748b;">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <p>A carregar consultas...</p>
                             </div>
 
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">10:30</div>
-                                    <div class="periodo">Manhã</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">João Pereira</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-heart"></i> Cardiologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 45 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-pendente">
-                                    Pendente
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">14:00</div>
-                                    <div class="periodo">Tarde</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Ana Oliveira</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-lungs"></i> Pneumologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 30 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="consulta-item">
-                                <div class="consulta-horario">
-                                    <div class="hora">15:30</div>
-                                    <div class="periodo">Tarde</div>
-                                </div>
-                                <div class="consulta-info">
-                                    <div class="consulta-paciente">Carlos Souza</div>
-                                    <div class="consulta-detalhes">
-                                        <span><i class="fa-solid fa-brain"></i> Neurologia</span>
-                                        <span><i class="fa-solid fa-clock"></i> 50 min</span>
-                                    </div>
-                                </div>
-                                <div class="consulta-status status-confirmada">
-                                    Confirmada
-                                </div>
-                                <div class="consulta-acoes">
-                                    <button class="btn-acao" title="Editar">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Reagendar">
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                    <button class="btn-acao" title="Cancelar">
-                                        <i class="fa-solid fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
 
-            <!-- Modal de Nova Consulta -->
+            <!-- MODAL -->
             <div class="modal" id="modalAgendamento">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -894,250 +799,255 @@
                             <i class="fa-solid fa-calendar-plus"></i>
                             Nova Consulta
                         </h2>
+
                         <button class="modal-close" id="btnFecharModal">
                             <i class="fa-solid fa-times"></i>
                         </button>
                     </div>
 
                     <form id="formAgendamento">
+
                         <div class="form-group">
-                            <label for="paciente">Paciente</label>
-                            <select class="form-control" id="paciente" required>
-                                <option value="">Selecione um paciente</option>
-                                <option value="1">Maria Santos</option>
-                                <option value="2">João Pereira</option>
-                                <option value="3">Ana Oliveira</option>
-                                <option value="4">Carlos Souza</option>
-                                <option value="5">Fernanda Lima</option>
+                            <label>Paciente</label>
+                            <select id="paciente" class="form-control" required>
+                                <option value="">Selecione</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="data">Data da Consulta</label>
-                            <input type="date" class="form-control" id="data" required>
+                            <label>Data</label>
+                            <input type="date" id="data" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Horário Disponível</label>
+                            <label>Horário</label>
                             <div class="horarios-grid">
                                 <button type="button" class="horario-btn">08:00</button>
-                                <button type="button" class="horario-btn">08:30</button>
                                 <button type="button" class="horario-btn">09:00</button>
-                                <button type="button" class="horario-btn">09:30</button>
                                 <button type="button" class="horario-btn">10:00</button>
-                                <button type="button" class="horario-btn">10:30</button>
                                 <button type="button" class="horario-btn">11:00</button>
-                                <button type="button" class="horario-btn">11:30</button>
                                 <button type="button" class="horario-btn">14:00</button>
-                                <button type="button" class="horario-btn">14:30</button>
                                 <button type="button" class="horario-btn">15:00</button>
-                                <button type="button" class="horario-btn">15:30</button>
-                                <button type="button" class="horario-btn">16:00</button>
-                                <button type="button" class="horario-btn">16:30</button>
-                                <button type="button" class="horario-btn">17:00</button>
-                                <button type="button" class="horario-btn">17:30</button>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="especialidade">Especialidade</label>
-                            <select class="form-control" id="especialidade" required>
-                                <option value="">Selecione a especialidade</option>
-                                <option value="cardiologia">Cardiologia</option>
-                                <option value="pneumologia">Pneumologia</option>
-                                <option value="neurologia">Neurologia</option>
-                                <option value="ortopedia">Ortopedia</option>
-                                <option value="dermatologia">Dermatologia</option>
+                            <label>Especialidade</label>
+                            <select id="especialidade" class="form-control" required>
+                                <option value="">Selecione</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="observacoes">Observações</label>
-                            <textarea class="form-control" id="observacoes" rows="3"
-                                placeholder="Observações adicionais..."></textarea>
+                            <label>Observações</label>
+                            <textarea id="observacoes" class="form-control"></textarea>
                         </div>
 
-                        <button type="submit" class="btn-agendar">
-                            <i class="fa-solid fa-check"></i>
-                            Agendar Consulta
+                        <button class="btn-agendar" type="submit">
+                            Agendar
                         </button>
+
                     </form>
+
                 </div>
             </div>
+
         </main>
     </div>
 
     <script>
-        // Estado da aplicação
-        let currentDate = new Date(2026, 1, 12); // Fevereiro 2026
-        let selectedDate = new Date(2026, 1, 12);
-        let selectedHorario = null;
+        let currentDate = new Date();
+        let selectedDate = new Date();
 
-        // Consultas simuladas
-        const consultas = [
-            { id: 1, paciente: 'Maria Santos', data: '2026-02-12', horario: '09:00', especialidade: 'Check-up', status: 'confirmada', duracao: 30 },
-            { id: 2, paciente: 'João Pereira', data: '2026-02-12', horario: '10:30', especialidade: 'Cardiologia', status: 'pendente', duracao: 45 },
-            { id: 3, paciente: 'Ana Oliveira', data: '2026-02-12', horario: '14:00', especialidade: 'Pneumologia', status: 'confirmada', duracao: 30 },
-            { id: 4, paciente: 'Carlos Souza', data: '2026-02-12', horario: '15:30', especialidade: 'Neurologia', status: 'confirmada', duracao: 50 },
-            { id: 5, paciente: 'Fernanda Lima', data: '2026-02-13', horario: '09:00', especialidade: 'Dermatologia', status: 'confirmada', duracao: 30 },
-            { id: 6, paciente: 'Roberto Alves', data: '2026-02-13', horario: '11:00', especialidade: 'Ortopedia', status: 'pendente', duracao: 40 },
-        ];
+        let consultas = [];
+        let utentes = [];
 
-        // Elementos DOM
         const diasGrid = document.getElementById('diasGrid');
         const mesAno = document.getElementById('mesAno');
         const dataSelecionada = document.getElementById('dataSelecionada');
+
         const btnMesAnterior = document.getElementById('btnMesAnterior');
         const btnMesProximo = document.getElementById('btnMesProximo');
+
         const modalAgendamento = document.getElementById('modalAgendamento');
         const btnNovaConsulta = document.getElementById('btnNovaConsulta');
         const btnFecharModal = document.getElementById('btnFecharModal');
-        const formAgendamento = document.getElementById('formAgendamento');
-        const horarioBtns = document.querySelectorAll('.horario-btn');
 
-        // Funções do calendário
+        const selectPaciente = document.getElementById('paciente');
+
+        /* =========================
+           FORMATA DATA
+        ========================= */
+        function formatarDataDB(data) {
+            return data.toISOString().split('T')[0];
+        }
+
+        /* =========================
+           CONSULTAS (MÉDICO)
+        ========================= */
+        async function carregarConsultas() {
+            try {
+                const res = await fetch('/api/agendamentos');
+                consultas = await res.json();
+
+                atualizarEstatisticas();
+                renderCalendario();
+                carregarConsultasDoDia(selectedDate);
+
+            } catch (err) {
+                console.error('Erro ao carregar consultas:', err);
+            }
+        }
+
+        /* =========================
+           UTENTES (SELECT MODAL)
+        ========================= */
+        async function carregarUtentes() {
+            try {
+                const res = await fetch('/api/usuarios/utentes');
+                utentes = await res.json();
+
+                selectPaciente.innerHTML = `<option value="">Selecione</option>`;
+
+                utentes.forEach(u => {
+                    selectPaciente.innerHTML += `
+                <option value="${u.id}">
+                    ${u.nome_completo}
+                </option>
+            `;
+                });
+
+            } catch (err) {
+                console.error('Erro ao carregar utentes:', err);
+            }
+        }
+
+        /* =========================
+           ESTATÍSTICAS
+        ========================= */
+        function atualizarEstatisticas() {
+            const total = consultas.length;
+            const confirmadas = consultas.filter(c => c.status === 'Confirmado').length;
+            const pendentes = consultas.filter(c => c.status === 'Pendente').length;
+            const canceladas = consultas.filter(c => c.status === 'Cancelado').length;
+
+            document.getElementById('totalConsultas').textContent = total;
+            document.getElementById('totalConfirmadas').textContent = confirmadas;
+            document.getElementById('totalPendentes').textContent = pendentes;
+            document.getElementById('totalCanceladas').textContent = canceladas;
+        }
+
+        /* =========================
+           CALENDÁRIO
+        ========================= */
         function renderCalendario() {
             const ano = currentDate.getFullYear();
             const mes = currentDate.getMonth();
 
-            const primeiroDia = new Date(ano, mes, 1);
-            const ultimoDia = new Date(ano, mes + 1, 0);
+            const diasNoMes = new Date(ano, mes + 1, 0).getDate();
 
-            const diasNoMes = ultimoDia.getDate();
-            const diaSemanaInicio = primeiroDia.getDay();
+            const meses = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
 
-            const mesAnterior = new Date(ano, mes, 0);
-            const diasMesAnterior = mesAnterior.getDate();
-
-            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
             mesAno.textContent = `${meses[mes]} ${ano}`;
+
+            const hoje = new Date();
 
             let html = '';
 
-            // Dias do mês anterior
-            for (let i = diaSemanaInicio - 1; i >= 0; i--) {
-                const dia = diasMesAnterior - i;
-                html += `<div class="dia outro-mes">${dia}</div>`;
-            }
-
-            // Dias do mês atual
             for (let i = 1; i <= diasNoMes; i++) {
-                const dataAtual = new Date(ano, mes, i);
-                const hoje = new Date(2026, 1, 12);
 
-                let classes = 'dia';
+                const data = new Date(ano, mes, i);
+                const dataStr = formatarDataDB(data);
 
-                if (dataAtual.toDateString() === hoje.toDateString()) {
-                    classes += ' hoje';
-                }
+                const temConsulta = consultas.some(c =>
+                    c.data_consulta?.split('T')[0] === dataStr
+                );
 
-                if (selectedDate && dataAtual.toDateString() === selectedDate.toDateString()) {
-                    classes += ' selecionado';
-                }
+                const isHoje =
+                    i === hoje.getDate() &&
+                    mes === hoje.getMonth() &&
+                    ano === hoje.getFullYear();
 
-                // Verifica se há consultas neste dia
-                const dataStr = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-                const temConsulta = consultas.some(c => c.data === dataStr);
-
-                if (temConsulta) {
-                    classes += ' com-consulta';
-                }
-
-                html += `<div class="${classes}" data-dia="${i}" data-mes="${mes}" data-ano="${ano}">${i}</div>`;
-            }
-
-            // Dias do próximo mês
-            const totalDiasRenderizados = diaSemanaInicio + diasNoMes;
-            const diasRestantes = 42 - totalDiasRenderizados;
-
-            for (let i = 1; i <= diasRestantes; i++) {
-                html += `<div class="dia outro-mes">${i}</div>`;
+                html += `
+            <div class="dia ${temConsulta ? 'com-consulta' : ''} ${isHoje ? 'hoje' : ''}"
+                 data-dia="${i}" data-mes="${mes}" data-ano="${ano}">
+                ${i}
+            </div>
+        `;
             }
 
             diasGrid.innerHTML = html;
 
-            // Adiciona eventos aos dias
-            document.querySelectorAll('.dia:not(.outro-mes)').forEach(dia => {
-                dia.addEventListener('click', function () {
-                    document.querySelectorAll('.dia').forEach(d => d.classList.remove('selecionado'));
-                    this.classList.add('selecionado');
+            document.querySelectorAll('.dia').forEach(dia => {
+                dia.addEventListener('click', () => {
 
-                    const diaNum = this.dataset.dia;
-                    const mesNum = this.dataset.mes;
-                    const anoNum = this.dataset.ano;
+                    const d = dia.dataset;
 
-                    selectedDate = new Date(anoNum, mesNum, diaNum);
-                    dataSelecionada.textContent = formatarData(selectedDate);
+                    selectedDate = new Date(d.ano, d.mes, d.dia);
 
-                    // Aqui você carregaria as consultas do dia selecionado
+                    dataSelecionada.textContent =
+                        selectedDate.toLocaleDateString('pt-BR');
+
                     carregarConsultasDoDia(selectedDate);
                 });
             });
         }
 
-        function formatarData(data) {
-            return data.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        }
-
+        /* =========================
+           CONSULTAS DO DIA
+        ========================= */
         function carregarConsultasDoDia(data) {
-            const dataStr = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}-${String(data.getDate()).padStart(2, '0')}`;
-            const consultasDoDia = consultas.filter(c => c.data === dataStr);
 
-            const listaConsultas = document.getElementById('listaConsultas');
+            const dataStr = formatarDataDB(data);
 
-            if (consultasDoDia.length === 0) {
-                listaConsultas.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #64748b;">
-                        <i class="fa-solid fa-calendar-check" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>Nenhuma consulta agendada para este dia</p>
-                    </div>
-                `;
-            } else {
-                let html = '';
-                consultasDoDia.forEach(consulta => {
-                    const statusClass = consulta.status === 'confirmada' ? 'status-confirmada' : 'status-pendente';
-                    const statusText = consulta.status === 'confirmada' ? 'Confirmada' : 'Pendente';
+            const doDia = consultas.filter(c =>
+                c.data_consulta?.split('T')[0] === dataStr
+            );
 
-                    html += `
-                        <div class="consulta-item">
-                            <div class="consulta-horario">
-                                <div class="hora">${consulta.horario}</div>
-                                <div class="periodo">${parseInt(consulta.horario) < 12 ? 'Manhã' : 'Tarde'}</div>
-                            </div>
-                            <div class="consulta-info">
-                                <div class="consulta-paciente">${consulta.paciente}</div>
-                                <div class="consulta-detalhes">
-                                    <span><i class="fa-solid fa-stethoscope"></i> ${consulta.especialidade}</span>
-                                    <span><i class="fa-solid fa-clock"></i> ${consulta.duracao} min</span>
-                                </div>
-                            </div>
-                            <div class="consulta-status ${statusClass}">
-                                ${statusText}
-                            </div>
-                            <div class="consulta-acoes">
-                                <button class="btn-acao" title="Editar">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn-acao" title="Reagendar">
-                                    <i class="fa-solid fa-calendar"></i>
-                                </button>
-                                <button class="btn-acao" title="Cancelar">
-                                    <i class="fa-solid fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                listaConsultas.innerHTML = html;
+            const lista = document.getElementById('listaConsultas');
+
+            if (doDia.length === 0) {
+                lista.innerHTML = `
+            <div style="text-align:center;padding:30px;color:#777;">
+                Nenhuma consulta neste dia
+            </div>
+        `;
+                return;
             }
+
+            lista.innerHTML = doDia.map(c => {
+
+                const hora = c.horario_consulta?.substring(0, 5);
+
+                return `
+        <div class="consulta-item">
+
+            <div class="consulta-horario">
+                <div class="hora">${hora}</div>
+            </div>
+
+            <div class="consulta-info">
+                <div class="consulta-paciente">${c.nome_completo}</div>
+                <div class="consulta-detalhes">
+                    <span>${c.observacoes || ''}</span>
+                </div>
+            </div>
+
+            <div class="consulta-status status-${(c.status || '').toLowerCase()}">
+                ${c.status}
+            </div>
+
+        </div>
+        `;
+            }).join('');
         }
 
-        // Event listeners
+        /* =========================
+           NAVEGAÇÃO CALENDÁRIO
+        ========================= */
         btnMesAnterior.addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() - 1);
             renderCalendario();
@@ -1148,108 +1058,27 @@
             renderCalendario();
         });
 
+        /* =========================
+           MODAL
+        ========================= */
         btnNovaConsulta.addEventListener('click', () => {
             modalAgendamento.classList.add('active');
-
-            // Preenche a data atual no campo de data
-            const dataInput = document.getElementById('data');
-            dataInput.value = selectedDate.toISOString().split('T')[0];
         });
 
         btnFecharModal.addEventListener('click', () => {
             modalAgendamento.classList.remove('active');
-            selectedHorario = null;
-            document.querySelectorAll('.horario-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
         });
 
-        // Fechar modal ao clicar fora
-        modalAgendamento.addEventListener('click', (e) => {
-            if (e.target === modalAgendamento) {
-                modalAgendamento.classList.remove('active');
-            }
-        });
+        /* =========================
+           INIT
+        ========================= */
+        (async function init() {
+            await carregarConsultas();
+            await carregarUtentes();
 
-        // Seleção de horário
-        horarioBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                horarioBtns.forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                selectedHorario = this.textContent;
-            });
-        });
-
-        // Submit do formulário
-        formAgendamento.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const paciente = document.getElementById('paciente').value;
-            const data = document.getElementById('data').value;
-            const especialidade = document.getElementById('especialidade').value;
-            const observacoes = document.getElementById('observacoes').value;
-
-            if (!selectedHorario) {
-                alert('Por favor, selecione um horário para a consulta.');
-                return;
-            }
-
-            // Aqui você enviaria os dados para o servidor
-            console.log({
-                paciente,
-                data,
-                horario: selectedHorario,
-                especialidade,
-                observacoes
-            });
-
-            alert('Consulta agendada com sucesso!');
-            modalAgendamento.classList.remove('active');
-            formAgendamento.reset();
-            selectedHorario = null;
-            document.querySelectorAll('.horario-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-        });
-
-        // Inicialização
-        renderCalendario();
-        dataSelecionada.textContent = formatarData(selectedDate);
-
-        // Carregar consultas do dia selecionado
-        carregarConsultasDoDia(selectedDate);
-
-        // Configurar sidebar toggle
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-        const app = document.querySelector('.app');
-
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            sidebar.classList.toggle('expanded');
-            app.classList.toggle('collapsed');
-
-            const icon = toggleBtn.querySelector('i');
-            if (sidebar.classList.contains('collapsed')) {
-                icon.classList.remove('fa-chevron-left');
-                icon.classList.add('fa-chevron-right');
-            } else {
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-left');
-            }
-        });
-
-        // Filtros de consulta
-        document.querySelectorAll('.filtro-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-
-                // Aqui você aplicaria o filtro nas consultas
-                const filtro = this.textContent.toLowerCase();
-                console.log('Filtrar por:', filtro);
-            });
-        });
+            dataSelecionada.textContent =
+                selectedDate.toLocaleDateString('pt-BR');
+        })();
     </script>
 
     <script src="/js/header.js"></script>

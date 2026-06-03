@@ -9,27 +9,20 @@
     <title>Health Access Hub | Dashboard Administrador</title>
     <link rel="stylesheet" href="/css/admin/adminDah.css">
     <link rel="stylesheet" href="/css/admin/gestUsers.css">
+    <link rel="stylesheet" href="/css/admin/users.css">
 </head>
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
             <div class="sidebar-top">
                 <div class="logo-box">
                     <img src="/img/logo02.png" alt="Health Access Hub">
                 </div>
-
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
                     <i class="fa-solid fa-angles-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
-
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
@@ -59,28 +52,20 @@
                     </li>
                 </ul>
             </nav>
-
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Sair</span> </a>
             </div>
-            <!-- <div class="logout-area">
-                <a href="/auth/logout" style="color: white; text-decoration: none; font-weight: bold;"><i
-                        class="fa-solid fa-right-from-bracket"></i> Sair</a>
-            </div> -->
         </aside>
 
         <!-- MAIN CONTENT -->
         <main id="mainContent">
-            <!-- HEADER -->
             <header class="main-header">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" placeholder="Pesquisar...">
                 </div>
-
                 <div class="header-right">
                     <a href="/dashboard/utente/alertas">
                         <div class="notification-icon">
@@ -88,121 +73,242 @@
                             <span class="notification-badge">3</span>
                         </div>
                     </a>
-
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role">Utente</p>
+                            <p class="user-role">Administrador</p>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- Cards para ir nas abas de gestao de cada utilizador -->
-            <div class="sect">
-                <section class="escolhaUser01">
-                    <div class="perfil-card" style="text-align: center; padding: 20px;">
-                        <div class="avatar-container" style="position: relative; display: inline-block;">
-                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil"
-                                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
-                        </div>
+            <!-- NOVO CONTEÚDO DINÂMICO E MELHORADO -->
+            <!-- Métricas rápidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h4>👥 TOTAL DE UTILIZADORES</h4>
+                        <div class="stat-number">2.481</div>
+                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-arrow-up"></i> +12%</span>
+                            este mês</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h4>🩺 PROFISSIONATIVOS ATIVOS</h4>
+                        <div class="stat-number">342</div>
+                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-arrow-up"></i> +8%</span>
+                            face ao trimestre</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-stethoscope"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h4>📋 UTENTES REGISTADOS</h4>
+                        <div class="stat-number">2.139</div>
+                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-chart-line"></i> +156
+                                novos</span> esta semana</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-wheelchair"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h4>✅ VERIFICAÇÕES HOJE</h4>
+                        <div class="stat-number">84</div>
+                        <div class="stat-trend"><span class="trend-up"><i class="fa-regular fa-clock"></i> +23%</span>
+                            que ontem</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+                </div>
+            </div>
 
-                        <a href="/dashboard/admin/adminGeral/profissionais" class="aa">
-                            <h2>Profissionais</h2>
+            <!-- Cards de gestão de utilizadores (versão melhorada, mas mantendo a essência) -->
+            <div class="section-title">
+                <i class="fa-solid fa-people-arrows"></i>
+                <span>Gestão de Acesso por Tipo de Utilizador</span>
+            </div>
+
+            <div class="users-showcase">
+                <!-- Card Profissionais -->
+                <div class="user-type-card">
+                    <div class="card-header-img">
+                        <div class="avatar-circle">
+                            <img src="/img/fotoPadra.png" alt="Profissionais"
+                                style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="card-body-content">
+                        <div class="user-type-title">Profissionais de Saúde | Administrador da Clínica</div>
+                        <div class="user-stats-mini">
+                            <span><i class="fa-solid fa-user-md"></i> 342 ativos</span>
+                            <span><i class="fa-regular fa-building"></i> 12 especialidades</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color:#334155; margin-bottom: 12px;">Gerir médicos, enfermeiros,
+                            técnicos e especialistas da plataforma.</p>
+                        <a href="/dashboard/admin/adminGeral/profissionais" class="btn-access">
+                            <i class="fa-solid fa-arrow-right"></i> Gerir Profissionais
                         </a>
                     </div>
-                </section>
-                <section class="escolhaUser02">
-                    <div class="perfil-card" style="text-align: center; padding: 20px;">
-                        <div class="avatar-container" style="position: relative; display: inline-block;">
-                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil"
-                                style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
-                        </div>
+                </div>
 
-                        <a href="/dashboard/admin/adminGeral/utentes" class="aa">
-                            <h2>Utentes</h2>
+                <!-- Card Utentes -->
+                <div class="user-type-card">
+                    <div class="card-header-img">
+                        <div class="avatar-circle">
+                            <img src="/img/fotoPadra.png" alt="Utentes"
+                                style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="card-body-content">
+                        <div class="user-type-title">Utentes</div>
+                        <div class="user-stats-mini">
+                            <span><i class="fa-solid fa-heartbeat"></i> 2.139 registados</span>
+                            <span><i class="fa-regular fa-calendar"></i> 128 consultas hoje</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color:#334155; margin-bottom: 12px;">Visualizar, adicionar ou
+                            editar perfis de pacientes e histórico.</p>
+                        <a href="/dashboard/admin/adminGeral/utentes" class="btn-access">
+                            <i class="fa-solid fa-arrow-right"></i> Gerir Utentes
                         </a>
                     </div>
-                </section>
+                </div>
+            </div>
+
+            <!-- Ações rápidas + Feed de atividades (suco adicional) -->
+            <div class="quick-actions">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <h4 style="font-weight: 700;"><i class="fa-solid fa-bolt" style="color: #007bff;"></i> Ações rápidas
+                    </h4>
+                    <span
+                        style="font-size: 0.7rem; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;">Administrador</span>
+                </div>
+                <div class="actions-grid">
+                    <div class="action-item"
+                        onclick="window.location.href='/dashboard/admin/adminGeral/utilizadores/novo'">
+                        <div class="action-icon"><i class="fa-solid fa-user-plus"></i></div>
+                        <div>
+                            <div class="action-text">Novo Utilizador</div>
+                            <div class="action-sub">Adicionar rápido</div>
+                        </div>
+                    </div>
+                    <div class="action-item" onclick="window.location.href='/dashboard/admin/adminGeral/relatorios'">
+                        <div class="action-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                        <div>
+                            <div class="action-text">Relatórios</div>
+                            <div class="action-sub">Desempenho mensal</div>
+                        </div>
+                    </div>
+                    <div class="action-item" onclick="window.location.href='/dashboard/admin/adminGeral/configuracoes'">
+                        <div class="action-icon"><i class="fa-solid fa-sliders"></i></div>
+                        <div>
+                            <div class="action-text">Permissões</div>
+                            <div class="action-sub">Controlo de acessos</div>
+                        </div>
+                    </div>
+                    <div class="action-item" onclick="window.location.href='/dashboard/admin/adminGeral/notificacoes'">
+                        <div class="action-icon"><i class="fa-solid fa-bell"></i></div>
+                        <div>
+                            <div class="action-text">Alertas</div>
+                            <div class="action-sub">Notificações do sistema</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atividades recentes (feed dinâmico com dados fictícios, mas com cara de vivo) -->
+            <div class="section-title" style="margin-top: 1.8rem;">
+                <i class="fa-regular fa-clock"></i>
+                <span>Atividade Recente</span>
+            </div>
+            <div class="recent-activities">
+                <div class="activity-item">
+                    <div class="activity-badge"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="activity-detail">
+                        <div class="activity-title">Dra. Sofia Mendes foi aprovada como profissional</div>
+                        <div class="activity-time">Há 15 minutos • Verificação de credenciais</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color:#b9c3d4; font-size: 12px;"></i>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-badge"><i class="fa-solid fa-upload"></i></div>
+                    <div class="activity-detail">
+                        <div class="activity-title">Exportação de relatório de utilizadores concluída</div>
+                        <div class="activity-time">Há 1 hora • 342 registos</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color:#b9c3d4; font-size: 12px;"></i>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-badge"><i class="fa-solid fa-pen"></i></div>
+                    <div class="activity-detail">
+                        <div class="activity-title">Perfil de utente "Carlos Andrade" atualizado</div>
+                        <div class="activity-time">Há 2 horas • Dados de contacto alterados</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color:#b9c3d4; font-size: 12px;"></i>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-badge"><i class="fa-solid fa-shield-alt"></i></div>
+                    <div class="activity-detail">
+                        <div class="activity-title">Definições de segurança revistas</div>
+                        <div class="activity-time">Hoje, 09:42 • 2FA ativado para novos admins</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color:#b9c3d4; font-size: 12px;"></i>
+                </div>
+            </div>
+
+            <!-- Mini rodapé informativo (não interfere com nada) -->
+            <div
+                style="margin-top: 2rem; text-align: center; font-size: 0.7rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+                <i class="fa-regular fa-hospital"></i> Health Access Hub · Gestão centralizada de utilizadores
             </div>
         </main>
     </div>
 
-    <!-- all code JS -->
+    <!-- scripts mantidos originais (nenhum removido) -->
     <script src="/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- js dashboard -->
     <script src="/js/profDash.js"></script>
 
-    <!-- graficos -->
     <script>
-        const ctx = document.getElementById('hospitalChart').getContext('2d');
-
-        // Gradiente para a linha (opcional, mas fica muito elegante)
-        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
-        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
-
-        let ecgData = Array(40).fill(5);
-        let labels = Array(40).fill('');
-
-        const hospitalChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: ecgData,
-                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4, // Linha mais orgânica e suave
-                    fill: true,
-                    backgroundColor: gradient
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        display: true,
-                        min: 0, max: 20,
-                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
-                        ticks: { display: false }
-                    },
-                    x: { display: false }
-                },
-                plugins: { legend: { display: false } }
+        // Mantive o gráfico ECG original, só não danifica nada
+        const ctx = document.getElementById('hospitalChart')?.getContext('2d');
+        if (ctx) {
+            let gradient = ctx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)');
+            gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');
+            let ecgData = Array(40).fill(5);
+            let labels = Array(40).fill('');
+            const hospitalChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: labels, datasets: [{ data: ecgData, borderColor: '#22c55e', borderWidth: 2.5, pointRadius: 0, tension: 0.4, fill: true, backgroundColor: gradient }] },
+                options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { y: { display: true, min: 0, max: 20, grid: { color: '#f1f5f9' }, ticks: { display: false } }, x: { display: false } }, plugins: { legend: { display: false } } }
+            });
+            let counter = 0;
+            function updateMonitor() {
+                let newValue = 5;
+                let step = counter % 15;
+                if (step === 3) newValue = 15;
+                else if (step === 2 || step === 4) newValue = 2;
+                else newValue = 5 + (Math.random() * 1);
+                ecgData.push(newValue);
+                ecgData.shift();
+                if (counter % 10 === 0 && document.getElementById('bpmValue')) {
+                    document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
+                }
+                hospitalChart.update('none');
+                counter++;
             }
-        });
-
-        let counter = 0;
-        function updateMonitor() {
-            let newValue = 5; // Linha base
-            let step = counter % 15;
-
-            // Simula o pulso de forma suave
-            if (step === 3) newValue = 15;      // Pico R
-            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
-            else newValue = 5 + (Math.random() * 1); // Oscilação leve
-
-            ecgData.push(newValue);
-            ecgData.shift();
-
-            if (counter % 10 === 0) {
-                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
-            }
-
-            hospitalChart.update('none');
-            counter++;
+            setInterval(updateMonitor, 100);
+        } else {
+            // Se não existir o canvas do ECG, não quebra nada
         }
 
-        setInterval(updateMonitor, 100);
+        // Simulação de dados para nome do header (mantém igual)
+        const userNameSpan = document.getElementById('userName');
+        if (userNameSpan) userNameSpan.innerText = "Administrador";
     </script>
 </body>
 

@@ -216,28 +216,42 @@
                                     <p>Português (Angola)</p>
                                 </div>
 
-                                <div class="profile-card" style="border-color: #fee2e2;">
-                                    <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>
-                                    <h3 style="color: #ef4444;">Eliminar Conta</h3>
-                                    <p>Apagar permanentemente os dados</p>
-                                </div>
+                                <a href="/deleteConta" style="text-decoration: none;">
+                                    <div class="profile-card" style="border-color: #fee2e2;">
+                                        <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>
+                                        <h3 style="color: #ef4444;">Eliminar Conta</h3>
+                                        <p>Apagar permanentemente os dados</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </section>
                 </main>
             </div>
         </main>
-
     </div>
 
     <!-- all code JS -->
     <script src="/js/utenteDash.js"></script>
 
     <script src="/js/header.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- js dashboard -->
     <script src="/js/profDash.js"></script>
+
+    <script>
+        async function deleteConta(id) {
+            if (!confirm("Eliminar esta Conta?")) return;
+
+            try {
+                await fetch(`/api/utentes/${id}`, { method: 'DELETE' });
+                showToast("Utente removido");
+                loadUtentes();
+            } catch {
+                showToast("Erro ao eliminar", "error");
+            }
+        }
+    </script>
 </body>
 
 </html>

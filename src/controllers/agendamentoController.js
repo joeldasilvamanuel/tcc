@@ -1,59 +1,205 @@
 const { connection: db } = require('../config/db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-
 const AgendamentoModel = require('../models/agendamentoModel');
 
 const agendamentoController = {
-    // Carrega a página HTML de agendamento
+
+    // =====================================
+    // EXIBIR TELA DE AGENDAMENTO
+    // =====================================
     exibirTelaAgendar: (req, res) => {
-        // Se estiver usando EJS/Pug: res.render('utente/agendar');
-        // Se for HTML puro na pasta views:
-        res.sendFile('agendar.html', { root: './src/views' });
+        res.sendFile('agendar.html', {
+            root: './src/views'
+        });
     },
 
-    // API para alimentar o <select> de especialidades via fetch
+    // =====================================
+    // LISTAR ESPECIALIDADES
+    // =====================================
     listarEspecialidades: async (req, res) => {
         try {
-            const especialidades = await AgendamentoModel.buscarEspecialidades();
+            const especialidades =
+                await AgendamentoModel.buscarEspecialidades();
+
             return res.status(200).json(especialidades);
+
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ mensagem: "Erro ao buscar especialidades." });
+            return res.status(500).json({
+                mensagem: "Erro ao buscar especialidades."
+            });
         }
     },
 
-    // Processa o envio do formulário (POST)
+    // =====================================
+    // SALVAR AGENDAMENTO
+    // =====================================
     salvarAgendamento: async (req, res) => {
         try {
-            const { nome_completo, telefone, id_esp, data_consulta, hora_consulta } = req.body;
+            const {
+                nome_completo,
+                telefone,
+                email,
+                id_esp,
+                data_consulta,
+                horario_consulta,
+                observacoes
+            } = req.body;
 
-            // Validação básica de campos obrigatórios no servidor (Segurança)
-            if (!nome_completo || !telefone || !id_esp || !data_consulta || !hora_consulta) {
-                return res.status(400).json({ mensagem: "Por favor, preencha todos os campos obrigatórios." });
+            if (
+                !nome_completo ||
+                !telefone ||
+                !id_esp ||
+                !data_consulta ||
+                !horario_consulta
+            ) {
+                return res.status(400).json({
+                    mensagem: "Por favor, preencha todos os campos obrigatórios."
+                });
             }
 
-            // Regra de Negócio: O horário já foi pego?
-            const horarioOcupado = await AgendamentoModel.verificarDisponibilidade(id_esp, data_consulta, hora_consulta);
+            const horarioOcupado =
+                await AgendamentoModel.verificarDisponibilidade(
+                    id_esp,
+                    data_consulta,
+                    horario_consulta
+                );
+
             if (horarioOcupado) {
-                return res.status(409).json({ mensagem: "Este horário já foi preenchido. Escolha outro, por favor." });
+                return res.status(409).json({
+                    mensagem: "Este horário já foi preenchido. Escolha outro."
+                });
             }
 
-            // Se tudo estiver certo, salva no banco
-            const novoAgendamento = await AgendamentoModel.criar(req.body);
+            const novoAgendamento =
+                await AgendamentoModel.criar(req.body);
 
-            // Responde sucesso para o fetch do Frontend
-            return res.status(201).json({ 
-                sucesso: true, 
+            return res.status(201).json({
+                sucesso: true,
                 mensagem: "Agendamento realizado com sucesso!",
-                dados: novoAgendamento 
+                dados: novoAgendamento
             });
 
         } catch (error) {
             console.error("Erro ao salvar consulta:", error);
-            return res.status(500).json({ mensagem: "Erro interno no servidor ao processar o agendamento." });
+            return res.status(500).json({
+                mensagem: "Erro interno no servidor."
+            });
         }
+    },
+
+    // =====================================
+    // LISTAR TODOS OS AGENDAMENTOS
+    // =====================================
+    listarTodos: (req, res) => {
+        db.query(
+            `
+            SELECT *
+            FROM agendamentos
+            ORDER BY data_consulta DESC, horario_consulta ASC
+            `,
+            (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({
+                        mensagem: "Erro ao listar agendamentos."
+                    });
+                }
+
+                res.json(results);
+            }
+        );
+    },
+
+    // =====================================
+    // FILTRAR AGENDAMENTOS POR DATA
+    // =====================================
+    filtrarPorData: (req, res) => {
+        const { data } = req.params;
+
+        db.query(
+            `
+            SELECT *
+            FROM agendamentos
+            WHERE data_consulta = ?
+            ORDER BY horario_consulta ASC
+            `,
+            [data],
+            (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({
+                        mensagem: "Erro ao filtrar por data."
+                    });
+                }
+
+                res.json(results);
+            }
+        );
+    },
+
+    // =====================================
+    // ATUALIZAR STATUS (CORRIGIDO)
+    // =====================================
+    atualizarStatus: (req, res) => {
+
+        const { id } = req.params;
+        let { status } = req.body;
+
+        // ===============================
+        // NORMALIZAÇÃO FRONTEND -> MYSQL
+        // ===============================
+        const mapaStatus = {
+            "Confirmada": "Confirmado",
+            "Cancelada": "Cancelado",
+            "Pendente": "Pendente",
+            "Realizado": "Realizado",
+            "Nao_compareceu": "Nao_compareceu"
+        };
+
+        status = mapaStatus[status] || status;
+
+        const statusValidos = [
+            "Pendente",
+            "Confirmado",
+            "Cancelado",
+            "Realizado",
+            "Nao_compareceu"
+        ];
+
+        if (!statusValidos.includes(status)) {
+            return res.status(400).json({
+                mensagem: "Status inválido."
+            });
+        }
+
+        db.query(
+            `
+            UPDATE agendamentos
+            SET status = ?
+            WHERE id_agenda = ?
+            `,
+            [status, id],
+            (err, result) => {
+
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({
+                        mensagem: "Erro ao atualizar status."
+                    });
+                }
+
+                if (result.affectedRows === 0) {
+                    return res.status(404).json({
+                        mensagem: "Agendamento não encontrado."
+                    });
+                }
+
+                res.json({
+                    sucesso: true,
+                    mensagem: "Status atualizado com sucesso."
+                });
+            }
+        );
     }
 };
 
