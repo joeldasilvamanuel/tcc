@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/prof/registro.css">
-    <link rel="stylesheet" href="/css/prof/perfil.css">
+    <link rel="stylesheet" href="/css/prof/profDash.css">
     <title>Health Access Hub | Agendamento de Consultas</title>
     <style>
         /* Estilos específicos para agendamento */
@@ -680,10 +680,10 @@
                         Agendamento de Consultas
                     </h1>
 
-                    <button class="btn-nova-consulta" id="btnNovaConsulta">
+                    <!-- <button class="btn-nova-consulta" id="btnNovaConsulta">
                         <i class="fa-solid fa-plus"></i>
                         Nova Consulta
-                    </button>
+                    </button> -->
                 </div>
 
                 <!-- STATS DINÂMICOS -->
@@ -856,11 +856,19 @@
     </div>
 
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log("SELECT PACIENTE:", document.getElementById('paciente'));
+            console.log("SELECT ESP:", document.getElementById('especialidade'));
+        });
+
+
         let currentDate = new Date();
         let selectedDate = new Date();
 
         let consultas = [];
         let utentes = [];
+
+        let horarioSelecionado = null;
 
         const diasGrid = document.getElementById('diasGrid');
         const mesAno = document.getElementById('mesAno');
@@ -874,6 +882,15 @@
         const btnFecharModal = document.getElementById('btnFecharModal');
 
         const selectPaciente = document.getElementById('paciente');
+        const selectEspecialidade = document.getElementById('especialidade');
+        const formAgendamento = document.getElementById('formAgendamento');
+
+        console.log({
+            paciente: document.getElementById('paciente')?.value,
+            especialidade: document.getElementById('especialidade')?.value,
+            data: selectedDate,
+            horario: horarioSelecionado
+        });
 
         /* =========================
            FORMATA DATA
@@ -883,7 +900,7 @@
         }
 
         /* =========================
-           CONSULTAS (MÉDICO)
+           CONSULTAS
         ========================= */
         async function carregarConsultas() {
             try {
@@ -900,25 +917,59 @@
         }
 
         /* =========================
-           UTENTES (SELECT MODAL)
+           UTENTES
         ========================= */
         async function carregarUtentes() {
             try {
                 const res = await fetch('/api/usuarios/utentes');
-                utentes = await res.json();
 
-                selectPaciente.innerHTML = `<option value="">Selecione</option>`;
+                if (!res.ok) throw new Error('Falha ao buscar utentes');
 
-                utentes.forEach(u => {
+                const data = await res.json();
+
+                selectPaciente.innerHTML = `<option value="">Selecione um utente</option>`;
+
+                data.forEach(u => {
+                    const id = u.id_usuario || u.id;
+                    const nome = u.nome_completo || u.nome || 'Sem nome';
+
                     selectPaciente.innerHTML += `
-                <option value="${u.id}">
-                    ${u.nome_completo}
-                </option>
-            `;
+                    <option value="${id}">
+                        ${nome}
+                    </option>
+                `;
                 });
 
             } catch (err) {
                 console.error('Erro ao carregar utentes:', err);
+                selectPaciente.innerHTML = `<option value="">Erro ao carregar utentes</option>`;
+            }
+        }
+
+        /* =========================
+           ESPECIALIDADES (NOVO)
+        ========================= */
+        async function carregarEspecialidades() {
+            try {
+                const res = await fetch('/api/especialidades');
+
+                if (!res.ok) throw new Error('Erro especialidades');
+
+                const data = await res.json();
+
+                selectEspecialidade.innerHTML = `<option value="">Selecione</option>`;
+
+                data.forEach(e => {
+                    selectEspecialidade.innerHTML += `
+                    <option value="${e.id_especialidade || e.id}">
+                        ${e.nome}
+                    </option>
+                `;
+                });
+
+            } catch (err) {
+                console.error('Erro ao carregar especialidades:', err);
+                selectEspecialidade.innerHTML = `<option value="">Erro ao carregar</option>`;
             }
         }
 
@@ -954,11 +1005,9 @@
             mesAno.textContent = `${meses[mes]} ${ano}`;
 
             const hoje = new Date();
-
             let html = '';
 
             for (let i = 1; i <= diasNoMes; i++) {
-
                 const data = new Date(ano, mes, i);
                 const dataStr = formatarDataDB(data);
 
@@ -972,11 +1021,11 @@
                     ano === hoje.getFullYear();
 
                 html += `
-            <div class="dia ${temConsulta ? 'com-consulta' : ''} ${isHoje ? 'hoje' : ''}"
-                 data-dia="${i}" data-mes="${mes}" data-ano="${ano}">
-                ${i}
-            </div>
-        `;
+                <div class="dia ${temConsulta ? 'com-consulta' : ''} ${isHoje ? 'hoje' : ''}"
+                     data-dia="${i}" data-mes="${mes}" data-ano="${ano}">
+                    ${i}
+                </div>
+            `;
             }
 
             diasGrid.innerHTML = html;
@@ -1011,10 +1060,10 @@
 
             if (doDia.length === 0) {
                 lista.innerHTML = `
-            <div style="text-align:center;padding:30px;color:#777;">
-                Nenhuma consulta neste dia
-            </div>
-        `;
+                <div style="text-align:center;padding:30px;color:#777;">
+                    Nenhuma consulta neste dia
+                </div>
+            `;
                 return;
             }
 
@@ -1023,27 +1072,90 @@
                 const hora = c.horario_consulta?.substring(0, 5);
 
                 return `
-        <div class="consulta-item">
+                <div class="consulta-item">
 
-            <div class="consulta-horario">
-                <div class="hora">${hora}</div>
-            </div>
+                    <div class="consulta-horario">
+                        <div class="hora">${hora}</div>
+                    </div>
 
-            <div class="consulta-info">
-                <div class="consulta-paciente">${c.nome_completo}</div>
-                <div class="consulta-detalhes">
-                    <span>${c.observacoes || ''}</span>
+                    <div class="consulta-info">
+                        <div class="consulta-paciente">${c.nome_completo}</div>
+                        <div class="consulta-detalhes">
+                            <span>${c.observacoes || ''}</span>
+                        </div>
+                    </div>
+
+                    <div class="consulta-status status-${(c.status || '').toLowerCase()}">
+                        ${c.status}
+                    </div>
+
                 </div>
-            </div>
-
-            <div class="consulta-status status-${(c.status || '').toLowerCase()}">
-                ${c.status}
-            </div>
-
-        </div>
-        `;
+            `;
             }).join('');
         }
+
+        /* =========================
+           HORÁRIO (FIX)
+        ========================= */
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('horario-btn')) return;
+
+            document.querySelectorAll('.horario-btn')
+                .forEach(b => b.classList.remove('selected'));
+
+            e.target.classList.add('selected');
+
+            horarioSelecionado = e.target.textContent.trim();
+        });
+        // function ativarHorarios() {
+        //     document.querySelectorAll('.horario-btn').forEach(btn => {
+        //         btn.addEventListener('click', () => {
+
+        //             document.querySelectorAll('.horario-btn')
+        //                 .forEach(b => b.classList.remove('selected'));
+
+        //             btn.classList.add('selected');
+
+        //             horarioSelecionado = btn.textContent.trim();
+        //         });
+        //     });
+        // }
+
+        /* =========================
+           SUBMIT FORM
+        ========================= */
+        formAgendamento.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const paciente = document.getElementById('paciente').value;
+            const especialidade = document.getElementById('especialidade').value;
+            const data = document.getElementById('data').value;
+
+            const payload = {
+                paciente,
+                especialidade,
+                data,
+                horario: horarioSelecionado,
+                observacoes: document.getElementById('observacoes').value
+            };
+
+            console.log("PAYLOAD FINAL:", payload);
+
+            if (!paciente || !especialidade || !data || !horarioSelecionado) {
+                alert("Preenche todos os campos");
+                return;
+            }
+
+            const res = await fetch('/api/agendamentos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+            console.log(result);
+        });
 
         /* =========================
            NAVEGAÇÃO CALENDÁRIO
@@ -1051,23 +1163,25 @@
         btnMesAnterior.addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() - 1);
             renderCalendario();
+            // ativarHorarios();
         });
 
         btnMesProximo.addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() + 1);
             renderCalendario();
+            // ativarHorarios();
         });
 
         /* =========================
            MODAL
         ========================= */
-        btnNovaConsulta.addEventListener('click', () => {
-            modalAgendamento.classList.add('active');
-        });
+        // btnNovaConsulta.addEventListener('click', () => {
+        //     modalAgendamento.classList.add('active');
+        // });
 
-        btnFecharModal.addEventListener('click', () => {
-            modalAgendamento.classList.remove('active');
-        });
+        // btnFecharModal.addEventListener('click', () => {
+        //     modalAgendamento.classList.remove('active');
+        // });
 
         /* =========================
            INIT
@@ -1075,12 +1189,16 @@
         (async function init() {
             await carregarConsultas();
             await carregarUtentes();
+            await carregarEspecialidades();
+
+            // ativarHorarios();
 
             dataSelecionada.textContent =
                 selectedDate.toLocaleDateString('pt-BR');
         })();
     </script>
 
+    <script src="/js/profDash.js"></script>
     <script src="/js/header.js"></script>
 </body>
 

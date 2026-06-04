@@ -14,7 +14,7 @@ const { handleLogout } = require('./src/controllers/authController');
 const utenteRouter = require('./src/routes/utenteRoutes');
 const agendamentoRoutes = require('./src/routes/agendamentoRoutes');
 
-const app = express();
+const app = express();x
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -31,6 +31,15 @@ app.use('/api/utentes', utenteRouter);
 // RECECAO E BLA BLA BLA
 const rececaoRoutes = require('./src/routes/rececaoRoutes');
 app.use('/api/rececao', rececaoRoutes);
+
+// para a tela de agendamento dos medicos verem os utentes no form de criar agendamento
+const usuariosRoutes = require('./src/routes/usuariosRoutes');
+app.use('/api/usuarios', usuariosRoutes);
+
+const especialidadesRoutes = require('./src/routes/especialidadesRoutes');
+app.use('/api', especialidadesRoutes);
+
+
 
 // ================== SISTEMA DE PROTEÇÃO (Mantido/Refinado) ==================
 const verificarAcesso = (rolesPermitidos) => {
@@ -74,7 +83,6 @@ app.get('/servicos', (req, res) => res.sendFile(path.join(__dirname, 'src/views/
 app.get('/agendar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/agendar.html')));
 
 // --- UTENTE ---
-// app.use('/dashboard/utente', verificarToken, utenteRouter);
 
 app.get('/dashboard/utente', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'));
@@ -318,3 +326,5 @@ const PORT = process.env.PORT || 3000;
 testConnection().then(() => {
     app.listen(PORT, () => console.log(`🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`));
 });
+
+// http://localhost:3000/api/especialidades
