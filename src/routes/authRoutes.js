@@ -17,6 +17,8 @@ router.get('/redefinir-senha', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/auth/redefinir-senha.html'))
 });
 
+router.get('/me', authController.obterUtilizadorAtual);
+
 module.exports = router;
 
 

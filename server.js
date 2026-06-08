@@ -5,6 +5,8 @@ const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const http = require('http');
+const { Server } = require('socket.io');
 
 const { connection: db, testConnection } = require('./src/config/db');
 const authRoutes = require('./src/routes/authRoutes');
@@ -14,7 +16,20 @@ const { handleLogout } = require('./src/controllers/authController');
 const utenteRouter = require('./src/routes/utenteRoutes');
 const agendamentoRoutes = require('./src/routes/agendamentoRoutes');
 
-const app = express();x
+const app = express();
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
+
+app.set('io', io);
+
+require('./src/sockets/chatSocket')(io);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -39,6 +54,8 @@ app.use('/api/usuarios', usuariosRoutes);
 const especialidadesRoutes = require('./src/routes/especialidadesRoutes');
 app.use('/api', especialidadesRoutes);
 
+// rotas de chat
+const chatRoutes = require('./src/routes/chatRoutes');
 
 
 // ================== SISTEMA DE PROTEÇÃO (Mantido/Refinado) ==================
@@ -296,6 +313,9 @@ app.get('/dashboard/admin/adminClinica/perfil', verificarAcesso(['admin_clinica'
 // ================== ROTAS DE AGENDAMENTO ==================
 app.use('/api/agendamentos', agendamentoRoutes);
 
+// ================== ROTAS DE CHAT ==================
+app.use('/api/chat', chatRoutes);
+
 // ================== APIS & CONFIGURAÇÕES (MANTIDAS) ==================
 app.get('/api/user-info', verificarToken, (req, res) => {
     db.query(`SELECT nome, email, tipo_usuario AS role FROM usuario WHERE id_usuario = ?`, [req.user.userId], (err, results) => {
@@ -323,8 +343,27 @@ app.post('/api/upload-foto', verificarToken, upload.single('foto'), (req, res) =
 });
 
 const PORT = process.env.PORT || 3000;
+
 testConnection().then(() => {
-    app.listen(PORT, () => console.log(`🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`));
+
+    server.listen(PORT, () => {
+
+        console.log(
+            `🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`
+        );
+
+    });
+
 });
 
+// const PORT = process.env.PORT || 3000;
+// testConnection().then(() => {
+//     app.listen(PORT, () => console.log(`🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`));
+// });
+
+// http://localhost:3000/api/chat/conversas/1
+// http://localhost:3000/api/chat/conversas/1
 // http://localhost:3000/api/especialidades
+// tree -L 2
+// tree src/views -L 2
+// http://localhost:3000/auth/me

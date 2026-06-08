@@ -7,8 +7,8 @@
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/prof/mensagens.css">
-    <link rel="stylesheet" href="/css/prof/profDash.css">
-    <title>Health Access Hub | Mensagens</title>
+    <link rel="stylesheet" href="/css/utente/mensagens.css">
+    <title>Health Access Hub | Mensagens Profissional</title>
 </head>
 
 <body>
@@ -87,96 +87,102 @@
 
         <!-- MAIN -->
         <main>
-            <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise mensagens ou utentes...">
+            <div class="chat-wrapper">
+                <!-- PAINEL CONVERSAS -->
+                <div class="conversations-panel" id="conversationsPanel">
+                    <div class="conversations-header">
+                        <div class="user-header-info">
+                            <div class="user-avatar-sm" id="userAvatarBtn"><i class="fa-solid fa-user-circle"></i></div>
+                            <span class="user-name-sm" id="sidebarUserName">Carregando...</span>
+                        </div>
+                        <div class="header-actions">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <i class="fa-regular fa-message"></i>
+                            <i class="fa-regular fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <div class="search-area">
+                        <div class="search-box-chat">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="searchConversations"
+                                placeholder="Procurar ou criar uma nova conversa">
+                        </div>
+                    </div>
+                    <div class="conversations-list" id="conversationsList"></div>
                 </div>
 
-                <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
-                    </a>
+                <div class="chat-area" id="emptyChat">
+                    <div style="
+                    display:flex; 
+                    flex-direction:column; 
+                    justify-content:center;
+                    align-items:center; 
+                    width:100%; 
+                    height:100%; 
+                    text-align:center; 
+                    padding:40px;">
 
-                    <div class="user-profile">
-                        <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                        </div>
-                        <div class="user-info">
-                            <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">...</p>
-                        </div>
+                        <i class="fa-solid fa-comments" style="font-size:60px; margin-bottom:20px; opacity:.5;"> </i>
+
+                        <h2>Nenhuma conversa selecionada</h2>
+
+                        <p>Aguarde mensagens dos utentes.</p>
                     </div>
                 </div>
-            </header>
 
-            <!-- CHAT -->
-            <div class="chat-container">
-                <!-- Lista de conversas -->
-                <aside class="chat-sidebar" id="asideMemoSo">
-                    <div class="chat-sidebar-header">Conversas</div>
-                    <div class="conversation-list">
-                        <div class="conversation-item active" data-user="maria">
-                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
-                            <div class="conv-info">
-                                <h4>Maria Santos</h4>
-                                <p>Frequência cardíaca alta hoje...</p>
+                <!-- ÁREA PRINCIPAL CHAT -->
+                <div class="chat-area" id="chatArea" style="display:none;">
+
+                    <div class="chat-header-whats">
+                        <div class="chat-contact-info">
+                            <button class="back-mobile" id="backMobileBtn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                            <div class="contact-avatar">
+                                <i class="fa-solid fa-user-doctor" id="contactAvatarIcon"></i>
                             </div>
-                            <span class="conv-time">10:32</span>
+
+                            <div class="contact-details">
+                                <h4 id="contactName"></h4>
+
+                                <div class="contact-status">
+                                    <span class="online-dot" id="statusDot"></span>
+                                    <span id="statusText">Online</span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="conversation-item" data-user="joao">
-                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
-                            <div class="conv-info">
-                                <h4>João Mendes</h4>
-                                <p>Posso remarcar a consulta?</p>
-                            </div>
-                            <span class="conv-time">Ontem</span>
-                        </div>
-
-                        <div class="conversation-item" data-user="ana">
-                            <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
-                            <div class="conv-info">
-                                <h4>Ana Pereira</h4>
-                                <p>Resultados dos exames chegaram</p>
-                            </div>
-                            <span class="conv-time">Seg</span>
+                        <div class="chat-actions">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fa-regular fa-circle-user"></i>
+                            <i class="fa-regular fa-ellipsis-vertical"></i>
                         </div>
                     </div>
-                </aside>
 
-                <!-- Área de chat -->
-                <section class="chat-main">
-                    <div class="chat-header">
-                        <div class="conv-avatar"><i class="fa-solid fa-user"></i></div>
-                        <h3 id="chatWith">Maria Santos</h3>
-                        <div class="space" style="margin-left: 380px;"></div>
-                        <a href="/dashboard/profissional/medico/monitorar" style="background: #007bff;" class="nav-link">
-                            <abbr title="Monitorização">
-                                <i class="fa-solid fa-file-medical"></i>
-                            </abbr>
-                            <!-- <span>Agendamento</span> -->
-                        </a>
+                    <div class="messages-area" id="messagesArea"></div>
+
+                    <div class="input-area">
+                        <div class="input-icons">
+                            <i class="fa-regular fa-face-smile"></i>
+                            <i class="fa-regular fa-paperclip"></i>
+                        </div>
+
+                        <input type="text" class="message-input" id="messageInput" placeholder="Escrever mensagem">
+
+                        <div class="send-icon" id="sendBtn">
+                            <i class="fa-regular fa-paper-plane"></i>
+                        </div>
                     </div>
 
-                    <div class="messages-container" id="messagesContainer">
-                        <!-- Mensagens serão adicionadas aqui via JS -->
-                    </div>
-
-                    <div class="chat-input-area">
-                        <input type="text" id="messageInput" placeholder="Escreva uma mensagem...">
-                        <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </section>
-            </div>av-link active
+                </div>
+            </div>
         </main>
     </div>
 
-    <script src="/js/mensagens.js"></script>
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/profissional/mensagens.js"></script>
     <script src="/js/header.js"></script>
 </body>
 

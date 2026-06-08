@@ -167,6 +167,37 @@ const criarAgendamento = async (req, res) => {
     }
 };
 
+const obterUtilizadorAtual = async (req, res) => {
+
+    try {
+
+        const token = req.cookies.token;
+
+        if (!token) {
+            return res.status(401).json({
+                erro: 'Não autenticado'
+            });
+        }
+
+        const dados = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        return res.json({
+            id_usuario: dados.userId,
+            nome: dados.nome,
+            tipo_usuario: dados.role
+        });
+
+    } catch (erro) {
+
+        return res.status(401).json({
+            erro: 'Token inválido'
+        });
+    }
+};
+
 // Exportação completa de todas as funções
 module.exports = {
     handleRegisterUtente,
@@ -175,6 +206,7 @@ module.exports = {
     handleForgotPassword,
     handleResetPassword,
     getEspecialidades,
-    criarAgendamento
+    criarAgendamento,
+    obterUtilizadorAtual
 };
 
