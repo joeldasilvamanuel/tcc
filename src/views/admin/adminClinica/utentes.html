@@ -9,6 +9,280 @@
     <title>Health Access Hub | Gerir profissionais</title>
     <!-- CSS -->
     <link rel="stylesheet" href="/css/admin/adminDah.css">
+    <style>
+        /* Estilos adicionais para Utentes */
+        .section-header {
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin: 0 0 5px 0;
+        }
+
+        .section-header h2 i {
+            color: #4A90E2;
+            margin-right: 12px;
+        }
+
+        .section-header p {
+            color: #6B7280;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-select {
+            padding: 12px 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .stats-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-mini-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-mini-card i {
+            font-size: 28px;
+            color: #4A90E2;
+        }
+
+        .stat-mini-card h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            color: #1F2937;
+        }
+
+        .stat-mini-card p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: #6B7280;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-ativo {
+            background: #D1FAE5;
+            color: #059669;
+        }
+
+        .status-inativo {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #F3F4F6;
+        }
+
+        .page-btn {
+            background: #F3F4F6;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: #4A90E2;
+            color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #F3F4F6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #1F2937;
+        }
+
+        .modal-close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #9CA3AF;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #DC2626;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #F9FAFB;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #6B7280;
+            font-size: 0.85rem;
+        }
+
+        .detail-value {
+            color: #1F2937;
+            font-size: 0.85rem;
+        }
+
+        .view-only-alert {
+            margin-top: 20px;
+            padding: 12px;
+            background: #FEF3C7;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #D97706;
+            text-align: center;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #F3F4F6;
+            text-align: right;
+        }
+
+        .btn-modal-close {
+            background: #F3F4F6;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-modal-close:hover {
+            background: #E5E7EB;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .patient-name {
+            font-weight: 600;
+        }
+    </style>
 </head>
 
 <body>
@@ -101,12 +375,249 @@
                 </div>
 
             </header>
+
+            <!-- UTENTES SECTION - Versão completa com busca e filtros -->
+            <div id="utentes" class="section">
+                <!-- Cabeçalho da seção -->
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Gestão de Utentes</h2>
+                    <p>Visualização completa dos pacientes cadastrados na clínica</p>
+                </div>
+
+                <!-- Barra de pesquisa e filtros -->
+                <div class="search-filters">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchUtente" placeholder="Buscar por nome, telefone ou CPF..."
+                            class="search-input">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterSexo" class="filter-select">
+                            <option value="">Todos os sexos</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <select id="filterStatus" class="filter-select">
+                            <option value="">Todos os status</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cards de estatísticas de utentes -->
+                <div class="stats-mini-grid">
+                    <div class="stat-mini-card">
+                        <i class="fas fa-user-check"></i>
+                        <div>
+                            <h4>1,847</h4>
+                            <p>Utentes Ativos</p>
+                        </div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <i class="fas fa-user-plus"></i>
+                        <div>
+                            <h4>124</h4>
+                            <p>Novos este mês</p>
+                        </div>
+                    </div>
+                    <div class="stat-mini-card">
+                        <i class="fas fa-calendar-week"></i>
+                        <div>
+                            <h4>342</h4>
+                            <p>Consultaram esta semana</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Utentes -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h4><i class="fas fa-list"></i> Lista de Utentes Cadastrados</h4>
+                        <div class="info-badge">
+                            <i class="fas fa-eye"></i> Visualização apenas - <span id="totalUtentes">8</span> registros
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="utentesTable">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-user"></i> Nome</th>
+                                    <th><i class="fas fa-venus-mars"></i> Sexo</th>
+                                    <th><i class="fas fa-birthday-cake"></i> Idade</th>
+                                    <th><i class="fas fa-phone"></i> Telefone</th>
+                                    <th><i class="fas fa-envelope"></i> Email</th>
+                                    <th><i class="fas fa-calendar"></i> Última Consulta</th>
+                                    <th><i class="fas fa-chart-line"></i> Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="utentesTableBody">
+                                <!-- Dados via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginação -->
+                    <div class="pagination">
+                        <button class="page-btn" id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
+                        <span id="pageInfo">Página 1 de 1</span>
+                        <button class="page-btn" id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Modal de Visualização (apenas leitura) -->
+                <div id="utenteModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-user-circle"></i> Detalhes do Utente</h3>
+                            <span class="modal-close">&times;</span>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Conteúdo dinâmico -->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-modal-close">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <!-- all code JS -->
     <script src="/js/header.js"></script>
     <script src="/js/profDash.js"></script>
+
+    <script>
+        // Dados dos utentes
+        const utentesData = [
+            { id: 1, nome: "Maria Santos", sexo: "Feminino", idade: 34, telefone: "(11) 98765-4321", email: "maria.santos@email.com", ultimaConsulta: "10/01/2024", status: "Ativo" },
+            { id: 2, nome: "João Pereira", sexo: "Masculino", idade: 45, telefone: "(11) 91234-5678", email: "joao.pereira@email.com", ultimaConsulta: "05/01/2024", status: "Ativo" },
+            { id: 3, nome: "Carla Ferreira", sexo: "Feminino", idade: 28, telefone: "(11) 99876-5432", email: "carla.ferreira@email.com", ultimaConsulta: "15/01/2024", status: "Ativo" },
+            { id: 4, nome: "Roberto Alves", sexo: "Masculino", idade: 52, telefone: "(11) 94567-8901", email: "roberto.alves@email.com", ultimaConsulta: "03/01/2024", status: "Inativo" },
+            { id: 5, nome: "Ana Paula Lima", sexo: "Feminino", idade: 31, telefone: "(11) 97654-3210", email: "ana.lima@email.com", ultimaConsulta: "12/01/2024", status: "Ativo" },
+            { id: 6, nome: "Lucas Mendes", sexo: "Masculino", idade: 27, telefone: "(11) 98901-2345", email: "lucas.mendes@email.com", ultimaConsulta: "08/01/2024", status: "Ativo" },
+            { id: 7, nome: "Fernanda Costa", sexo: "Feminino", idade: 39, telefone: "(11) 95678-9012", email: "fernanda.costa@email.com", ultimaConsulta: "14/01/2024", status: "Ativo" },
+            { id: 8, nome: "Ricardo Silva", sexo: "Masculino", idade: 48, telefone: "(11) 93456-7890", email: "ricardo.silva@email.com", ultimaConsulta: "02/01/2024", status: "Inativo" }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let filteredUtentes = [...utentesData];
+
+        // Função para renderizar tabela
+        function renderUtentesTable() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageUtentes = filteredUtentes.slice(start, end);
+
+            const tbody = document.getElementById('utentesTableBody');
+            tbody.innerHTML = '';
+
+            pageUtentes.forEach(utente => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+            <td><span class="patient-name">${utente.nome}</span> <i class="fas fa-eye view-only-icon"></i></td>
+            <td>${utente.sexo}</td>
+            <td>${utente.idade} anos</td>
+            <td>${utente.telefone}</td>
+            <td>${utente.email}</td>
+            <td>${utente.ultimaConsulta}</td>
+            <td><span class="status-badge ${utente.status === 'Ativo' ? 'status-ativo' : 'status-inativo'}">${utente.status}</span></td>
+        `;
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', () => showUtenteModal(utente));
+            });
+
+            document.getElementById('totalUtentes').textContent = filteredUtentes.length;
+
+            const totalPages = Math.ceil(filteredUtentes.length / itemsPerPage);
+            document.getElementById('pageInfo').textContent = `Página ${currentPage} de ${totalPages || 1}`;
+
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        // Função de busca
+        function filterUtentes() {
+            const searchTerm = document.getElementById('searchUtente').value.toLowerCase();
+            const sexoFilter = document.getElementById('filterSexo').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+
+            filteredUtentes = utentesData.filter(utente => {
+                const matchSearch = utente.nome.toLowerCase().includes(searchTerm) ||
+                    utente.telefone.includes(searchTerm) ||
+                    utente.email.toLowerCase().includes(searchTerm);
+                const matchSexo = !sexoFilter || utente.sexo === sexoFilter;
+                const matchStatus = !statusFilter || utente.status === statusFilter;
+
+                return matchSearch && matchSexo && matchStatus;
+            });
+
+            currentPage = 1;
+            renderUtentesTable();
+        }
+
+        // Modal
+        function showUtenteModal(utente) {
+            const modal = document.getElementById('utenteModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-user"></i> Nome completo:</span>
+            <span class="detail-value">${utente.nome}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-venus-mars"></i> Sexo:</span>
+            <span class="detail-value">${utente.sexo}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-birthday-cake"></i> Idade:</span>
+            <span class="detail-value">${utente.idade} anos</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-phone"></i> Telefone:</span>
+            <span class="detail-value">${utente.telefone}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-envelope"></i> E-mail:</span>
+            <span class="detail-value">${utente.email}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-calendar"></i> Última consulta:</span>
+            <span class="detail-value">${utente.ultimaConsulta}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label"><i class="fas fa-chart-line"></i> Status:</span>
+            <span class="detail-value"><span class="status-badge ${utente.status === 'Ativo' ? 'status-ativo' : 'status-inativo'}">${utente.status}</span></span>
+        </div>
+        <div class="view-only-alert">
+            <i class="fas fa-lock"></i> Modo de visualização - Não é possível editar os dados
+        </div>
+    `;
+
+            modal.style.display = 'flex';
+        }
+
+        // Eventos
+        document.getElementById('searchUtente').addEventListener('input', filterUtentes);
+        document.getElementById('filterSexo').addEventListener('change', filterUtentes);
+        document.getElementById('filterStatus').addEventListener('change', filterUtentes);
+        document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderUtentesTable(); } });
+        document.getElementById('nextPage').addEventListener('click', () => { const totalPages = Math.ceil(filteredUtentes.length / itemsPerPage); if (currentPage < totalPages) { currentPage++; renderUtentesTable(); } });
+
+        // Fechar modal
+        document.querySelectorAll('.modal-close, .btn-modal-close, .modal').forEach(el => {
+            el.addEventListener('click', function (e) {
+                if (e.target === this) document.getElementById('utenteModal').style.display = 'none';
+            });
+        });
+
+        // Inicializar
+        renderUtentesTable();
+    </script>
 </body>
 
 </html>

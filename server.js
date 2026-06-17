@@ -36,14 +36,14 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../02_siteHAH/hah')));
 
-// ================== ROTAS PROFISSIONAIS ==================
+// Rota para lidar com os profissionais
 const profissionalRoutes = require('./src/routes/profissionalRoutes');
 app.use('/api/profissionais', profissionalRoutes);
 
-// ================== ROTAS UTENTES ==================
+// Rotas para lidar com utentes
 app.use('/api/utentes', utenteRouter);
 
-// RECECAO E BLA BLA BLA
+// Rota para rececao
 const rececaoRoutes = require('./src/routes/rececaoRoutes');
 app.use('/api/rececao', rececaoRoutes);
 
@@ -58,7 +58,8 @@ app.use('/api', especialidadesRoutes);
 const chatRoutes = require('./src/routes/chatRoutes');
 
 
-// ================== SISTEMA DE PROTEÇÃO (Mantido/Refinado) ==================
+
+// Sistema de Protecao - verificar acesso de utilizadores
 const verificarAcesso = (rolesPermitidos) => {
     return (req, res, next) => {
         const token = req.cookies.token;
@@ -87,20 +88,23 @@ const verificarToken = (req, res, next) => {
 };
 
 
-// ================== ROTAS PÚBLICAS & UTENTE (SEM ALTERAÇÕES) ==================
+// Rotas publicas do sistema
 app.use('/auth', authRoutes);
 app.get('/auth/logout', handleLogout);
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/login.html')));
 app.get('/recuperar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/auth/recuperar.html')));
 
-// ROTAS PARA O SITE DA CLINICA
+
+
+// Rotas para o site da clinica arco-iris
 app.get('/start', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/start.html')));
 app.get('/equipa', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/equipa.html')));
 app.get('/servicos', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/servicos.html')));
 app.get('/agendar', (req, res) => res.sendFile(path.join(__dirname, 'src/views/clinica/agendar.html')));
 
-// --- UTENTE ---
 
+
+// UTENTES - Rotas para acessar as abas do utente
 app.get('/dashboard/utente', verificarAcesso(['utente']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/utente/dashboard.html'));
 });
@@ -135,12 +139,8 @@ app.get('/dashboard/utente/historico', verificarAcesso(['utente']), (req, res) =
 
 
 
-// ================== DASHBOARD: PROFISSIONAL (ACTUALIZADO COM SUBPASTAS) ==================
-
-
-
-// --- MÉDICO ---
-// Pasta: src/views/profissional/medico/
+// PROFISSIONAIS - Rotas para acessar as abas dos Profissionais, com suas respetivas reparticoes de acesso
+// MÉDICO - Pasta: src/views/profissional/medico/
 app.get('/dashboard/profissional/medico', verificarAcesso(['medico']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/medico/dashboard.html'));
 });
@@ -181,8 +181,7 @@ app.get('/dashboard/profissional/medico/historico', verificarAcesso(['medico']),
     res.sendFile(path.join(__dirname, 'src/views/profissional/medico/historico.html'));
 });
 
-// --- ENFERMEIRO ---
-// Pasta: src/views/profissional/enfermeiro/
+// ENFERMEIRO - Pasta: src/views/profissional/enfermeiro/
 app.get('/dashboard/profissional/enfermeiro', verificarAcesso(['enfermeiro']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/dashboard.html'));
 });
@@ -215,8 +214,7 @@ app.get('/dashboard/profissional/enfermeiro/alertas', verificarAcesso(['enfermei
     res.sendFile(path.join(__dirname, 'src/views/profissional/enfermeiro/alertas.html'));
 });
 
-// --- RECEÇÃO ---
-// Pasta: src/views/profissional/rececao/
+// RECEÇÃO - Pasta: src/views/profissional/rececao/
 app.get('/dashboard/profissional/rececao', verificarAcesso(['recepcionista']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/dashboard.html'));
 });
@@ -249,11 +247,10 @@ app.get('/dashboard/profissional/rececao/alertas', verificarAcesso(['recepcionis
     res.sendFile(path.join(__dirname, 'src/views/profissional/rececao/alertas.html'));
 });
 
-// ================== DASHBOARD: ADMIN (ACTUALIZADO COM SUBPASTAS) ==================
 
 
-// --- ADMIN GERAL ---
-// Localização: src/views/admin/adminGeral/
+// ADMIN - Rotas para acessar as respetivas abas dos admin do sistema, ADMIN GERAL e o CLINICO
+// ADMIN GERAL - Localização: src/views/admin/adminGeral/
 app.get('/dashboard/admin/adminGeral', verificarAcesso(['admin_geral']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/dashboard.html'));
 });
@@ -284,8 +281,7 @@ app.get('/dashboard/admin/adminGeral/utentes', verificarAcesso(['admin_geral']),
     res.sendFile(path.join(__dirname, 'src/views/admin/adminGeral/utentes.html'));
 });
 
-// --- ADMIN CLÍNICA ---
-// Localização: src/views/admin/adminClinica/
+// ADMIN CLÍNICA - Localização: src/views/admin/adminClinica/
 app.get('/dashboard/admin/adminClinica', verificarAcesso(['admin_clinica']), (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/dashboard.html'));
 });
@@ -309,14 +305,17 @@ app.get('/dashboard/admin/adminClinica/perfil', verificarAcesso(['admin_clinica'
     // Ambos os admins podem gerir a base de dados de utentes
     res.sendFile(path.join(__dirname, 'src/views/admin/adminClinica/perfil.html'));
 });
+// FINISH - Sessao de rotas concluida -------------------------------------------------------------
 
-// ================== ROTAS DE AGENDAMENTO ==================
+// SESSA DE API's 
+// API para agendamento de consultas
 app.use('/api/agendamentos', agendamentoRoutes);
 
-// ================== ROTAS DE CHAT ==================
+// API para chat em tempo real
 app.use('/api/chat', chatRoutes);
 
-// ================== APIS & CONFIGURAÇÕES (MANTIDAS) ==================
+// API's para configuracoes de 
+// Verificar token
 app.get('/api/user-info', verificarToken, (req, res) => {
     db.query(`SELECT nome, email, tipo_usuario AS role FROM usuario WHERE id_usuario = ?`, [req.user.userId], (err, results) => {
         if (err || results.length === 0) return res.status(404).json({ message: 'Erro' });
@@ -324,6 +323,7 @@ app.get('/api/user-info', verificarToken, (req, res) => {
     });
 });
 
+// Fotos de Perfil
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = path.join(__dirname, 'public/uploads/perfil');
@@ -332,8 +332,10 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => cb(null, `user_${req.user.userId}_${Date.now()}${path.extname(file.originalname)}`)
 });
+
 const upload = multer({ storage });
 
+// Ainda foto de perfil
 app.post('/api/upload-foto', verificarToken, upload.single('foto'), (req, res) => {
     const fotoUrl = `/uploads/perfil/${req.file.filename}`;
     db.query("UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?", [fotoUrl, req.user.userId], (err) => {
@@ -341,7 +343,9 @@ app.post('/api/upload-foto', verificarToken, upload.single('foto'), (req, res) =
         res.json({ success: true, url: fotoUrl });
     });
 });
+// FINISH - Fim da sessao de API's
 
+// INICIALIZACAO DO PROJECTO...
 const PORT = process.env.PORT || 3000;
 
 testConnection().then(() => {
@@ -355,15 +359,3 @@ testConnection().then(() => {
     });
 
 });
-
-// const PORT = process.env.PORT || 3000;
-// testConnection().then(() => {
-//     app.listen(PORT, () => console.log(`🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`));
-// });
-
-// http://localhost:3000/api/chat/conversas/1
-// http://localhost:3000/api/chat/conversas/1
-// http://localhost:3000/api/especialidades
-// tree -L 2
-// tree src/views -L 2
-// http://localhost:3000/auth/me

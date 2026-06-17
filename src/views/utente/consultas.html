@@ -43,7 +43,7 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
@@ -52,11 +52,8 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -65,74 +62,80 @@
 
                     <li>
                         <a href="/dashboard/utente" class="nav-link">
-                            <i class="fa-solid fa-house"></i>
+                            <i class="fa-solid fa-chart-pie"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/exames" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i>
+                            <i class="fa-solid fa-heart-pulse"></i>
                             <span>Sinais Vitais</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-comments"></i>
                             <span>Mensagens</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/consultas" class="nav-link active">
-                            <i class="fa-solid fa-calendar-check"></i>
+                            <i class="fa-solid fa-calendar-plus"></i>
                             <span>Agendar Consultas</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
+                            <i class="fa-solid fa-capsules"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
+                            <i class="fa-solid fa-timeline"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-id-card-clip"></i>
                             <span>Perfil</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/definicoes" class="nav-link">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Definições</span>
                         </a>
                     </li>
 
                 </ul>
             </nav>
 
-            <a href="/auth/logout" class="nav-link logout">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
-            </a>
-
             <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
             </div>
 
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- Main - corpo -->
         <main>
             <header class="main-header">
+                <div class="header-left">
+                    <h2 class="page-title">Agendar consultas</h2>
+                    <p class="page-subtitle">Gerencie suas consultas.</p>
+                </div>
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" placeholder="Pesquise consultas...">
@@ -209,20 +212,19 @@
                 </div>
             </section>
 
-            <!-- MANTENDO AS MÉTRICAS ABAIXO -->
-            <section class="metrics-grid-mini">
-                <div class="metric-card-mini">
-                    <i class="fa-solid fa-calendar-check text-blue"></i>
-                    <div>
-                        <h3 id="totalRealizadas">3</h3>
-                        <p>Realizadas</p>
+            <!-- Visualizar consultas do utente -->
+            <section class="booking-section">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2>
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Minhas Consultas
+                        </h2>
+                        <p>Consultas agendadas pelo utente.</p>
                     </div>
-                </div>
-                <div class="metric-card-mini">
-                    <i class="fa-solid fa-clock text-blue"></i>
-                    <div>
-                        <h3>5 dias</h3>
-                        <p>Próxima</p>
+
+                    <div id="listaConsultas">
+                        <p>A carregar consultas...</p>
                     </div>
                 </div>
             </section>

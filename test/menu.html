@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Lateral</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilização do Menu Lateral */
+        .menu {
+            height: 100%;
+            width: 0;
+            /* Começa fechado */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            /* Efeito de transição suave */
+            padding-top: 60px;
+            z-index: 1;
+        }
+
+        /* Links dentro do menu */
+        .menu a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            color: #f1f1f1;
+        }
+
+        /* ===== NOVO BOTÃO DE ABRIR (Alinhado com a tua paleta) ===== */
+        #botao-abrir {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 8px 10px;
+            cursor: pointer;
+            background-color: #ffffff;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            position: fixed;
+            top: 25px;
+            left: 5px;
+            z-index: 99;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        #botao-abrir:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        #botao-abrir img {
+            width: 28px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* ===== NOVO SIDEBAR RETRÁTIL (Estilo Overlay Profissional) ===== */
+        .menu-lateral {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 0;
+            /* Começa fechado */
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            overflow-x: hidden;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+            overflow-y: hidden;
+        }
+
+        /* Botão de fechar (X) */
+        .menu-lateral .botao-fechar {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 32px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-lateral .botao-fechar:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Área da Logo */
+        .sidebar-top {
+            padding: 0 1.2rem;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .logo-box {
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            white-space: nowrap;
+        }
+
+        .logo-box img {
+            width: 40px;
+            height: auto;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 0.95rem;
+        }
+
+        /* Navegação */
+        .navbar {
+            flex-grow: 1;
+            padding: 0 1.2rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        /* Links do Menu */
+        .menu-lateral .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: 0.25s;
+            white-space: nowrap;
+            /* Impede quebras de texto feias na animação */
+        }
+
+        .menu-lateral .nav-link i {
+            font-size: 18px;
+            min-width: 25px;
+        }
+
+        /* Estados Hover e Ativo */
+        .menu-lateral .nav-link:hover,
+        .menu-lateral .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Área de Rodapé / Logout */
+        .logout-area {
+            margin-top: auto;
+            padding: 15px 1.2rem 25px 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-lateral .nav-link.logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            /* Fundo avermelhado suave */
+            color: #fca5a5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Botão para abrir o menu -->
+        <button id="botao-abrir" onclick="toggleMenu()">
+            <img src="/public/img/logo02.png" alt="Health Access Hub">
+            <span>Menu ☰</span>
+        </button>
+
+        <!-- SIDEBAR (Menu Lateral Retrátil) -->
+        <aside id="sidebar" class="menu-lateral">
+
+            <!-- Botão de Fechar dentro do menu -->
+            <button class="botao-fechar" onclick="toggleMenu()">&times;</button>
+
+            <!-- Área da Logo integrada -->
+            <div class="sidebar-top">
+                <div class="logo-box">
+                    <img src="/public/img/logo02.png" alt="Health Access Hub">
+                    <span class="logo-text">Health Access Hub</span>
+                </div>
+            </div>
+
+            <!-- MENU UTENTE -->
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li>
+                        <a href="/dashboard/utente" class="nav-link active">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/exames" class="nav-link">
+                            <i class="fa-solid fa-file-medical"></i>
+                            <span>Sinais Vitais</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/mensagens" class="nav-link">
+                            <i class="fa-solid fa-message"></i>
+                            <span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/consultas" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>Agendar Consultas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/prescricao" class="nav-link">
+                            <i class="fa-solid fa-file-prescription"></i>
+                            <span>Prescrição</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/historico" class="nav-link">
+                            <i class="fa-solid fa-notes-medical"></i>
+                            <span>Histórico Clínico</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/perfil" class="nav-link">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/utente/definicoes" class="nav-link">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Definições</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- LOGOUT -->
+            <div class="logout-area">
+                <a href="/auth/logout" class="nav-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+
+        </aside>
+
+    <script>
+        function toggleMenu() {
+            let menu = document.getElementById("sidebar");
+
+            // Verifica se está fechado e define a largura de abertura ideal
+            if (menu.style.width === "0px" || menu.style.width === "") {
+                menu.style.width = "260px";
+            } else {
+                menu.style.width = "0px";
+            }
+        }
+    </script>
+</body>
+
+</html>

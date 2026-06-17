@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="/css/auth/redefinir-senha.css">
-    <title>Health Access Hub | Redefinir Senha</title>
+    <title>Health Access Hub • Redefinir Senha</title>
 </head>
 
 <body>
@@ -71,17 +71,6 @@
                 });
 
                 // Se o backend redirecionou = deu certo
-                // if (res.redirected) {
-                //     window.location.hret = res.url; // vai mandar para o login
-                //     return;
-                // }
-
-                // // Se o backend nao redirecionou deu erro e voltou JSON
-                // const data = await res.json();
-                // msg.textContent = data.erro || 'Link invalido ou expirou';
-                // msg.classList.add('erro');
-
-                // O backend faz redirect, então se chegou aqui deu erro
                 if (!res.redirected) {
                     const data = await res.json();
                     msg.textContent = data.erro || 'Link inválido ou expirado.';
@@ -90,14 +79,7 @@
                     btn.textContent = 'Salvar nova senha';
                 }
                 // Se deu certo, o backend redireciona pra /login sozinho
-            } //catch (err) {
-            //     console.error(err);
-            //     msg.textContent = 'Erro de conexao. Tente novamente';
-            //     msg.classList.add('erro');
-            // } finally {
-            //     btn.disabled = false;
-            //     btn.textContent = 'Salvar nova senha';
-            // }
+            }
             catch (err) {
                 msg.textContent = 'Erro de conexão. Tente novamente.';
                 msg.classList.add('erro');

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Health Access Hub</title>
+    <link rel="icon" type="image/png" href="/public/img/logo02.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- video no fundo da pagina -->
+    <div class="video-background">
+        <video autoplay loop muted playsinline
+            poster="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1000">
+            <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-medicine-bottles-on-a-turning-table-41551-large.mp4"
+                type="video/mp4">
+            <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-doctor-putting-on-surgical-gloves-41549-large.mp4"
+                type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- login container -->
+    <div class="login-container">
+        <div class="card-left">
+            <div class="overlay"></div>
+
+            <div class="logo-area">
+                <img src="/public/img/logo02.png" alt="" width="80">
+                <span class="logo-text">HEALTH ACCESS <span class="accent-text">HUB</span></span>
+            </div>
+
+            <div class="slider-wrapper">
+                <div class="slide active">
+                    <i class="bi bi-activity slide-icon"></i>
+                    <h3>Monitoramento Contínuo</h3>
+                    <p>Acompanhe os sinais vitais dos pacientes em tempo real com precisão e segurança extrema.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-capsule slide-icon"></i>
+                    <h3>Gestão de Medicamentos</h3>
+                    <p>Controle de dosagens, horários e interações medicamentosas de forma automatizada.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-virus slide-icon"></i>
+                    <h3>Análise Patogénica</h3>
+                    <p>Identificação precoce de vírus e bactérias para isolamento e tratamento eficaz.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-heartbook slide-icon"></i>
+                    <h3>Bem-Estar Integral</h3>
+                    <p>Promova a saúde preventiva e o cuidado humanizado focado na recuperação rápida.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-person-wheelchair slide-icon"></i>
+                    <h3>Cuidado ao Paciente</h3>
+                    <p>Histórico clínico centralizado para decisões médicas mais rápidas e assertivas.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-shield-plus slide-icon"></i>
+                    <h3>Ambiente Cirúrgico</h3>
+                    <p>Suporte de dados crítico durante operações complexas e procedimentos de risco.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-thermometer-half slide-icon"></i>
+                    <h3>Triagem Inteligente</h3>
+                    <p>Algoritmos avançados para priorização de atendimentos em estado de urgência.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-prescription2 slide-icon"></i>
+                    <h3>Tratamentos Digitais</h3>
+                    <p>Conectando médicos e pacientes para prescrições e acompanhamentos remotos.</p>
+                </div>
+                <div class="slide">
+                    <i class="bi bi-hospital slide-icon"></i>
+                    <h3>Infraestrutura Conectada</h3>
+                    <p>O coração tecnológico da sua unidade de saúde, operando 24 horas por dia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-right">
+            <div class="form-area">
+                <h2>Bem-vindo de volta</h2>
+                <p class="subtitle">Insira as suas credenciais para aceder ao painel de monitoramento.</p>
+
+                <form action="/login" method="POST">
+                    <div class="input-group">
+                        <label for="email">E-mail Profissional</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" id="email" name="email" placeholder="exemplo@hospital.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Palavra-passe</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember"> Lembrar-me
+                        </label>
+                        <a href="#" class="forgot-pass">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Entrar na Plataforma <i class="bi bi-arrow-right-short"></i>
+                    </button>
+                </form>
+            </div>
+
+            <footer class="card-footer">
+                <p>&copy; 2026 Health Access Hub. Todos os direitos reservados.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

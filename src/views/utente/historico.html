@@ -11,14 +11,14 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/utente/utenteDash.css">
+    <link rel="stylesheet" href="/css/utente/Historico.css">
 
     <title>Health Access Hub | Dashboard Utente</title>
 </head>
 
 <body>
     <div class="app">
-
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
@@ -27,11 +27,8 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -40,65 +37,67 @@
 
                     <li>
                         <a href="/dashboard/utente" class="nav-link">
-                            <i class="fa-solid fa-house"></i>
+                            <i class="fa-solid fa-chart-pie"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/exames" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i>
+                            <i class="fa-solid fa-heart-pulse"></i>
                             <span>Sinais Vitais</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-comments"></i>
                             <span>Mensagens</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
+                            <i class="fa-solid fa-calendar-plus"></i>
                             <span>Agendar Consultas</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
+                            <i class="fa-solid fa-capsules"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/historico" class="nav-link active">
-                            <i class="fa-solid fa-notes-medical"></i>
+                            <i class="fa-solid fa-timeline"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-id-card-clip"></i>
                             <span>Perfil</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/definicoes" class="nav-link">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Definições</span>
                         </a>
                     </li>
 
                 </ul>
             </nav>
 
-            <a href="/dashboard/utente/definicoes" class="nav-link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
-            </a>
-
             <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
             </div>
@@ -106,22 +105,23 @@
         </aside>
 
         <!-- MAIN -->
+        <!-- MAIN - Histórico Clínico -->
         <main id="mainContent">
             <!-- HEADER -->
             <header class="main-header">
-
+                <div class="header-left">
+                    <h2 class="page-title">Histórico Clínico</h2>
+                    <p class="page-subtitle">Veja o seu histórico clínico</p>
+                </div>
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar consultas ou exames...">
+                    <input type="search" placeholder="Pesquisar no histórico clínico...">
                 </div>
-
                 <div class="header-right">
-
                     <div class="notification-icon">
                         <i class="fa-solid fa-bell"></i>
                         <span class="notification-badge">2</span>
                     </div>
-
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
@@ -132,8 +132,322 @@
                         </div>
                     </div>
                 </div>
-
             </header>
+
+            <!-- CONTEÚDO PRINCIPAL -->
+            <div class="history-container">
+
+                <!-- Cabeçalho da página -->
+                <div class="page-header">
+                    <div class="header-title">
+                        <i class="fa-solid fa-notes-medical"></i>
+                        <h1>Histórico Clínico</h1>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-filter">
+                            <i class="fa-solid fa-filter"></i>
+                            Filtrar
+                        </button>
+                        <button class="btn-export">
+                            <i class="fa-solid fa-download"></i>
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABS DE NAVEGAÇÃO -->
+                <div class="history-tabs">
+                    <button class="tab-btn active" data-tab="consultas">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        Consultas
+                        <span class="tab-count" id="consultasCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="exames">
+                        <i class="fa-solid fa-flask"></i>
+                        Exames
+                        <span class="tab-count" id="examesCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="internamentos">
+                        <i class="fa-solid fa-hospital-user"></i>
+                        Internamentos
+                        <span class="tab-count" id="internamentosCount">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="prescricoes">
+                        <i class="fa-solid fa-file-prescription"></i>
+                        Prescrições
+                        <span class="tab-count" id="prescricoesCount">0</span>
+                    </button>
+                </div>
+
+                <!-- PAINEL DE CONSULTAS -->
+                <div class="tab-content active" id="consultasTab">
+                    <div class="timeline">
+                        <!-- Ano 2024 -->
+                        <div class="timeline-year">
+                            <div class="year-badge">2026</div>
+                            <div class="timeline-items">
+                                <div class="history-card">
+                                    <div class="card-header">
+                                        <div class="card-type">
+                                            <i class="fa-solid fa-stethoscope"></i>
+                                            <span>Consulta de Cardiologia</span>
+                                        </div>
+                                        <div class="card-date">
+                                            <i class="fa-regular fa-calendar"></i>
+                                            15 de Outubro, 2026
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="info-row">
+                                            <span class="label">Médico:</span>
+                                            <span class="value">Dr. Ricardo Almeida</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Especialidade:</span>
+                                            <span class="value">Cardiologia</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Horário:</span>
+                                            <span class="value">10:30 - 11:00</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Status:</span>
+                                            <span class="status-badge completed">Realizada</span>
+                                        </div>
+                                        <div class="observations">
+                                            <i class="fa-regular fa-note-sticky"></i>
+                                            <p>Paciente apresenta melhora significativa. Medicação ajustada. Retorno em
+                                                3 meses.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="history-card">
+                                    <div class="card-header">
+                                        <div class="card-type">
+                                            <i class="fa-solid fa-brain"></i>
+                                            <span>Consulta de Neurologia</span>
+                                        </div>
+                                        <div class="card-date">
+                                            <i class="fa-regular fa-calendar"></i>
+                                            03 de Setembro, 2026
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="info-row">
+                                            <span class="label">Médico:</span>
+                                            <span class="value">Dra. Sofia Mendes</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Especialidade:</span>
+                                            <span class="value">Neurologia</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Status:</span>
+                                            <span class="status-badge completed">Realizada</span>
+                                        </div>
+                                        <div class="observations">
+                                            <i class="fa-regular fa-note-sticky"></i>
+                                            <p>Realizada eletroencefalograma. Resultados dentro do esperado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ano 2023 -->
+                        <div class="timeline-year">
+                            <div class="year-badge">2025</div>
+                            <div class="timeline-items">
+                                <div class="history-card">
+                                    <div class="card-header">
+                                        <div class="card-type">
+                                            <i class="fa-solid fa-stethoscope"></i>
+                                            <span>Consulta de Rotina</span>
+                                        </div>
+                                        <div class="card-date">
+                                            <i class="fa-regular fa-calendar"></i>
+                                            12 de Dezembro, 2025
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="info-row">
+                                            <span class="label">Médico:</span>
+                                            <span class="value">Dr. Miguel Santos</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Especialidade:</span>
+                                            <span class="value">Clínica Geral</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <span class="label">Status:</span>
+                                            <span class="status-badge completed">Realizada</span>
+                                        </div>
+                                        <div class="observations">
+                                            <i class="fa-regular fa-note-sticky"></i>
+                                            <p>Check-up anual. Todos os parâmetros normais.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE EXAMES -->
+                <div class="tab-content" id="examesTab">
+                    <div class="exames-grid">
+                        <div class="history-card exam-card">
+                            <div class="card-header">
+                                <div class="card-type">
+                                    <i class="fa-solid fa-droplet"></i>
+                                    <span>Análises Clínicas</span>
+                                </div>
+                                <div class="card-date">20/10/2026</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="exam-results">
+                                    <div class="exam-item">
+                                        <span class="exam-name">Glicemia</span>
+                                        <span class="exam-value">95 mg/dL</span>
+                                        <span class="exam-reference">(70-99)</span>
+                                        <span class="exam-status normal">Normal</span>
+                                    </div>
+                                    <div class="exam-item">
+                                        <span class="exam-name">Colesterol Total</span>
+                                        <span class="exam-value">185 mg/dL</span>
+                                        <span class="exam-reference">(<190)< /span>
+                                                <span class="exam-status normal">Normal</span>
+                                    </div>
+                                    <div class="exam-item">
+                                        <span class="exam-name">Triglicerídeos</span>
+                                        <span class="exam-value">150 mg/dL</span>
+                                        <span class="exam-reference">(<150)< /span>
+                                                <span class="exam-status attention">Limite</span>
+                                    </div>
+                                </div>
+                                <button class="btn-view-details">Ver detalhes completos</button>
+                            </div>
+                        </div>
+
+                        <div class="history-card exam-card">
+                            <div class="card-header">
+                                <div class="card-type">
+                                    <i class="fa-solid fa-heartbeat"></i>
+                                    <span>Eletrocardiograma</span>
+                                </div>
+                                <div class="card-date">15/10/2024</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="exam-summary">
+                                    <p><strong>Resultado:</strong> Ritmo sinusal normal, sem alterações significativas.
+                                    </p>
+                                    <p><strong>Médico responsável:</strong> Dr. Ricardo Almeida</p>
+                                </div>
+                                <button class="btn-view-details">Ver relatório completo</button>
+                            </div>
+                        </div>
+
+                        <div class="history-card exam-card">
+                            <div class="card-header">
+                                <div class="card-type">
+                                    <i class="fa-solid fa-x-ray"></i>
+                                    <span>Raio-X Tórax</span>
+                                </div>
+                                <div class="card-date">03/09/2026</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="exam-summary">
+                                    <p><strong>Resultado:</strong> Sem alterações pleuro-pulmonares. Silhueta cardíaca
+                                        normal.</p>
+                                    <p><strong>Médico responsável:</strong> Dra. Sofia Mendes</p>
+                                </div>
+                                <button class="btn-view-details">Ver laudo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE INTERNAMENTOS -->
+                <div class="tab-content" id="internamentosTab">
+                    <div class="internamentos-list">
+                        <div class="history-card intern-card">
+                            <div class="card-header">
+                                <div class="card-type">
+                                    <i class="fa-solid fa-hospital"></i>
+                                    <span>Internamento - Observação</span>
+                                </div>
+                                <div class="card-date">10/01/2025 - 15/01/2025</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="info-row">
+                                    <span class="label">Motivo:</span>
+                                    <span class="value">Pneumonia bacteriana</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Unidade:</span>
+                                    <span class="value">Medicina Interna - Enfermaria A</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Médico assistente:</span>
+                                    <span class="value">Dr. Carlos Figueiredo</span>
+                                </div>
+                                <div class="observations">
+                                    <i class="fa-regular fa-note-sticky"></i>
+                                    <p>Paciente internado por quadro febril e dificuldade respiratória. Respondeu bem à
+                                        antibioticoterapia. Alta sem complicações.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE PRESCRIÇÕES -->
+                <div class="tab-content" id="prescricoesTab">
+                    <div class="prescricoes-list">
+                        <div class="history-card prescription-card">
+                            <div class="card-header">
+                                <div class="card-type">
+                                    <i class="fa-solid fa-pills"></i>
+                                    <span>Medicação Contínua</span>
+                                </div>
+                                <div class="card-date">Atualizado em 15/10/2026</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="medication-item">
+                                    <div class="med-name">Lisinopril 10mg</div>
+                                    <div class="med-dosage">1 comprimido ao dia</div>
+                                    <div class="med-period">30 dias</div>
+                                </div>
+                                <div class="medication-item">
+                                    <div class="med-name">Atorvastatina 20mg</div>
+                                    <div class="med-dosage">1 comprimido à noite</div>
+                                    <div class="med-period">60 dias</div>
+                                </div>
+                                <div class="medication-item">
+                                    <div class="med-name">Paracetamol 500mg</div>
+                                    <div class="med-dosage">Se necessário (dor)</div>
+                                    <div class="med-period">20 comprimidos</div>
+                                </div>
+                                <button class="btn-renew">Solicitar Renovação</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGINAÇÃO -->
+                <div class="pagination">
+                    <button class="page-btn" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -141,77 +455,9 @@
     <script src="/js/utenteDash.js"></script>
 
     <script src="/js/header.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- js dashboard -->
     <script src="/js/profDash.js"></script>
-
-    <!-- graficos -->
-    <script>
-        const ctx = document.getElementById('hospitalChart').getContext('2d');
-
-        // Gradiente para a linha (opcional, mas fica muito elegante)
-        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
-        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
-
-        let ecgData = Array(40).fill(5);
-        let labels = Array(40).fill('');
-
-        const hospitalChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: ecgData,
-                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4, // Linha mais orgânica e suave
-                    fill: true,
-                    backgroundColor: gradient
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        display: true,
-                        min: 0, max: 20,
-                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
-                        ticks: { display: false }
-                    },
-                    x: { display: false }
-                },
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        let counter = 0;
-        function updateMonitor() {
-            let newValue = 5; // Linha base
-            let step = counter % 15;
-
-            // Simula o pulso de forma suave
-            if (step === 3) newValue = 15;      // Pico R
-            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
-            else newValue = 5 + (Math.random() * 1); // Oscilação leve
-
-            ecgData.push(newValue);
-            ecgData.shift();
-
-            if (counter % 10 === 0) {
-                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
-            }
-
-            hospitalChart.update('none');
-            counter++;
-        }
-
-        setInterval(updateMonitor, 100);
-    </script>
 </body>
 
 </html>

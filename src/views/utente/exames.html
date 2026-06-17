@@ -13,7 +13,7 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
@@ -22,11 +22,8 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -35,65 +32,67 @@
 
                     <li>
                         <a href="/dashboard/utente" class="nav-link">
-                            <i class="fa-solid fa-house"></i>
+                            <i class="fa-solid fa-chart-pie"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/exames" class="nav-link active">
-                            <i class="fa-solid fa-file-medical"></i>
+                            <i class="fa-solid fa-heart-pulse"></i>
                             <span>Sinais Vitais</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-comments"></i>
                             <span>Mensagens</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
+                            <i class="fa-solid fa-calendar-plus"></i>
                             <span>Agendar Consultas</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
+                            <i class="fa-solid fa-capsules"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
+                            <i class="fa-solid fa-timeline"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-id-card-clip"></i>
                             <span>Perfil</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/definicoes" class="nav-link">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Definições</span>
                         </a>
                     </li>
 
                 </ul>
             </nav>
 
-            <a href="/auth/logout" class="nav-link logout">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
-            </a>
-
             <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
             </div>
@@ -103,6 +102,10 @@
         <!-- MAIN -->
         <main>
             <header class="main-header">
+                <div class="header-left">
+                    <h2 class="page-title">Monitor de Sinais Vitais</h2>
+                    <p class="page-subtitle">Sinais vitais.</p>
+                </div>
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" placeholder="Pesquisar métricas ou histórico...">
@@ -118,87 +121,139 @@
                 </div>
             </header>
 
-            <!-- ÁREA PRINCIPAL: DIV GRANDE COM GRÁFICO CHART.JS -->
-            <section class="monitoring-overview" style="display: none;">
-                <div class="main-chart-card">
-                    <div class="card-header-flex">
-                        <div>
-                            <h2>Monitoramento de Sinais Vitais</h2>
-                            <p class="subtitle">Dados em tempo real via ESP32</p>
+            <!-- NOVO PAINEL DE TELEMETRIA -->
+            <div class="telemetry-dashboard">
+
+                <!-- BARRA DE STATUS DO DISPOSITIVO IOT -->
+                <div class="device-status-bar">
+                    <div class="status-left">
+                        <span class="live-badge"><i class="fa-solid fa-circle"></i> Em Tempo Real</span>
+                        <p>Monitorização contínua via dispositivo wearable</p>
+                    </div>
+                    <div class="status-right">
+                        <div class="hardware-info">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span>ID: <strong id="patientId">#2104</strong></span>
                         </div>
-                        <span class="status-badge live">LIVE</span>
-                    </div>
-                    <div class="canvas-container">
-                        <canvas id="vitalsChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CARDS DE MÉTRICAS DE APOIO -->
-            <section class="metrics-section">
-                <div class="metric-card">
-                    <div class="metric-icon heart"><i class="fa-solid fa-heart-pulse"></i></div>
-                    <div class="metric-content">
-                        <h3 id="freqCardiaca">-- bpm</h3>
-                        <p>Frequência Cardíaca</p>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon pressure"><i class="fa-solid fa-droplet"></i></div>
-                    <div class="metric-content">
-                        <h3 id="pressaoArterial">--/-- mmHg</h3>
-                        <p>Pressão Arterial</p>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon temp"><i class="fa-solid fa-temperature-high"></i></div>
-                    <div class="metric-content">
-                        <h3 id="temperatura">--°C</h3>
-                        <p>Temperatura</p>
-                    </div>
-                </div>
-                <!-- <div class="metric-card">
-                    <div class="metric-icon history"><i class="fa-solid fa-microchip"></i></div>
-                    <div class="metric-content">
-                        <h3 id="batimentoHistorico">Últimos 7 dias</h3>
-                        <p>Histórico</p>
-                    </div>
-                </div> -->
-            </section>
-
-            <!-- STATUS E LISTA DE HISTÓRICO -->
-            <section class="content-section">
-                <div class="content-card">
-                    <h2>Dispositivo ESP32</h2>
-                    <div class="device-info">
-                        <p><strong>Modelo:</strong> ESP32 BLE</p>
-                        <p><strong>Status:</strong> <span id="deviceStatus" class="status-offline">Desconectado</span>
-                        </p>
-                        <p><strong>Última atualização:</strong> <span id="lastUpdate">--:--</span></p>
+                        <div class="sync-time">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Última leitura: <strong id="lastTime">--:--:--</strong></span>
+                        </div>
+                        <div class="connection-tag connected">
+                            <div class="ping-led" id="statusLed"></div>
+                            <span id="deviceStatus">Online</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="content-card">
-                    <h2>Histórico de Dados</h2>
-                    <div class="exams-list" id="deviceDataHistory">
-                        <div class="exam-item">
-                            <div class="exam-name">Frequência Cardíaca</div>
-                            <div class="exam-value">-- bpm</div>
-                            <div class="exam-time">--/--</div>
+                <!-- METRIC CARDS RENOVA DOS (Grelha Principal) -->
+                <div class="vital-metrics-grid">
+
+                    <!-- Frequência Cardíaca -->
+                    <div class="vital-card card-pulse">
+                        <div class="v-card-inner">
+                            <div class="v-icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+                            <div class="v-meta">
+                                <span class="v-label">Frequência Cardíaca</span>
+                                <div class="v-value-wrapper">
+                                    <span class="v-number" id="hrValue">--</span>
+                                    <span class="v-unit">BPM</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="exam-item">
-                            <div class="exam-name">Pressão Arterial</div>
-                            <div class="exam-value">--/-- mmHg</div>
-                            <div class="exam-time">--/--</div>
-                        </div>
-                        <div class="exam-item">
-                            <div class="exam-name">Temperatura</div>
-                            <div class="exam-value">--°C</div>
-                            <div class="exam-time">--/--</div>
+                        <div class="v-card-footer">
+                            <span class="v-badge badge-success" id="hrTrend"><i class="fa-solid fa-circle-check"></i>
+                                Normal</span>
                         </div>
                     </div>
+
+                    <!-- Saturação SpO2 -->
+                    <div class="vital-card card-oxygen">
+                        <div class="v-card-inner">
+                            <div class="v-icon-box"><i class="fa-solid fa-lungs"></i></div>
+                            <div class="v-meta">
+                                <span class="v-label">Saturação SpO₂</span>
+                                <div class="v-value-wrapper">
+                                    <span class="v-number" id="spo2Value">--</span>
+                                    <span class="v-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="v-card-footer">
+                            <span class="v-badge badge-success" id="spo2Trend"><i class="fa-solid fa-circle-check"></i>
+                                Normal</span>
+                        </div>
+                    </div>
+
+                    <!-- Temperatura Corporal -->
+                    <div class="vital-card card-temperature">
+                        <div class="v-card-inner">
+                            <div class="v-icon-box"><i class="fa-solid fa-temperature-three-quarters"></i></div>
+                            <div class="v-meta">
+                                <span class="v-label">Temperatura Corporal</span>
+                                <div class="v-value-wrapper">
+                                    <span class="v-number" id="tempValue">--</span>
+                                    <span class="v-unit">°C</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="v-card-footer">
+                            <span class="v-badge badge-success" id="tempTrend"><i class="fa-solid fa-circle-check"></i>
+                                Normal</span>
+                        </div>
+                    </div>
+
                 </div>
-            </section>
+
+                <!-- SEÇÃO INFERIOR ASSEMETRICA: Triagem e Histórico -->
+                <div class="telemetry-bottom-layout">
+
+                    <!-- Painel da Esquerda: Diagnóstico Rápido e Alertas -->
+                    <div class="diagnostic-column">
+
+                        <!-- Estado Geral -->
+                        <div class="sub-panel status-summary-card">
+                            <h4><i class="fa-solid fa-clipboard-check"></i> Estado de Triagem</h4>
+                            <div class="status-summary-content">
+                                <span class="general-status-pill success" id="overallState">Estável</span>
+                                <p class="status-desc" id="autoMsg">✅ Todos os parâmetros biométricos encontram-se
+                                    dentro dos limites ideais.</p>
+                            </div>
+                        </div>
+
+                        <!-- Alertas Clínicos -->
+                        <div class="sub-panel alerts-card">
+                            <h4><i class="fa-solid fa-triangle-exclamation"></i> Alertas Recentes</h4>
+                            <div class="alert-logs-list" id="alertList">
+                                <div class="alert-log-item cleared">
+                                    <div class="log-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                    <div class="log-info">
+                                        <h5>Nenhuma anomalia detetada</h5>
+                                        <p>O sistema IoT está operando em conformidade.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Painel da Direita: Histórico de Telemetria (Mais largo) -->
+                    <div class="sub-panel history-column">
+                        <div class="panel-header-actions">
+                            <h4><i class="fa-solid fa-clock-rotate-left"></i> Logs Recentes da Telemetria</h4>
+                            <span class="live-indicator"><span class="pulse-dot"></span> Auto-update</span>
+                        </div>
+                        <div class="telemetry-history-list" id="historyList">
+                            <div class="history-empty">
+                                <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                                <p>Aguardando pacotes de dados do sensor...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </main>
     </div>
 
@@ -214,70 +269,208 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const ctx = document.getElementById('vitalsChart').getContext('2d');
+        // Dados atuais (simulação ESP32)
+        let hr = 76;
+        let spo2 = 97;
+        let temp = 36.5;
+        let online = true;
 
-            // Configuração do Gráfico Estilo ECG
-            const vitalsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: Array(40).fill(''), // 40 pontos no eixo X
-                    datasets: [{
-                        label: 'Heart Rate',
-                        data: Array(40).fill(70),
-                        borderColor: '#00ff00',
-                        borderWidth: 2,
-                        pointRadius: 0, // Sem pontos, apenas a linha
-                        tension: 0.4,   // Suaviza a onda
-                        fill: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false, // Importante: Gráfico hospitalar não tem delay
-                    scales: {
-                        y: {
-                            min: 40,
-                            max: 130,
-                            grid: { color: '#1a1a1a' },
-                            ticks: { color: '#008800', font: { family: 'monospace' } }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { display: false }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
+        // Histórico (máx 8)
+        let history = [];
 
-            // Função que gera o movimento do monitor
-            function updateMonitor() {
-                // Simula um batimento cardíaco com variação
-                let baseHeartRate = 72;
-                let pulse = baseHeartRate + (Math.random() * 10 - 5);
+        // Elementos DOM
+        const hrSpan = document.getElementById('hrValue');
+        const spo2Span = document.getElementById('spo2Value');
+        const tempSpan = document.getElementById('tempValue');
+        const hrTrendSpan = document.getElementById('hrTrend');
+        const spo2TrendSpan = document.getElementById('spo2Trend');
+        const tempTrendSpan = document.getElementById('tempTrend');
+        const overallStateSpan = document.getElementById('overallState');
+        const autoMsgSpan = document.getElementById('autoMsg');
+        const alertListDiv = document.getElementById('alertList');
+        const historyDiv = document.getElementById('historyList');
+        const lastTimeSpan = document.getElementById('lastTime');
+        const deviceStatusSpan = document.getElementById('deviceStatus');
+        const statusLed = document.getElementById('statusLed');
 
-                // Simula o "pico" do ECG ocasionalmente
-                if (Math.random() > 0.8) pulse += 20;
-                if (Math.random() > 0.9) pulse -= 30;
+        // Helper: horário atual
+        function getNowTime() {
+            const d = new Date();
+            return d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
 
-                // Atualiza os dados
-                vitalsChart.data.datasets[0].data.push(pulse);
-                vitalsChart.data.datasets[0].data.shift();
+        // Adiciona ao histórico
+        function addToHistory(metricType, val, unit) {
+            let name = '';
+            if (metricType === 'hr') name = 'FC ❤️';
+            else if (metricType === 'spo2') name = 'SpO₂ 🫁';
+            else name = 'Temp 🌡️';
+            history.unshift({ metric: name, value: val, unit: unit, time: getNowTime() });
+            if (history.length > 8) history.pop();
+            renderHistory();
+        }
 
-                // Renderiza sem animação para efeito de scroll contínuo
-                vitalsChart.update('none');
-
-                // Atualiza o texto no card
-                document.getElementById('freqCardiaca').innerText = Math.round(pulse) + ' bpm';
+        function renderHistory() {
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<div style="color:#aaa; text-align:center;">Nenhuma leitura registada</div>';
+                return;
             }
+            let html = '';
+            history.forEach(item => {
+                html += `<div class="history-item">
+                        <span>${item.metric} <strong>${item.value}${item.unit}</strong></span>
+                        <span style="font-size:0.7rem;">${item.time}</span>
+                     </div>`;
+            });
+            historyDiv.innerHTML = html;
+        }
 
-            // Velocidade do monitor (150ms para parecer fluido)
-            setInterval(updateMonitor, 150);
-        });
+        // Avalia tendências e alertas
+        function evaluateAndUpdate() {
+            // avaliação individual
+            let hrStatus = 'normal', spo2Status = 'normal', tempStatus = 'normal';
+            let critical = false, attention = false;
+
+            if (hr > 120 || hr < 45) critical = true;
+            else if (hr > 100 || hr < 55) attention = true;
+            if (spo2 < 90) critical = true;
+            else if (spo2 < 94) attention = true;
+            if (temp > 38.5 || temp < 35.0) critical = true;
+            else if (temp > 37.5 || temp < 36.0) attention = true;
+
+            // trends
+            if (hr > 100) hrTrendSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Elevada`;
+            else if (hr < 55) hrTrendSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Baixa`;
+            else hrTrendSpan.innerHTML = `<i class="fa-regular fa-circle-check"></i> Normal`;
+            if (hr > 120) hrTrendSpan.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Crítico`;
+
+            if (spo2 < 94) spo2TrendSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${spo2 < 90 ? 'Crítico' : 'Baixa'}`;
+            else spo2TrendSpan.innerHTML = `<i class="fa-regular fa-circle-check"></i> Normal`;
+
+            if (temp > 37.5) tempTrendSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Elevada`;
+            else if (temp < 36.0) tempTrendSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Baixa`;
+            else tempTrendSpan.innerHTML = `<i class="fa-regular fa-circle-check"></i> Normal`;
+            if (temp > 38.5 || temp < 35.0) tempTrendSpan.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Crítico`;
+
+            // Estado geral e mensagem
+            let overall = 'Normal';
+            let msg = '✅ Todos os sinais estáveis';
+            if (critical) {
+                overall = 'Crítico';
+                msg = '⚠️ ALERTA CRÍTICO - Intervenção necessária';
+            } else if (attention) {
+                overall = 'Atenção';
+                msg = '🟡 Atenção - Parâmetros fora da faixa ideal';
+            }
+            overallStateSpan.innerText = overall;
+            autoMsgSpan.innerText = msg;
+            autoMsgSpan.className = 'auto-msg';
+            if (overall === 'Crítico') autoMsgSpan.classList.add('critical');
+            else if (overall === 'Atenção') autoMsgSpan.classList.add('attention');
+            else autoMsgSpan.classList.remove('attention', 'critical');
+
+            // Gerar alertas visuais
+            let alerts = [];
+            if (hr > 120) alerts.push('Frequência cardíaca crítica (>120 BPM)');
+            else if (hr > 100) alerts.push('Taquicardia (FC elevada)');
+            else if (hr < 45) alerts.push('Bradicardia severa (<45 BPM)');
+            else if (hr < 55) alerts.push('Bradicardia ligeira');
+
+            if (spo2 < 90) alerts.push('Hipoxemia grave (SpO₂ <90%)');
+            else if (spo2 < 94) alerts.push('Saturação baixa (SpO₂ <94%)');
+
+            if (temp > 38.5) alerts.push('Hipertermia crítica (>38.5°C)');
+            else if (temp > 37.5) alerts.push('Temperatura elevada');
+            else if (temp < 35.0) alerts.push('Hipotermia severa');
+            else if (temp < 36.0) alerts.push('Temperatura baixa');
+
+            if (alerts.length === 0) {
+                alertListDiv.innerHTML = `<div class="alert-item"><div class="alert-icon" style="background:#e6f7ec;"><i class="fa-solid fa-check-circle" style="color:#2b6e3c;"></i></div><span>Nenhum alerta ativo</span></div>`;
+            } else {
+                let alertsHtml = '';
+                alerts.forEach(alert => {
+                    alertsHtml += `<div class="alert-item"><div class="alert-icon" style="background:#fee2e1;"><i class="fa-solid fa-exclamation"></i></div><span>${alert}</span></div>`;
+                });
+                alertListDiv.innerHTML = alertsHtml;
+            }
+        }
+
+        // Atualiza toda a interface com valores atuais e registra histórico a cada mudança
+        function updateUI() {
+            if (!online) {
+                hrSpan.innerText = '--';
+                spo2Span.innerText = '--';
+                tempSpan.innerText = '--';
+                deviceStatusSpan.innerText = 'Offline';
+                statusLed.className = 'led offline';
+                overallStateSpan.innerText = 'Offline';
+                autoMsgSpan.innerText = '📡 Dispositivo desconectado';
+                alertListDiv.innerHTML = `<div class="alert-item"><i class="fa-solid fa-wifi"></i> Sem comunicação com ESP32</div>`;
+                return;
+            }
+            hrSpan.innerText = hr;
+            spo2Span.innerText = spo2;
+            tempSpan.innerText = temp.toFixed(1);
+            deviceStatusSpan.innerText = 'Online';
+            statusLed.className = 'led';
+            lastTimeSpan.innerText = getNowTime();
+            evaluateAndUpdate();
+        }
+
+        // SIMULAÇÃO DE DADOS EM TEMPO REAL (substituir por WebSocket/ESP32)
+        function generateSimulatedData() {
+            if (!online) return;
+            // variação suave
+            let newHr = hr + (Math.random() - 0.5) * 2.5;
+            newHr = Math.min(145, Math.max(48, newHr));
+            hr = Math.round(newHr);
+
+            let newSp = spo2 + (Math.random() - 0.5) * 1;
+            newSp = Math.min(100, Math.max(85, newSp));
+            spo2 = Math.round(newSp);
+
+            let newTemp = temp + (Math.random() - 0.5) * 0.15;
+            newTemp = Math.min(39.0, Math.max(35.2, newTemp));
+            temp = Math.round(newTemp * 10) / 10;
+
+            // registra histórico
+            addToHistory('hr', hr, ' BPM');
+            addToHistory('spo2', spo2, '%');
+            addToHistory('temp', temp, '°C');
+            updateUI();
+        }
+
+        // Iniciar simulação (3 segundos)
+        let interval = setInterval(() => {
+            generateSimulatedData();
+        }, 3000);
+
+        // dados iniciais e histórico inicial
+        addToHistory('hr', 76, ' BPM');
+        addToHistory('spo2', 97, '%');
+        addToHistory('temp', 36.5, '°C');
+        updateUI();
+
+        // Função de integração real com ESP32 (expor globalmente)
+        window.receiveVitalData = function (bpm, spo, celcius) {
+            if (bpm !== undefined && !isNaN(bpm)) hr = Math.round(bpm);
+            if (spo !== undefined && !isNaN(spo)) spo2 = Math.round(spo);
+            if (celcius !== undefined && !isNaN(celcius)) temp = Math.round(celcius * 10) / 10;
+            addToHistory('hr', hr, ' BPM');
+            addToHistory('spo2', spo2, '%');
+            addToHistory('temp', temp, '°C');
+            updateUI();
+        };
+
+        // Controle online/offline (caso queira usar)
+        window.setDeviceOnline = function (onlineState) {
+            online = onlineState;
+            if (!online && interval) clearInterval(interval);
+            else if (online && !interval) {
+                interval = setInterval(() => generateSimulatedData(), 3000);
+            }
+            updateUI();
+        };
     </script>
 </body>
 

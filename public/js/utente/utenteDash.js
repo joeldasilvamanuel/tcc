@@ -1,5 +1,5 @@
 /**
- * Health Access Hub - Professional Dashboard Logic
+ * Health Access Hub - Dashboard Logic
  */
 
 document.addEventListener('DOMContentLoaded', async () => {

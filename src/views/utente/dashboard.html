@@ -18,7 +18,7 @@
 <body>
     <div class="app">
 
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
@@ -27,11 +27,8 @@
                 </div>
 
                 <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+                    <i class="fa-solid fa-bars-staggered"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU UTENTE -->
@@ -40,82 +37,86 @@
 
                     <li>
                         <a href="/dashboard/utente" class="nav-link active">
-                            <i class="fa-solid fa-house"></i>
+                            <i class="fa-solid fa-chart-pie"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/exames" class="nav-link">
-                            <i class="fa-solid fa-file-medical"></i>
+                            <i class="fa-solid fa-heart-pulse"></i>
                             <span>Sinais Vitais</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i>
+                            <i class="fa-solid fa-comments"></i>
                             <span>Mensagens</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/consultas" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i>
+                            <i class="fa-solid fa-calendar-plus"></i>
                             <span>Agendar Consultas</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
+                            <i class="fa-solid fa-capsules"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
+                            <i class="fa-solid fa-timeline"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/dashboard/utente/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-id-card-clip"></i>
                             <span>Perfil</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/dashboard/utente/definicoes" class="nav-link">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Definições</span>
                         </a>
                     </li>
 
                 </ul>
             </nav>
 
-            <a href="/dashboard/utente/definicoes" class="nav-link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
-            </a>
-
             <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
             </div>
 
         </aside>
 
-        <!-- MAIN -->
+        <!-- Main - conteudo principal -->
         <main id="mainContent">
-            <!-- HEADER -->
             <header class="main-header">
-
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar consultas ou exames...">
+                <div class="header-left">
+                    <h2 class="page-title">Painel de Saúde</h2>
+                    <p class="page-subtitle">Gerencie suas consultas, exames e sinais vitais.</p>
                 </div>
 
                 <div class="header-right">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Procurar no painel...">
+                    </div>
 
                     <div class="notification-icon">
                         <i class="fa-solid fa-bell"></i>
@@ -128,110 +129,155 @@
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Utente</p>
+                            <span class="user-role-badge" id="userRole">Utente</span>
                         </div>
                     </div>
                 </div>
-
             </header>
 
-            <!-- BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Utente</span></h1>
-                    <p>Você tem 1 consulta agendada para esta semana</p>
-                    <!-- <button class="action-btn" onclick="location.href='/dashboard/utente/consultas'">
-                        Ver Consultas
-                    </button> -->
-                </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                </div>
-            </section>
+            <div class="dashboard-grid">
 
-            <!-- MÉTRICAS DO UTENTE -->
-            <section class="metrics-section">
+                <div class="dashboard-left">
 
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>3</h3>
-                        <p>Consultas Realizadas</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-file-medical"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>2</h3>
-                        <p>Exames Pendentes</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-message"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>4</h3>
-                        <p>Mensagens</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <div class="metric-content">
-                        <h3>5 dias</h3>
-                        <p>Próxima Consulta</p>
-                    </div>
-                </div>
-
-            </section>
-
-            <!-- CONTEÚDO -->
-            <section class="content-section">
-
-                <div class="content-card">
-                    <h2>Próxima Consulta</h2>
-                    <div class="appointments-list">
-
-                        <div class="appointment-item">
-                            <div class="appointment-time">22 Fev - 10:00</div>
-                            <div class="appointment-info">
-                                <h4>Dr. João Silva</h4>
-                                <p>Consulta de acompanhamento</p>
-                            </div>
-                            <button class="status-btn confirmed">Confirmada</button>
+                    <section class="welcome-ecg-card">
+                        <div class="card-welcome-text">
+                            <span class="greeting-tag"><i class="fa-solid fa-circle-check"></i> Ecossistema Ativo</span>
+                            <h1>Olá, <span id="welcomeName">Utente</span>!</h1>
+                            <p>O seu estado de saúde geral está excelente hoje. Tem <strong>1 consulta</strong> agendada
+                                para esta semana.</p>
+                            <button class="action-btn-primary" onclick="location.href='/dashboard/utente/consultas'">
+                                <i class="fa-solid fa-calendar-plus"></i> Agendar Nova Consulta
+                            </button>
                         </div>
 
-                    </div>
+                        <!-- NOVO WIDGET DE METAS DE SAÚDE UNIVERSAIS -->
+                        <div class="health-goals-box">
+                            <div class="goals-header">
+                                <span class="goals-title"><i class="fa-solid fa-star-of-life"></i> Minhas Metas
+                                    Semanais</span>
+                                <span class="goals-percentage">72% Concluído</span>
+                            </div>
+
+                            <div class="goals-list">
+                                <!-- Meta 1: Passos / Atividade -->
+                                <div class="goal-item-row">
+                                    <div class="goal-meta-info">
+                                        <span><i class="fa-solid fa-person-walking"></i> Atividade Diária</span>
+                                        <small>6.400 / 8.000 passos</small>
+                                    </div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-fill p-blue" style="width: 80%;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Meta 2: Hidratação -->
+                                <div class="goal-item-row">
+                                    <div class="goal-meta-info">
+                                        <span><i class="fa-solid fa-droplet"></i> Hidratação</span>
+                                        <small>1.8L / 2.5L</small>
+                                    </div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-fill p-cyan" style="width: 72%;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Meta 3: Sono -->
+                                <div class="goal-item-row">
+                                    <div class="goal-meta-info">
+                                        <span><i class="fa-solid fa-bed"></i> Descanso (Sono)</span>
+                                        <small>7h / 8h recomendadas</small>
+                                    </div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-fill p-purple" style="width: 87%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="metrics-grid-new">
+                        <div class="metric-box-new m-blue">
+                            <div class="m-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="m-data">
+                                <h3>3</h3>
+                                <p>Consultas Ativas</p>
+                            </div>
+                        </div>
+                        <div class="metric-box-new m-orange">
+                            <div class="m-icon"><i class="fa-solid fa-file-waveform"></i></div>
+                            <div class="m-data">
+                                <h3>2</h3>
+                                <p>Exames Pendentes</p>
+                            </div>
+                        </div>
+                        <div class="metric-box-new m-green">
+                            <div class="m-icon"><i class="fa-solid fa-comment-medical"></i></div>
+                            <div class="m-data">
+                                <h3>4</h3>
+                                <p>Mensagens Médicas</p>
+                            </div>
+                        </div>
+                        <div class="metric-box-new m-purple">
+                            <div class="m-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                            <div class="m-data">
+                                <h3>5 dias</h3>
+                                <p>Próximo Check-up</p>
+                            </div>
+                        </div>
+                    </section>
                 </div>
 
-                <div class="content-card">
-                    <h2>Últimas Mensagens</h2>
+                <div class="dashboard-right-panel">
 
-                    <div class="messages-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user-doctor"></i>
+                    <div class="panel-card">
+                        <div class="card-header-clean">
+                            <h3><i class="fa-solid fa-clock-rotate-left"></i> Compromisso Agendado</h3>
+                            <a href="/dashboard/utente/consultas" class="see-all">Ver todas</a>
+                        </div>
+                        <div class="appointment-premium-card">
+                            <div class="doc-info-row">
+                                <div class="doc-avatar-box">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                </div>
+                                <div class="doc-name-meta">
+                                    <h4>Dr. João Silva</h4>
+                                    <span class="doc-specialty">Clínica Geral</span>
+                                </div>
+                                <span class="status-badge-new verified">Confirmada</span>
                             </div>
-                            <div class="message-content">
-                                <h4>Dr. João Silva</h4>
-                                <p>Bom dia, não se esqueça de levar os exames.</p>
-                                <span class="message-time">30 min atrás</span>
+                            <div class="appointment-time-footer">
+                                <div class="time-meta">
+                                    <i class="fa-regular fa-calendar"></i> <span>22 de Fevereiro</span>
+                                </div>
+                                <div class="time-meta">
+                                    <i class="fa-regular fa-clock"></i> <span>10:00h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="card-header-clean">
+                            <h3><i class="fa-solid fa-envelope-open-text"></i> Centro de Mensagens</h3>
+                        </div>
+                        <div class="messages-premium-list">
+                            <div class="message-premium-item unread">
+                                <div class="msg-sender-avatar">JS</div>
+                                <div class="msg-body">
+                                    <div class="msg-top-meta">
+                                        <h5>Dr. João Silva</h5>
+                                        <span class="msg-time">Há 30 min</span>
+                                    </div>
+                                    <p>Bom dia, não se esqueça de trazer o relatório dos últimos exames de sangue para
+                                        a...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-            </section>
+            </div>
         </main>
     </div>
 
