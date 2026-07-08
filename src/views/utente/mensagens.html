@@ -12,16 +12,19 @@
 
 <body>
     <div class="app">
-       <!-- Sidebar -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
-                <div class="logo-box">
+                <div class="logo-box" id="logoBox">
                     <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
                 </div>
-
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-bars-staggered"></i>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
@@ -98,15 +101,15 @@
 
         </aside>
 
-        <!--MAIN - chat em tempo real -->
+        <!--Main - chat em tempo real -->
         <main>
             <div class="chat-wrapper">
                 <!-- PAINEL CONVERSAS -->
                 <div class="conversations-panel" id="conversationsPanel">
                     <div class="conversations-header">
                         <div class="user-header-info">
-                            <div class="user-avatar-sm" id="userAvatarBtn"><i class="fa-solid fa-user-circle"></i></div>
-                            <span class="user-name-sm" id="sidebarUserName">Carregando...</span>
+                            <div class="user-avatar-sm" id="userAvatarBtn"><i class="fa-solid fa-comments"></i></div>
+                            <span class="user-name-sm" id="sidebarUserName">Conversas</span>
                         </div>
                         <div class="header-actions">
                             <i class="fa-regular fa-circle-check"></i>
@@ -197,6 +200,49 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/utente/mensagens.js"></script>
     <script src="/js/header.js"></script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>

@@ -18,20 +18,20 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU -->
@@ -50,6 +50,11 @@
                     <li>
                         <a href="/dashboard/profissional/rececao/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/rececao/agendamento" class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
                         </a>
                     </li>
                     <li>
@@ -75,38 +80,31 @@
 
         <!-- MAIN CONTENT -->
         <main id="mainContent">
-            <!-- HEADER COM BUSCA E PERFIL -->
+            <!-- Header -->
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por...">
+                <div class="header-left">
+                    <h2 class="page-title">Painel da Recepção</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/rececao/agendamento" style="background: #007bff;" class="nav-link">
-                        <abbr title="Agendamento">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </abbr>
-                        <!-- <span>Agendamento</span> -->
-                    </a>
-                    <a href="/dashboard/profissional/rececao/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
 
+                    <a href="/dashboard/profissional/rececao/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                            alt="Dr. Silva">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Carregando...</p>
-
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
@@ -313,72 +311,6 @@
                 </div>
 
             </section>
-
-            <!-- TABLE -->
-            <!-- <section class="card table-card">
-
-                <h2 class="card-title">
-                    Últimos Utentes
-                </h2>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Utente</th>
-                            <th>Telefone</th>
-                            <th>Email</th>
-                            <th>Estado</th>
-                            <th>Ações</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-
-                            <td>
-                                <div class="utente">
-                                    <img src="/img/fotoPadra.png">
-
-                                    <div>
-                                        <strong>João Manuel</strong>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>923 000 111</td>
-
-                            <td>joao@gmail.com</td>
-
-                            <td>
-                                <span class="status ativo">
-                                    Ativo
-                                </span>
-                            </td>
-
-                            <td>
-                                <div class="table-actions">
-                                    <button>
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-
-                                    <button>
-                                        <i class="fa-solid fa-calendar"></i>
-                                    </button>
-                                </div>
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </section> -->
-
         </main>
     </div>
 
@@ -454,6 +386,49 @@
         }
 
         setInterval(updateMonitor, 100);
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

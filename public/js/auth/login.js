@@ -1,6 +1,7 @@
 // Array com 9 imagens médicas de alta qualidade do Unsplash
 const images = [
     "/img/hahfundo.jpg",
+    "/img/auth/image1.png",
     "/img/auth/medicamento.jpeg",
     "/img/auth/analise_patogenica.jpeg",
     "/img/auth/bem-estar.jpeg",

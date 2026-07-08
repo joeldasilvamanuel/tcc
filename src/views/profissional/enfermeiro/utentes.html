@@ -20,38 +20,48 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
-       <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
+        <!-- Sidebar -->
+        <aside id="sidebar" class="expanded">
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
-                        <a href="/dashboard/profissional/enfermeiro/" class="nav-link active">
+                        <a href="/dashboard/profissional/enfermeiro/" class="nav-link">
                             <i class="fa-solid fa-house"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/dashboard/profissional/enfermeiro/utentes" class="nav-link">
+                        <a href="/dashboard/profissional/enfermeiro/monitorar" class="nav-link">
+                              <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/enfermeiro/utentes" class="nav-link active">
                             <i class="fa-solid fa-users"></i><span>Utentes</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/enfermeiro/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/enfermeiro/agendamento"  class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
                         </a>
                     </li>
                     <li>
@@ -77,33 +87,29 @@
 
         <main id="mainContent">
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="searchUtente" placeholder="Pesquisar utente por nome ou ID...">
+                <div class="header-left">
+                    <h2 class="page-title">Ver Utentes</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/enfermeiro/agendamento" style="background: #007bff;" class="nav-link">
-                        <abbr title="Agendamento">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </abbr>
-                        <!-- <span>Agendamento</span> -->
-                    </a>
-                    <a href="/dashboard/profissional/enfermeiro/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
+
+                    <a href="/dashboard/profissional/medico/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
                     </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
-                            <p class="user-name" id="userName">...</p>
-                            <p class="user-role" id="userRole">...</p>
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
@@ -210,14 +216,14 @@
                 <td>Há momentos</td>
                 <td>
                     <div class="actions-cell">
-                        <a href="/dashboard/profissional/monitorar">
+                        <a href="/dashboard/profissional/enfermeiro/monitorar">
                            <button onclick="verMonitorizacao(${utente.id})" title="Ver Monitorização"><i class="fa-solid fa-chart-line"></i></button>
                         </a>
-                        <a href="/dashboard/profissional/mensagens">
+                        <a href="/dashboard/profissional/enfermeiro/mensagens">
                             <button onclick="abrirChat(${utente.id})" title="Enviar Mensagem"><i class="fa-solid fa-comment-medical"></i></button>
                         </a>
-                        <a href="/dashboard/profissional/mensagens">
-                            <button onclick="verProntuario(${utente.id})" title="Prontuário"><i class="fa-solid fa-file-medical"></i></button>
+                        <a href="/dashboard/profissional/enfermeiro/historico">
+                            <button onclick="verProntuario(${utente.id})" title="Historico Clínico"><i class="fa-solid fa-file-medical"></i></button>
                         </a>
                     </div>
                 </td>
@@ -233,6 +239,49 @@
                 console.error('Erro ao carregar utentes:', err);
             }
         }
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

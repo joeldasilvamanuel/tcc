@@ -14,72 +14,85 @@
 
 <body>
     <div class="app">
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
+
             <div class="sidebar-top">
-                <div class="logo-box">
+                <div class="logo-box" id="logoBox">
                     <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
                 </div>
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-angles-left"></i>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
+
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
                         <a href="/dashboard/admin/adminGeral/" class="nav-link">
-                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                            <i class="fa-solid fa-chart-line"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/utilizadores" class="nav-link active">
-                            <i class="fa-solid fa-user"></i><span>Utilizadores</span>
+                            <i class="fa-solid fa-users-gear"></i><span>Utilizadores</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/relatorios" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i><span>Relatórios</span>
+                            <i class="fa-solid fa-file-invoice-dollar"></i><span>Relatórios</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/configuracoes" class="nav-link">
-                            <i class="fa-solid fa-bell"></i><span>Configurações</span>
+                            <i class="fa-solid fa-sliders"></i><span>Configurações</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                            <i class="fa-solid fa-user-shield"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
+
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span>
+                </a>
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
         <main id="mainContent">
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar...">
+                <div class="header-left">
+                    <h2 class="page-title">Utilizadores</h2>
+                    <p class="page-subtitle">Gestão de utilizadores.</p>
                 </div>
+
                 <div class="header-right">
-                    <a href="/dashboard/utente/alertas">
-                        <div class="notification-icon">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Procurar no painel...">
+                    </div>
+
+                    <div class="notification-icon">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </div>
+
                     <div class="user-profile">
                         <div class="user-avatar">
                             <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role">Administrador</p>
+                            <span class="user-role-badge" id="userRole">Utente</span>
                         </div>
                     </div>
                 </div>
@@ -91,36 +104,54 @@
                 <div class="stat-card">
                     <div class="stat-info">
                         <h4>Total de utilizadores</h4>
-                        <div class="stat-number">...</div>
-                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-arrow-up"></i> +12%</span>
-                            este mês</div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-trend">
+                            <span class="trend-up">
+                                <i class="fa-solid fa-arrow-up"></i> +12%
+                            </span>
+                            este mês
+                        </div>
                     </div>
-                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <h4>Profissionais ativos</h4>
-                        <div class="stat-number">...</div>
-                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-arrow-up"></i> +8%</span>
-                            face ao trimestre</div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-trend">
+                            <span class="trend-up">
+                                <i class="fa-solid fa-arrow-up"></i> +8%
+                            </span>
+                            face ao trimestre
+                        </div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-stethoscope"></i></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <h4>Utentes registados</h4>
-                        <div class="stat-number">...</div>
-                        <div class="stat-trend"><span class="trend-up"><i class="fa-solid fa-chart-line"></i> +156
-                                novos</span> esta semana</div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-trend">
+                            <span class="trend-up">
+                                <i class="fa-solid fa-chart-line"></i> +156
+                                novos
+                            </span> esta semana
+                        </div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-wheelchair"></i></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <h4>Verificados hoje</h4>
-                        <div class="stat-number">...</div>
-                        <div class="stat-trend"><span class="trend-up"><i class="fa-regular fa-clock"></i> +23%</span>
-                            que ontem</div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-trend">
+                            <span class="trend-up">
+                                <i class="fa-regular fa-clock"></i> +23%
+                            </span>
+                            que ontem
+                        </div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
                 </div>
@@ -264,6 +295,625 @@
         // Simulação de dados para nome do header (mantém igual)
         const userNameSpan = document.getElementById('userName');
         if (userNameSpan) userNameSpan.innerText = "Administrador";
+    </script>
+
+    <!-- Js -->
+    <script>
+        let professionals = [];
+
+        // ================== HELPERS ==================
+        function getTipoLabel(tipo) {
+            const tipos = {
+                medico: "Médico",
+                enfermeiro: "Enfermeiro",
+                recepcionista: "Recepcionista",
+                admin_clinica: "Admin Clínica"
+            };
+
+            return tipos[tipo] || tipo;
+        }
+
+        function getEspecialidadesText(prof) {
+
+            if (prof.tipo === "medico" && prof.especialidades?.length > 0) {
+                return prof.especialidades.join(", ");
+            }
+
+            if (prof.tipo === "medico") {
+                return "Sem especialidade";
+            }
+
+            return "—";
+        }
+
+        // ================== TOAST ==================
+        function showToast(message, type = "success") {
+
+            const container = document.getElementById('toastContainer');
+
+            const toast = document.createElement('div');
+
+            toast.className = `toast ${type}`;
+
+            toast.innerHTML = `
+            <i class="fa-solid ${type === 'success'
+                    ? 'fa-circle-check'
+                    : type === 'error'
+                        ? 'fa-circle-xmark'
+                        : 'fa-triangle-exclamation'
+                }"></i>
+
+            <span>${message}</span>
+        `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hide');
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // ================== CONFIRM MODAL ==================
+        function showConfirm({
+            title = "Confirmar ação",
+            text = "Deseja continuar?",
+            onConfirm = () => { }
+        }) {
+
+            const modal = document.getElementById('confirmModal');
+
+            document.getElementById('confirmTitle').innerText = title;
+            document.getElementById('confirmText').innerText = text;
+
+            modal.classList.add('active');
+
+            const confirmBtn = document.getElementById('acceptConfirm');
+            const cancelBtn = document.getElementById('cancelConfirm');
+
+            const close = () => {
+                modal.classList.remove('active');
+            };
+
+            cancelBtn.onclick = close;
+
+            confirmBtn.onclick = () => {
+                close();
+                onConfirm();
+            };
+        }
+
+        // ================== LOAD PROFISSIONAIS ==================
+        async function loadProfessionals() {
+
+            try {
+
+                const res = await fetch('/api/profissionais', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await res.json();
+
+                console.log("PROFISSIONAIS:", data);
+
+                if (!Array.isArray(data)) {
+                    throw new Error(data.error || "Resposta inválida");
+                }
+
+                professionals = data;
+
+                renderTable(professionals);
+
+            } catch (err) {
+
+                console.error(err);
+
+                const tbody = document.getElementById('tableBody');
+
+                tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7">
+                        Erro ao carregar profissionais
+                    </td>
+                </tr>
+            `;
+
+                professionals = [];
+
+                updateStats([]);
+
+                showToast(
+                    err.message || "Erro ao carregar profissionais",
+                    "error"
+                );
+            }
+        }
+
+        // ================== RENDER TABLE ==================
+        function renderTable(lista) {
+
+            const tbody = document.getElementById('tableBody');
+
+            if (!lista || !lista.length) {
+
+                tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7">
+                        Nenhum profissional encontrado.
+                    </td>
+                </tr>
+            `;
+
+                updateStats([]);
+
+                return;
+            }
+
+            tbody.innerHTML = lista.map(prof => `
+
+            <tr>
+
+                <td>
+                    <img 
+                        src="${prof.foto || '/img/fotoPadra.png'}" 
+                        class="user-avatar-small"
+                    >
+                </td>
+
+                <td>
+                    <strong>${prof.nome}</strong>
+                </td>
+
+                <td>
+                    ${prof.email}
+                </td>
+
+                <td>
+                    ${getTipoLabel(prof.tipo)}
+                </td>
+
+                <td>
+                    ${getEspecialidadesText(prof)}
+                </td>
+
+                <td>
+                    <span class="badge-status ${prof.status === 'ativo'
+                    ? 'badge-active'
+                    : 'badge-inactive'
+                }">
+
+                        ${prof.status === 'ativo'
+                    ? 'Ativo'
+                    : 'Inativo'
+                }
+
+                    </span>
+                </td>
+
+                <td class="action-buttons">
+
+                    <button onclick="deleteProfessional(${prof.id_usuario ?? prof.id})">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+
+                    <button
+                        class="action-btn-icon view"
+                        onclick="viewProfessional(${prof.id})"
+                        title="Visualizar"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+
+                    <button
+                        class="action-btn-icon toggle"
+                        onclick="toggleStatus(${prof.id})"
+                        title="Ativar / Desativar"
+                    >
+                        <i class="fa-solid fa-toggle-on"></i>
+                    </button>
+
+                    <button 
+                        class="action-btn-icon delete"
+                        onclick="deleteProfessional(${prof.id})"
+                        title="Eliminar"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join('');
+
+            updateStats(professionals);
+        }
+
+        // ================== STATS ==================
+        function updateStats(lista) {
+
+            const total = lista.length;
+
+            const medicos =
+                lista.filter(p => p.tipo === "medico").length;
+
+            const enfermeiros =
+                lista.filter(p => p.tipo === "enfermeiro").length;
+
+            const recepcionistas =
+                lista.filter(p => p.tipo === "recepcionista").length;
+
+            document.getElementById('totalCount').innerText = total;
+
+            document.getElementById('medicosCount').innerText = medicos;
+
+            document.getElementById('enfermeirosCount').innerText = enfermeiros;
+
+            document.getElementById('recepCount').innerText = recepcionistas;
+        }
+
+        // ================== FILTER ==================
+        function filterProfessionals() {
+
+            const search =
+                document.getElementById('searchInput')
+                    .value
+                    .toLowerCase();
+
+            const type =
+                document.getElementById('typeFilter').value;
+
+            const filtered = professionals.filter(p => {
+
+                const matchSearch =
+                    p.nome.toLowerCase().includes(search) ||
+                    p.email.toLowerCase().includes(search);
+
+                const matchType =
+                    type === 'todos' || p.tipo === type;
+
+                return matchSearch && matchType;
+            });
+
+            renderTable(filtered);
+        }
+
+        window.filterProfessionals = filterProfessionals;
+
+        // ================== VIEW ==================
+        window.viewProfessional = (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showToast(
+                `${prof.nome} • ${getTipoLabel(prof.tipo)}`,
+                "success"
+            );
+        };
+
+        // ================== EDIT ==================
+        window.editProfessional = (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showToast(
+                `Edição de ${prof.nome} será implementada`,
+                "warning"
+            );
+        };
+
+        // ================== TOGGLE STATUS ==================
+        window.toggleStatus = async (id) => {
+
+            const prof = professionals.find(p => p.id === id);
+
+            if (!prof) {
+                return showToast("Profissional não encontrado", "error");
+            }
+
+            showConfirm({
+
+                title: "Atualizar status",
+
+                text: `Deseja alterar o estado de ${prof.nome}?`,
+
+                onConfirm: async () => {
+
+                    try {
+
+                        const res = await fetch(
+                            `/api/profissionais/${id}/status`,
+                            {
+                                method: 'PATCH',
+                                credentials: 'include'
+                            }
+                        );
+
+                        if (!res.ok) {
+                            throw new Error();
+                        }
+
+                        await loadProfessionals();
+
+                        showToast(
+                            "Status atualizado com sucesso"
+                        );
+
+                    } catch (err) {
+
+                        console.error(err);
+
+                        showToast(
+                            "Erro ao atualizar status",
+                            "error"
+                        );
+                    }
+                }
+            });
+        };
+
+        // ================== DELETE ==================
+        window.deleteProfessional = async (id) => {
+            showConfirm({
+                title: "Eliminar profissional",
+                text: "Tens a certeza que queres eliminar?",
+                onConfirm: async () => {
+                    try {
+                        const res = await fetch(`/api/profissionais/${id}`, {
+                            method: 'DELETE',
+                            credentials: 'include'
+                        });
+
+                        const data = await res.json();
+
+                        if (!res.ok) throw new Error(data.error || "Erro ao eliminar");
+
+                        showToast("Profissional eliminado com sucesso", "success");
+
+                        await loadProfessionals();
+
+                    } catch (err) {
+                        showToast(err.message, "error");
+                    }
+                }
+            });
+        };
+
+        // ================== MODAL ==================
+        const modal = document.getElementById('modalOverlay');
+
+        const openModal = () => {
+            modal.classList.add('active');
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+        };
+
+        document.getElementById('openModalBtn').onclick = openModal;
+
+        document.getElementById('closeModalBtn').onclick = closeModal;
+
+        modal.onclick = (e) => {
+
+            if (e.target === modal) {
+                closeModal();
+            }
+        };
+
+        // ================== ESPECIALIDADES ==================
+        const profTypeSelect =
+            document.getElementById('profType');
+
+        const specialtiesDiv =
+            document.getElementById('specialtiesSection');
+
+        profTypeSelect.addEventListener('change', function () {
+
+            specialtiesDiv.classList.toggle(
+                'show',
+                this.value === 'medico'
+            );
+        });
+
+        // ================== CREATE PROFESSIONAL ==================
+        document
+            .getElementById('professionalForm')
+            .addEventListener('submit', async function (e) {
+
+                e.preventDefault();
+
+                const nome =
+                    document.getElementById('fullName')
+                        .value
+                        .trim();
+
+                const email =
+                    document.getElementById('email')
+                        .value
+                        .trim();
+
+                const password =
+                    document.getElementById('password')
+                        .value;
+
+                const confirm =
+                    document.getElementById('confirmPassword')
+                        .value;
+
+                const tipo = profTypeSelect.value;
+
+                // VALIDAÇÕES
+                if (!nome || !email || !password || !tipo) {
+
+                    return showToast(
+                        "Preencha todos os campos obrigatórios",
+                        "warning"
+                    );
+                }
+
+                if (password !== confirm) {
+
+                    return showToast(
+                        "As senhas não coincidem",
+                        "warning"
+                    );
+                }
+
+                // ESPECIALIDADES
+                let especialidades = [];
+
+                if (tipo === "medico") {
+
+                    document
+                        .querySelectorAll(
+                            '#specialtiesSection input[type="checkbox"]:checked'
+                        )
+                        .forEach(cb => {
+                            especialidades.push(cb.value);
+                        });
+                }
+
+                // PAYLOAD
+                const payload = {
+                    nome,
+                    email,
+                    senha: password,
+                    tipo_usuario: tipo,
+                    especialidades
+                };
+
+                console.log("ENVIANDO:", payload);
+
+                try {
+
+                    const response = await fetch(
+                        '/api/profissionais',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+
+                            credentials: 'include',
+
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    console.log("RESPOSTA API:", data);
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.error ||
+                            "Erro ao cadastrar profissional"
+                        );
+                    }
+
+                    showToast(
+                        "Profissional cadastrado com sucesso"
+                    );
+
+                    closeModal();
+
+                    this.reset();
+
+                    specialtiesDiv.classList.remove('show');
+
+                    await loadProfessionals();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showToast(
+                        error.message || "Erro ao criar profissional",
+                        "error"
+                    );
+                }
+            });
+
+        // ================== FILTER EVENTS ==================
+        document
+            .getElementById('filterBtn')
+            .addEventListener('click', filterProfessionals);
+
+        document
+            .getElementById('searchInput')
+            .addEventListener('keyup', filterProfessionals);
+
+        document
+            .getElementById('typeFilter')
+            .addEventListener('change', filterProfessionals);
+
+        // ================== INIT ==================
+        loadProfessionals();
+
+        // ================== HEADER ==================
+        document.getElementById('userName').innerText =
+            "Administrador";
+
+        document.getElementById('userRole').innerText =
+            "Administrador Geral";
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

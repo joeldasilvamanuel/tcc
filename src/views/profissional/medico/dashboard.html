@@ -13,15 +13,19 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-bars-staggered"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
@@ -30,6 +34,11 @@
                     <li>
                         <a href="/dashboard/profissional/medico/" class="nav-link active">
                             <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/medico/monitorar" class="nav-link">
+                            <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
                         </a>
                     </li>
                     <li>
@@ -76,157 +85,168 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- Main - conteudo principal -->
         <main id="mainContent">
-            <!-- HEADER COM BUSCA E PERFIL -->
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por...">
+                <div class="header-left">
+                    <h2 class="page-title">Painel Clínico</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <!-- <a href="/dashboard/profissional/medico/agendamento" style="background: #007bff;" class="nav-link">
-                        <abbr title="Agendamento">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </abbr>
-                    </a> -->
-                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
 
+                    <a href="/dashboard/profissional/medico/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                            alt="Dr. Silva">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Carregando...</p>
-
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- BANNER DE BOAS-VINDAS -->
-            <section class="welcome-section">
-                <div class="welcome-content">
-                    <h1>Bem-vindo, <span id="welcomeName">Carregando...</span></h1>
-                    <p id="todayAppointments">Você tem 3 consultas agendadas para hoje</p>
-                    <button class="action-btn" id="viewAgendaBtn">Ver Agenda</button>
-                </div>
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-stethoscope"></i>
-                </div>
-            </section>
+            <div class="dashboard-grid">
 
-            <!-- CARDS DE MÉTRICAS -->
-            <section class="metrics-section">
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="metric-content">
-                        <h3 id="totalPatients">Carregando...</h3>
-                        <p>Utentes</p>
-                    </div>
-                </div>
+                <div class="dashboard-left">
 
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="metric-content">
-                        <h3 id="todaysAppointments">Carregando...</h3>
-                        <p>Consultas Hoje</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-message"></i></div>
-                    <div class="metric-content">
-                        <h3 id="totalMessages">Carregando...</h3>
-                        <p>Mensagens</p>
-                    </div>
-                </div>
-
-                <div class="metric-card">
-                    <div class="metric-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="metric-content">
-                        <h3 id="nextAppointment">Carregando...</h3>
-                        <p>Próxima Consulta</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CONTEÚDO PRINCIPAL -->
-            <section class="content-section">
-                <div class="content-card"
-                    style="background: #ffffff; border: 1px solid #e0e6ed; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                    <div
-                        style="padding: 15px; border-bottom: 1px solid #f0f2f5; display: flex; justify-content: space-between; align-items: center;">
-                        <h2 style="color: #334155; font-size: 1.1rem; margin: 0;">
-                            <i class="fa-solid fa-heart-pulse" style="color: #ef4444; margin-right: 8px;"></i>
-                            Monitorização de Sinais Vitais
-                        </h2>
-                        <span
-                            style="font-size: 0.75rem; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;">Ao
-                            vivo</span>
-                    </div>
-
-                    <div style="height: 220px; padding: 10px;">
-                        <canvas id="hospitalChart"></canvas>
-                    </div>
-
-                    <div
-                        style="display: flex; gap: 15px; padding: 15px; background: #f8fafc; border-radius: 0 0 12px 12px;">
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Frequência (BPM)</p>
-                            <span id="bpmValue"
-                                style="font-size: 1.8rem; font-weight: 700; color: #0f172a; font-family: sans-serif;">--</span>
+                    <section class="welcome-premium-card">
+                        <div class="card-welcome-text">
+                            <span class="greeting-tag"><i class="fa-solid fa-user-md"></i> Prontidão Médica</span>
+                            <h1>Olá, <span id="welcomeName">Carregando...</span></h1>
+                            <p id="todayAppointments">Você tem 3 consultas agendadas para hoje.</p>
+                            <button class="action-btn-primary" id="viewAgendaBtn">
+                                <i class="fa-solid fa-calendar-day"></i> Ver Agenda Completa
+                            </button>
                         </div>
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Oxigenação (SpO2)</p>
-                            <span style="font-size: 1.8rem; font-weight: 700; color: #0284c7;">98%</span>
+                        <div class="welcome-icon-box">
+                            <i class="fa-solid fa-stethoscope"></i>
                         </div>
-                    </div>
-                </div>
+                    </section>
 
-                <div class="content-card">
-                    <h2>Últimas Mensagens</h2>
-                    <div class="messages-list">
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div class="message-content">
-                                <h4>Pedro Alves</h4>
-                                <p>Bom dia, gostaria de remarcar a consulta...</p>
-                                <span class="message-time">10 min atrás</span>
+                    <section class="metrics-grid-new">
+                        <div class="metric-box-new m-blue">
+                            <div class="m-icon"><i class="fa-solid fa-hospital-user"></i></div>
+                            <div class="m-data">
+                                <h3 id="totalPatients">Carregando...</h3>
+                                <p>Utentes Vinculados</p>
                             </div>
                         </div>
-
-                        <div class="message-item">
-                            <div class="message-avatar">
-                                <i class="fa-solid fa-user"></i>
+                        <div class="metric-box-new m-green">
+                            <div class="m-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="m-data">
+                                <h3 id="todaysAppointments">Carregando...</h3>
+                                <p>Consultas Hoje</p>
                             </div>
-                            <div class="message-content">
-                                <h4>Sofia Martins</h4>
-                                <p>Recebi os resultados dos exames...</p>
-                                <span class="message-time">1 hora atrás</span>
+                        </div>
+                        <div class="metric-box-new m-orange">
+                            <div class="m-icon"><i class="fa-solid fa-comment-medical"></i></div>
+                            <div class="m-data">
+                                <h3 id="totalMessages">Carregando...</h3>
+                                <p>Mensagens Clientes</p>
+                            </div>
+                        </div>
+                        <div class="metric-box-new m-purple">
+                            <div class="m-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                            <div class="m-data">
+                                <h3 id="nextAppointment">Carregando...</h3>
+                                <p>Próxima Consulta</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="dashboard-right-panel">
+
+                    <div class="panel-card clinical-monitor-card">
+                        <div class="card-header-clean">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Estatísticas Clínicas</h3>
+                            <span class="live-pill" style="background: #e0f0ff; color: #007bff;">
+                                <i class="fa-solid fa-arrow-trend-up"></i> Mensal
+                            </span>
+                        </div>
+
+                        <!-- Abas para alternar entre os gráficos premium -->
+                        <div class="chart-tabs-nav">
+                            <button class="chart-tab-btn active" onclick="switchChart('pizza')">
+                                <i class="fa-solid fa-chart-pie"></i> Especialidades (Piza)
+                            </button>
+                            <button class="chart-tab-btn" onclick="switchChart('barras')">
+                                <i class="fa-solid fa-chart-bar"></i> Atendimentos
+                            </button>
+                        </div>
+
+                        <!-- Container do Gráfico de Piza (Doughnut Moderno) -->
+                        <div class="chart-wrapper-box" id="containerPizza">
+                            <canvas id="pizzaChart"></canvas>
+                        </div>
+
+                        <!-- Container do Gráfico de Barras/Pirâmide -->
+                        <div class="chart-wrapper-box" id="containerBarras" style="display: none;">
+                            <canvas id="barrasChart"></canvas>
+                        </div>
+
+                        <!-- Legenda Inteligente estilo Bootstrap Premium -->
+                        <div class="monitor-footer-widgets bootstrap-legend-grid">
+                            <div class="legend-item-box">
+                                <span class="dot-indicator" style="background: #007bff;"></span>
+                                <p>Geral: <strong>45%</strong></p>
+                            </div>
+                            <div class="legend-item-box">
+                                <span class="dot-indicator" style="background: #28a745;"></span>
+                                <p>Cardio: <strong>30%</strong></p>
+                            </div>
+                            <div class="legend-item-box">
+                                <span class="dot-indicator" style="background: #ffc107;"></span>
+                                <p>Pediatria: <strong>25%</strong></p>
                             </div>
                         </div>
                     </div>
+                    <div class="panel-card">
+                        <div class="card-header-clean">
+                            <h3><i class="fa-solid fa-envelope-open-text"></i> Mensagens Recentes</h3>
+                        </div>
+
+                        <div class="messages-premium-list">
+                            <div class="message-premium-item unread">
+                                <div class="msg-sender-avatar">PA</div>
+                                <div class="msg-body">
+                                    <div class="msg-top-meta">
+                                        <h5>Pedro Alves</h5>
+                                        <span class="msg-time">10 min atrás</span>
+                                    </div>
+                                    <p>Bom dia, gostaria de remarcar a consulta agendada para quinta-feira devido a
+                                        um...</p>
+                                </div>
+                            </div>
+
+                            <div class="message-premium-item">
+                                <div class="msg-sender-avatar">SM</div>
+                                <div class="msg-body">
+                                    <div class="msg-top-meta">
+                                        <h5>Sofia Martins</h5>
+                                        <span class="msg-time">1 hora atrás</span>
+                                    </div>
+                                    <p>Recebi os resultados dos últimos exames laboratoriais e já os submeti no
+                                        portal...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </section>
+
+            </div>
         </main>
     </div>
 
@@ -239,69 +259,123 @@
 
     <!-- graficos -->
     <script>
-        const ctx = document.getElementById('hospitalChart').getContext('2d');
+        // ==========================================
+        // SISTEMA DE ALTERNÂNCIA DE GRÁFICOS (TABS)
+        // ==========================================
+        function switchChart(tipo) {
+            const btnPizza = document.querySelector('button[onclick="switchChart(\'pizza\')"]');
+            const btnBarras = document.querySelector('button[onclick="switchChart(\'barras\')"]');
+            const boxPizza = document.getElementById('containerPizza');
+            const boxBarras = document.getElementById('containerBarras');
 
-        // Gradiente para a linha (opcional, mas fica muito elegante)
-        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
-        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
-
-        let ecgData = Array(40).fill(5);
-        let labels = Array(40).fill('');
-
-        const hospitalChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: ecgData,
-                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4, // Linha mais orgânica e suave
-                    fill: true,
-                    backgroundColor: gradient
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        display: true,
-                        min: 0, max: 20,
-                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
-                        ticks: { display: false }
-                    },
-                    x: { display: false }
-                },
-                plugins: { legend: { display: false } }
+            if (tipo === 'pizza') {
+                btnPizza.classList.add('active');
+                btnBarras.classList.remove('active');
+                boxPizza.style.display = 'block';
+                boxBarras.style.display = 'none';
+            } else {
+                btnPizza.classList.remove('active');
+                btnBarras.classList.add('active');
+                boxPizza.style.display = 'none';
+                boxBarras.style.display = 'block';
             }
-        });
-
-        let counter = 0;
-        function updateMonitor() {
-            let newValue = 5; // Linha base
-            let step = counter % 15;
-
-            // Simula o pulso de forma suave
-            if (step === 3) newValue = 15;      // Pico R
-            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
-            else newValue = 5 + (Math.random() * 1); // Oscilação leve
-
-            ecgData.push(newValue);
-            ecgData.shift();
-
-            if (counter % 10 === 0) {
-                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
-            }
-
-            hospitalChart.update('none');
-            counter++;
         }
 
-        setInterval(updateMonitor, 100);
+        // Inicializar os Gráficos Bonitos após o DOM Carregar
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. CONFIGURAÇÃO DO GRÁFICO DE PIZA (DOUGHNUT MODERNO)
+            const ctxPizza = document.getElementById('pizzaChart').getContext('2d');
+            new Chart(ctxPizza, {
+                type: 'doughnut', // Tipo Piza com furo central (Estilo Bootstrap moderno)
+                data: {
+                    labels: ['Clínica Geral', 'Cardiologia', 'Pediatria'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: ['#007bff', '#28a745', '#ffc107'],
+                        borderWidth: 4,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false } // Ocultado para usar a nossa legenda customizada responsiva
+                    },
+                    cutout: '70%' // Deixa a rosca fina e elegante
+                }
+            });
+
+            // 2. CONFIGURAÇÃO DO GRÁFICO DE BARRAS (EVOLUÇÃO DOS ATENDIMENTOS)
+            const ctxBarras = document.getElementById('barrasChart').getContext('2d');
+            new Chart(ctxBarras, {
+                type: 'bar',
+                data: {
+                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
+                    datasets: [{
+                        label: 'Consultas Realizadas',
+                        data: [12, 19, 8, 15, 22],
+                        backgroundColor: '#7c3aed', // Roxo Premium
+                        borderRadius: 8, // Borda arredondada nas barras (Estilo Bootstrap 5)
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { color: '#f1f5f9' }, border: { dash: [5, 5] } }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

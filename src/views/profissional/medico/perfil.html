@@ -12,37 +12,42 @@
 
 <body>
     <div class="app">
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
                         <a href="/dashboard/profissional/medico/" class="nav-link">
-                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                            <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/medico/monitorar" class="nav-link">
+                            <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/utentes" class="nav-link">
-                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                            <i class="fa-solid fa-hospital-user"></i><span>Utentes</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                            <i class="fa-solid fa-comments"></i><span>Mensagens</span>
                         </a>
                     </li>
                     <li>
@@ -52,137 +57,189 @@
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
-                            <span>Prescrição</span>
+                            <i class="fa-solid fa-capsules"></i><span>Prescrição</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
-                            <span>Histórico Clínico</span>
+                            <i class="fa-solid fa-clock-rotate-left"></i><span>Histórico Clínico</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/perfil" class="nav-link active">
-                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                            <i class="fa-solid fa-user-md"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <a href="/dashboard/profissional/medico/definicoes" class="nav-link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
+                <i class="fa-solid fa-sliders"></i><span>Definições</span>
             </a>
 
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span>
+                </a>
             </div>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <main id="mainContent">
+            <!-- HEADER -->
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por...">
+                <div class="header-left">
+                    <h2 class="page-title">Painel Clínico</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
+
+                    <a href="/dashboard/profissional/medico/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
                     </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">...</p>
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <section class="dashboard-grid">
-                <div class="perfil-card" style="text-align: center; padding: 20px;">
-                    <div class="avatar-container" style="position: relative; display: inline-block;">
-                        <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil"
-                            style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
+            <!-- DESIGN DE REDE SOCIAL -->
+            <div class="social-profile-container">
 
-                        <label for="uploadFoto"
-                            style="position: absolute; bottom: 5px; right: 5px; background: #007bff;
-                            color: white; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                            <i class="fa-solid fa-camera"></i>
-                        </label>
-                        <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+                <!-- CARD DE TOPO: CAPA E AVATAR SOBREPOSTO -->
+                <div class="profile-header-card">
+                    <div class="profile-cover-wrapper">
+                        <div class="profile-cover-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80"
+                            alt="Capa" class="cover-img">
                     </div>
 
-                    <h2 id="perfilNomeReal">Carregando...</h2>
-                    <p><strong>Email:</strong> <span id="perfilEmailReal">...</span></p>
-                    <p><strong>Função:</strong> <span id="perfilFuncaoReal">...</span></p>
+                    <div class="profile-avatar-strip">
+                        <div class="avatar-container">
+                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil">
+                            <label for="uploadFoto" class="camera-upload-btn">
+                                <i class="fa-solid fa-camera"></i>
+                            </label>
+                            <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+                        </div>
 
-                    <button onclick="removerFoto()"
-                        style="margin-top: 10px; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.8rem;">
-                        Remover foto personalizada
-                    </button>
-                </div>
-
-                <section class="calendar-section">
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <button id="prevMonth" class="calendar-btn"><i
-                                    class="fa-solid fa-chevron-left"></i></button>
-                            <h2 id="monthYear"></h2>
-                            <button id="nextMonth" class="calendar-btn"><i
-                                    class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="calendar-weekdays">
-                            <div>Dom</div>
-                            <div>Seg</div>
-                            <div>Ter</div>
-                            <div>Qua</div>
-                            <div>Qui</div>
-                            <div>Sex</div>
-                            <div>Sab</div>
-                        </div>
-                        <div class="calendar-days" id="calendarDays"></div>
-                    </div>
-                </section>
-            </section>
-
-            <!-- <section class="profile-section">
-                <div class="profile-container">
-                    <div class="profile-header">
-                        <h2>Gestão de Conta</h2>
-                    </div>
-                    <div class="profile-cards">
-                        <div class="profile-card"><i class="fa-solid fa-user"></i>
-                            <h3>Dados Pessoais</h3>
-                            <p>Editar informações</p>
-                        </div>
-                        <div class="profile-card"><i class="fa-solid fa-lock"></i>
-                            <h3>Segurança</h3>
-                            <p>Alterar senha</p>
-                        </div>
-                        <div class="profile-card"><i class="fa-solid fa-bell"></i>
-                            <h3>Notificações</h3>
-                            <p>Gerenciar alertas</p>
-                        </div>
-                        <div class="profile-card"><i class="fa-solid fa-gear"></i>
-                            <h3>Configurações</h3>
-                            <p>Preferências</p>
+                        <div class="profile-identity-text">
+                            <h2 id="perfilNomeReal">Carregando...</h2>
+                            <p class="role-text"><i class="fa-solid fa-user-md"></i> <span
+                                    id="perfilFuncaoReal">...</span></p>
+                            <button onclick="removerFoto()" class="btn-remove-photo">
+                                <i class="fa-solid fa-trash-can"></i> Remover foto personalizada
+                            </button>
                         </div>
                     </div>
                 </div>
-            </section> -->
+
+                <!-- CONTEÚDO EM DUAS COLUNAS (FEED / SOBRE) -->
+                <div class="profile-content-layout">
+
+                    <!-- COLUNA ESQUERDA: WIDGET DE INFORMAÇÕES FIXAS -->
+                    <div class="profile-info-sidebar">
+                        <div class="section-title-inside">
+                            <h3><i class="fa-solid fa-circle-info"></i> Sobre</h3>
+                        </div>
+                        <div class="info-widget-card">
+                            <!-- <h4>Sobre</h4> -->
+                            <ul class="info-list-social">
+                                <li>
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <div>
+                                        <span>E-mail</span>
+                                        <p id="perfilEmailReal">...</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-hospital"></i>
+                                    <div>
+                                        <span>Instituição</span>
+                                        <p>Clínica Arco-Íris</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <div>
+                                        <span>Cédula Profissional</span>
+                                        <p>Nº 48953-ANG</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- COLUNA DIREITA: GESTÃO DE CONTA -->
+                    <section class="profile-feed-actions">
+                        <div class="section-title-inside">
+                            <h3><i class="fa-solid fa-shield-halved"></i> Gestão de Conta</h3>
+                        </div>
+
+                        <div class="profile-action-grid-social">
+                            <a href="/dashboard/profissional/rececao/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-blue"><i class="fa-solid fa-user"></i></div>
+                                    <div class="action-details">
+                                        <h5>Dados Pessoais</h5>
+                                        <p>Editar e gerenciar informações públicas do seu perfil.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+                            <a href="/dashboard/profissional/rececao/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-red"><i class="fa-solid fa-lock"></i></div>
+                                    <div class="action-details">
+                                        <h5>Segurança</h5>
+                                        <p>Alterar senha de acesso e monitorar logins ativos.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+
+                            <a href="/dashboard/profissional/rececao/alertas" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-green"><i class="fa-solid fa-bell"></i></div>
+                                    <div class="action-details">
+                                        <h5>Notificações</h5>
+                                        <p>Gerenciar os canais e regras de alertas de telemetria.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+
+                            <a href="/dashboard/profissional/rececao/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-gray"><i class="fa-solid fa-gear"></i></div>
+                                    <div class="action-details">
+                                        <h5>Configurações</h5>
+                                        <p>Preferências gerais e parametrizações do sistema.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
         </main>
     </div>
 
@@ -227,7 +284,6 @@
                     document.getElementById('perfilEmailReal').textContent = data.email || 'Não informado';
                     document.getElementById('perfilFuncaoReal').textContent = data.role;
 
-                    // Definir Foto (Prioridade: Banco de Dados > UI Avatars)
                     const avatarPadrao = `https://ui-avatars.com/api/?name=${encodeURIComponent(data.nome)}&background=007bff&color=fff`;
                     const fotoFinal = data.foto_perfil || avatarPadrao;
 
@@ -245,7 +301,6 @@
                 const file = this.files[0];
                 if (!file) return;
 
-                // Preview imediato
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     fotoExibicao.src = e.target.result;
@@ -253,7 +308,6 @@
                 };
                 reader.readAsDataURL(file);
 
-                // Enviar para o servidor (Multer vai processar)
                 const formData = new FormData();
                 formData.append('foto', file);
 
@@ -267,31 +321,9 @@
                     alert("Erro ao conectar com o servidor para salvar a foto.");
                 }
             });
-
-            // --- 4. CALENDÁRIO ---
-            let currentDate = new Date();
-            function renderCalendar() {
-                const year = currentDate.getFullYear();
-                const month = currentDate.getMonth();
-                document.getElementById('monthYear').textContent = currentDate.toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
-
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                let html = '';
-                for (let i = 0; i < firstDay; i++) html += '<div class="day empty"></div>';
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const isToday = new Date(year, month, day).toDateString() === new Date().toDateString();
-                    html += `<div class="day ${isToday ? 'today' : ''}">${day}</div>`;
-                }
-                document.getElementById('calendarDays').innerHTML = html;
-            }
-
-            document.getElementById('prevMonth').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-            document.getElementById('nextMonth').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
-            renderCalendar();
         });
 
-        // --- 5. REMOVER FOTO ---
+        // --- 4. REMOVER FOTO ---
         async function removerFoto() {
             if (confirm("Desejas remover a tua foto personalizada e usar o padrão?")) {
                 try {
@@ -302,6 +334,49 @@
                 }
             }
         }
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

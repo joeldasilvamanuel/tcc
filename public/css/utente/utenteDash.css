@@ -1,4 +1,3 @@
-/* ===== GERAL E RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -10,108 +9,267 @@ body {
   background: #f4f7fa;
 }
 
+/* ===== ESTRUTURA BASE DO DASHBOARD ===== */
 .app {
   display: flex;
   min-height: 100vh;
-}
-
-/* ===== SIDEBAR ===== */
-aside {
-  position: fixed;
-  height: 100vh;
-  background: #007bff;
-  color: white;
-  padding: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 100;
-}
-
-aside.expanded {
-  width: 240px;
-}
-
-aside.collapsed {
-  width: 85px;
-}
-
-.sidebar-top {
-  position: relative;
   width: 100%;
 }
 
+/* ===== PREMIUM SAAS SIDEBAR ===== */
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #0b0e14; /* Tom escuro Premium (Estilo Linear/Stripe) */
+  color: #f4f5f6;
+  padding: 1.2rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden; /* Crucial para não vazar texto ao encolher */
+}
+
+/* Estados de Largura */
+aside.expanded {
+  width: 260px;
+}
+
+aside.collapsed {
+  width: 76px;
+}
+
+/* Ajuste Dinâmico do Conteúdo Principal conforme o estado da Sidebar */
+aside.expanded ~ #mainContent {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+}
+
+aside.collapsed ~ #mainContent {
+  margin-left: 76px;
+  width: calc(100% - 76px);
+}
+
+#mainContent {
+  flex-grow: 1;
+  padding: 2rem;
+  transition:
+    margin-left 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  background: #f4f7fa;
+}
+
+/* ===== TOPO DA SIDEBAR ===== */
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  height: 48px;
+  width: 100%;
+}
+
+/* Caixa do Logo */
 .logo-box {
-  background: rgba(255, 255, 255, 0.9);
+  position: relative;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px;
-  border-radius: 18px;
-  margin-bottom: 30px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
 .logo-box img {
-  width: 40px;
-  height: auto;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
 }
 
-.toggle-btn {
+/* Overlay do Menu (Apenas visível no estado Collapsed + Hover) */
+.logo-overlay {
   position: absolute;
-  top: 18px;
-  right: -35px;
-  background: #007bff;
-  border: none;
-  border-radius: 40%;
-  width: 32px;
-  height: 32px;
-  cursor: ew-resize;
-  color: white;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 14, 20, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgb(0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  color: #fff;
+  font-size: 14px;
 }
 
+/* Interações do Logotipo quando a Sidebar está Recolhida */
+aside.collapsed .logo-box {
+  cursor: pointer;
+}
+
+aside.collapsed .logo-box:hover .logo-overlay {
+  opacity: 1;
+}
+
+aside.collapsed .logo-box:hover img {
+  transform: scale(0.85);
+}
+
+/* Texto do Logotipo com fade out limpo */
+.logo-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-left: 12px;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+  opacity: 1;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+aside.collapsed .logo-text {
+  opacity: 0;
+  transform: translateX(-10px);
+  pointer-events: none;
+}
+
+/* Botão Toggle Superior Direito */
+.toggle-btn {
+  position: absolute;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  color: #8a8f98;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 1;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+aside.collapsed .toggle-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== LINKS DE NAVEGAÇÃO ===== */
 .navbar {
   flex-grow: 1;
 }
 
 .nav-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  margin-bottom: 8px;
-  border-radius: 12px;
-  color: rgba(255, 255, 255, 0.85);
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #8a8f98;
   text-decoration: none;
-  transition: 0.3s;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  height: 40px;
+  width: 100%;
 }
 
 .nav-link i {
-  font-size: 20px;
-  min-width: 25px;
+  font-size: 16px;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-link:hover,
+.nav-link span {
+  margin-left: 12px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+/* Hover e Estados Ativos */
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
 .nav-link.active {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 600;
 }
 
+/* Esconder spans de texto em modo colapsado */
 aside.collapsed .nav-link span {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
+/* Área de Logout Inferior */
 .logout-area {
   margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Impede que os ícones e imagens internos quebrem os eventos de clique do JS */
+.logo-box *,
+.toggle-btn * {
+  pointer-events: none;
+}
+
+/* Garante que o layout do app não parta se usares flexbox */
+.app {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Força o mainContent a respeitar a sidebar fixa */
+aside.expanded ~ #mainContent {
+  margin-left: 260px !important;
+  width: calc(100% - 260px) !important;
+}
+
+aside.collapsed ~ #mainContent {
+  margin-left: 76px !important;
+  width: calc(100% - 76px) !important;
 }
 
 /* ===== CONTEÚDO PRINCIPAL (MAIN) ===== */

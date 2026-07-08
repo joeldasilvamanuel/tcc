@@ -69,81 +69,76 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
                         <a href="/dashboard/admin/adminGeral/" class="nav-link">
-                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                            <i class="fa-solid fa-chart-line"></i><span>Dashboard</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/utilizadores" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Utilizadores</span>
+                            <i class="fa-solid fa-users-gear"></i><span>Utilizadores</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/relatorios" class="nav-link">
-                            <i class="fa-solid fa-calendar-check"></i><span>Relatórios</span>
+                            <i class="fa-solid fa-file-invoice-dollar"></i><span>Relatórios</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/configuracoes" class="nav-link active">
-                            <i class="fa-solid fa-gear"></i><span>Configurações</span>
+                            <i class="fa-solid fa-sliders"></i><span>Configurações</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/admin/adminGeral/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                            <i class="fa-solid fa-user-shield"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span>
+                </a>
             </div>
-            <!-- <div class="logout-area">
-                <a href="/auth/logout" style="color: white; text-decoration: none; font-weight: bold;"><i
-                        class="fa-solid fa-right-from-bracket"></i> Sair</a>
-            </div> -->
         </aside>
-
         <!-- MAIN CONTENT -->
         <main id="mainContent">
-            <!-- HEADER -->
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar...">
+                <div class="header-left">
+                    <h2 class="page-title">Configurações</h2>
+                    <p class="page-subtitle">Configurações avançadas do sistema.</p>
                 </div>
 
                 <div class="header-right">
-                    <a href="/dashboard/utente/alertas">
-                        <div class="notification-icon">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Procurar no painel...">
+                    </div>
+
+                    <div class="notification-icon">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </div>
 
                     <div class="user-profile">
                         <div class="user-avatar">
@@ -151,7 +146,7 @@
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role">Utente</p>
+                            <span class="user-role-badge" id="userRole">Utente</span>
                         </div>
                     </div>
                 </div>
@@ -293,6 +288,49 @@
         }
 
         setInterval(updateMonitor, 100);
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

@@ -686,37 +686,42 @@
 
 <body>
     <div class="app">
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
-            <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
                         <a href="/dashboard/profissional/medico/" class="nav-link">
-                            <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                            <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/medico/monitorar" class="nav-link">
+                            <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/utentes" class="nav-link">
-                            <i class="fa-solid fa-users"></i><span>Utentes</span>
+                            <i class="fa-solid fa-hospital-user"></i><span>Utentes</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/mensagens" class="nav-link">
-                            <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                            <i class="fa-solid fa-comments"></i><span>Mensagens</span>
                         </a>
                     </li>
                     <li>
@@ -726,61 +731,58 @@
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/prescricao" class="nav-link">
-                            <i class="fa-solid fa-file-prescription"></i>
-                            <span>Prescrição</span>
+                            <i class="fa-solid fa-capsules"></i><span>Prescrição</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/historico" class="nav-link">
-                            <i class="fa-solid fa-notes-medical"></i>
-                            <span>Histórico Clínico</span>
+                            <i class="fa-solid fa-clock-rotate-left"></i><span>Histórico Clínico</span>
                         </a>
                     </li>
                     <li>
                         <a href="/dashboard/profissional/medico/perfil" class="nav-link">
-                            <i class="fa-solid fa-user"></i><span>Perfil</span>
+                            <i class="fa-solid fa-user-md"></i><span>Perfil</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <a href="/dashboard/profissional/medico/definicoes" class="nav-link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Definições</span>
+                <i class="fa-solid fa-sliders"></i><span>Definições</span>
             </a>
 
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Sair</span> </a>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span>
+                </a>
             </div>
         </aside>
 
         <main id="mainContent">
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por alertas, pacientes...">
+                <div class="header-left">
+                    <h2 class="page-title">Painel Clínico</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/medico/alertas" style="background: #007bff;"
-                        class="nav-link active">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
+
+                    <a href="/dashboard/profissional/medico/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
                     </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
-                            <p class="user-name" id="userName">Dra. Ana Beatriz</p>
-                            <p class="user-role" id="userRole">Clínica Geral</p>
+                            <p class="user-name" id="userName">Carregando...</p>
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
@@ -1589,6 +1591,49 @@
     </script>
 
     <script src="/js/header.js"></script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>

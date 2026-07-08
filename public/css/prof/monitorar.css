@@ -13,9 +13,275 @@
 }
 
 .titulo {
-    color: rgb(53, 47, 47);
+  color: rgb(53, 47, 47);
 }
 
 .content-card {
-    width: 750px;
+  width: 750px;
+}
+
+/* DESIGN DE GRID INSPIRADO EM PRACTO (exemplar.jpeg) */
+.practo-layout-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 25px;
+  margin-top: 25px;
+  align-items: start;
+}
+
+/* COLUNA DA ESQUERDA - PERFIL */
+.profile-selection-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.patient-focus-card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
+
+.patient-avatar-main {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e0f0ff;
+  color: #007bff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px auto;
+}
+
+.patient-focus-card h3 {
+  font-size: 1.15rem;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.status-critical-bg {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.patient-details-list {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 15px;
+  text-align: left;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.detail-row .label {
+  color: #64748b;
+}
+.detail-row .val {
+  color: #1e293b;
+  font-weight: 600;
+}
+.font-mono {
+  font-family: monospace;
+}
+
+/* SELETOR COMPACTO DE UTENTES */
+.quick-utentes-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+}
+
+.quick-utentes-card h4 {
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: 0.2s;
+}
+
+.quick-item:hover,
+.quick-item.active {
+  background: #e0f0ff;
+}
+
+.quick-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.status-normal {
+  background: #22c55e;
+}
+.status-warning {
+  background: #f59e0b;
+}
+.status-critical {
+  background: #ef4444;
+}
+
+/* COLUNA DA DIREITA - CARDS DE SINAIS VITAIS */
+.vitals-dashboard-area {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+}
+
+.vitals-section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.vitals-section-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ff6b6b; /* Estilo coral da imagem */
+}
+
+.vitals-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+/* MINI CARD INDIVIDUAL COM MINI ONDA */
+.vital-mini-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.card-top-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.v-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.card-top-info h5 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+.status-tag {
+  font-size: 0.65rem;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.card-value-display {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.value-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.value-unit {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.separator {
+  color: #cbd5e1;
+  margin: 0 2px;
+}
+
+/* ONDAS EMBAIXO DO NÚMERO (SPARKLINE) */
+.sparkline-container {
+  height: 50px;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Temas Cromáticos Individuais */
+.cardio-theme .v-icon {
+  background: #fee2e2;
+  color: #ef4444;
+}
+.oxygen-theme .v-icon {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+.pressure-theme .v-icon {
+  background: #dcfce7;
+  color: #22c55e;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1024px) {
+  .practo-layout-grid {
+    grid-template-columns: 1fr;
+  }
 }

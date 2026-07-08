@@ -14,29 +14,33 @@
 
 <body>
     <div class="app">
-        <!-- SIDEBAR -->
-        <!-- SIDEBAR -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
-            <!-- TOPO -->
-            <div class="sidebar-top">
-                <div class="logo-box">
-                    <img src="/img/logo02.png" alt="Health Access Hub">
-                </div>
 
-                <button id="toggleSidebar" class="toggle-btn">
-                    <!-- <i class="fa-solid fa-chevron-left"></i> -->
-                    <!-- <i class="fa-solid fa-columns"></i> -->
-                    <i class="fa-solid fa-angles-left"></i>
+            <div class="sidebar-top">
+                <div class="logo-box" id="logoBox">
+                    <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <!-- <i class="fa-solid fa-bars"></i><i class="fa-solid fa-outdent"></i> -->
             </div>
 
             <!-- MENU -->
             <nav class="navbar">
                 <ul class="nav-list">
                     <li>
-                        <a href="/dashboard/profissional/enfermeiro/" class="nav-link active">
+                        <a href="/dashboard/profissional/enfermeiro/" class="nav-link">
                             <i class="fa-solid fa-house"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/enfermeiro/monitorar" class="nav-link active">
+                              <i class="fa-solid fa-chart-line"></i><span>Monitorar</span>
                         </a>
                     </li>
                     <li>
@@ -47,6 +51,11 @@
                     <li>
                         <a href="/dashboard/profissional/enfermeiro/mensagens" class="nav-link">
                             <i class="fa-solid fa-message"></i><span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/profissional/enfermeiro/agendamento"  class="nav-link">
+                            <i class="fa-solid fa-calendar-check"></i><span>Agendamento</span>
                         </a>
                     </li>
                     <li>
@@ -70,91 +79,146 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- Main -conteudo principal -->
         <main id="mainContent">
-            <!-- HEADER COM BUSCA E PERFIL -->
+            <!-- HEADER -->
             <header class="main-header">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquise por...">
+                <div class="header-left">
+                    <h2 class="page-title">Sinais Vitais</h2>
+                    <p class="page-subtitle">Acompanhe seus pacientes e métricas de atendimento em tempo real.</p>
                 </div>
 
                 <div class="header-right">
-                    <!-- Abas que outrora estavao no menu lateral -->
-                    <a href="/dashboard/profissional/enfermeiro/agendamento" style="background: #007bff;" class="nav-link">
-                        <abbr title="Agendamento">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </abbr>
-                        <!-- <span>Agendamento</span> -->
-                    </a>
-                    <a href="/dashboard/profissional/enfermeiro/alertas" style="background: #007bff;" class="nav-link">
-                        <abbr title="Alertas">
-                            <i class="fa-solid fa-bell"></i>
-                        </abbr>
-                        <!-- <span>Alertas</span> -->
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Pesquisar utentes, prontuários...">
+                    </div>
 
+                    <a href="/dashboard/profissional/medico/alertas" class="notification-icon-link">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
 
                     <div class="user-profile">
                         <div class="user-avatar">
-                            <img src="/img/fotoPadra.png" alt="Avatar" id="headerAvatar">
-                            alt="Dr. Silva">
+                            <img src="/img/fotoPadra.png" alt="Dr. Silva" id="headerAvatar">
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role" id="userRole">Carregando...</p>
-
+                            <span class="user-role-badge" id="userRole">Profissional</span>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="see">
-                <!-- grafico exibindo os dados do ESP32 em tempo real -->
-                <div class="content-card"
-                    style="background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                    <div
-                        style="padding: 15px; border-bottom: 1px solid #f0f2f5; display: flex; justify-content: space-between; align-items: center;">
-                        <h2 style="color: #334155; font-size: 1.1rem; margin: 0;">
-                            <i class="fa-solid fa-heart-pulse" style="color: #ef4444; margin-right: 8px;"></i>
-                            Monitorização de Sinais Vitais
-                        </h2>
-                        <span
-                            style="font-size: 0.75rem; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;">Ao
-                            vivo</span>
-                    </div>
+            <!-- CONTAINER INTEGRADO (MÁSTER-DETAIL COMPACTO) -->
+            <div class="practo-layout-grid">
 
-                    <div style="height: 220px; padding: 10px;">
-                        <canvas id="hospitalChart"></canvas>
-                    </div>
+                <!-- COLUNA 1: PERFIL DO UTENTE ATIVO + SELETOR RÁPIDO -->
+                <div class="profile-selection-column">
+                    <!-- Card do Utente Selecionado (Igual ao lado esquerdo da imagem) -->
+                    <div class="patient-focus-card">
+                        <div class="patient-avatar-main" id="patientInitials">MA</div>
+                        <h3 id="activePatientName">Manuel António</h3>
+                        <span class="status-badge status-critical-bg">Alta Monitorização</span>
 
-                    <div
-                        style="display: flex; gap: 15px; padding: 15px; background: #f8fafc; border-radius: 0 0 12px 12px;">
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Frequência (BPM)</p>
-                            <span id="bpmValue"
-                                style="font-size: 1.8rem; font-weight: 700; color: #0f172a; font-family: sans-serif;">--</span>
+                        <div class="patient-details-list">
+                            <div class="detail-row"><span class="label">Dispositivo:</span><span class="val font-mono"
+                                    id="activeDisp">ESP32-CH01</span></div>
+                            <div class="detail-row"><span class="label">Condição:</span><span
+                                    class="val">Hipertensão</span></div>
+                            <div class="detail-row"><span class="label">Idade:</span><span class="val">62 anos</span>
+                            </div>
                         </div>
-                        <div
-                            style="flex: 1; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
-                            <p
-                                style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 5px;">
-                                Oxigenação (SpO2)</p>
-                            <span style="font-size: 1.8rem; font-weight: 700; color: #0284c7;">98%</span>
+                    </div>
+
+                    <!-- Seletor Rápido de outros Utentes (Lista compacta abaixo do perfil) -->
+                    <div class="quick-utentes-card">
+                        <h4><i class="fa-solid fa-users"></i> Trocar de Utente</h4>
+                        <div class="quick-list">
+                            <div class="quick-item active"
+                                onclick="focarUtente(this, 'Manuel António', 'MA', 'ESP32-CH01', 'Hipertensão', '62 anos', '98%')">
+                                <span class="dot status-critical"></span>
+                                <p>Manuel António</p>
+                            </div>
+                            <div class="quick-item"
+                                onclick="focarUtente(this, 'Arnalda Silva', 'AS', 'ESP32-CH02', 'Arritmia', '54 anos', '99%')">
+                                <span class="dot status-normal"></span>
+                                <p>Arnalda Silva</p>
+                            </div>
+                            <div class="quick-item"
+                                onclick="focarUtente(this, 'Júlio Bento', 'JB', 'ESP32-CH03', 'Pós-Operatório', '45 anos', '95%')">
+                                <span class="dot status-warning"></span>
+                                <p>Júlio Bento</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- lista para ver mais utentes que o profissional tem -->
-                <div class="moreUtentes">
-                    <div class="titulo">
-                        <h2>Veja mais utentes</h2>
-                        <p>Pacientes sob sua supervisão</p>
+                <!-- COLUNA 2: GRIDE DE SINAIS VITAIS COM ONDAS INDIVIDUAIS -->
+                <div class="vitals-dashboard-area">
+                    <div class="vitals-section-title">
+                        <h3>Sinais Vitais</h3>
+                        <span class="live-pill"><span class="pulse-dot-live"></span> Telemetria Ativa</span>
+                    </div>
+
+                    <div class="vitals-cards-grid">
+                        <!-- Card 1: Frequência Cardíaca (BPM) -->
+                        <div class="vital-mini-card cardio-theme">
+                            <div class="card-top-info">
+                                <div class="v-icon"><i class="fa-solid fa-heartbeat"></i></div>
+                                <div class="v-meta">
+                                    <h5>Frequência Cardíaca</h5>
+                                    <span class="status-tag">Normal</span>
+                                </div>
+                            </div>
+                            <div class="card-value-display">
+                                <span id="bpmValue" class="value-number">--</span>
+                                <span class="value-unit">BPM</span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="bpmSparkline"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Oxigenação (SpO2) -->
+                        <div class="vital-mini-card oxygen-theme">
+                            <div class="card-top-info">
+                                <div class="v-icon"><i class="fa-solid fa-wind"></i></div>
+                                <div class="v-meta">
+                                    <h5>Oxigenação Sanguínea</h5>
+                                    <span class="status-tag">Estável</span>
+                                </div>
+                            </div>
+                            <div class="card-value-display">
+                                <span id="spo2Value" class="value-number">98</span>
+                                <span class="value-unit">% SpO₂</span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="spo2Sparkline"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Pressão Arterial (Estático/Simulado conforme imagem) -->
+                        <div class="vital-mini-card pressure-theme">
+                            <div class="card-top-info">
+                                <div class="v-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                                <div class="v-meta">
+                                    <h5>Pressão Arterial</h5>
+                                    <span class="status-tag">Normal</span>
+                                </div>
+                            </div>
+                            <div class="card-value-display">
+                                <span class="value-number">120<span class="separator">/</span>80</span>
+                                <span class="value-unit">mmHg</span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="pressureSparkline"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </main>
     </div>
@@ -168,69 +232,131 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const ctx = document.getElementById('hospitalChart').getContext('2d');
+        // Armazenadores das instâncias de ondas para limpeza/atualização
+        let sparkBpm, sparkSpo2, sparkPressure;
 
-        // Gradiente para a linha (opcional, mas fica muito elegante)
-        let gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.4)'); // Verde suave em cima
-        gradient.addColorStop(1, 'rgba(34, 197, 94, 0)');   // Transparente em baixo
+        function initSparkline(canvasId, lineColor, fillColor) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
 
-        let ecgData = Array(40).fill(5);
-        let labels = Array(40).fill('');
+            let gradient = ctx.createLinearGradient(0, 0, 0, 45);
+            gradient.addColorStop(0, fillColor);
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
-        const hospitalChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: ecgData,
-                    borderColor: '#22c55e', // Verde "Saúde" (Emerald)
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.4, // Linha mais orgânica e suave
-                    fill: true,
-                    backgroundColor: gradient
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        display: true,
-                        min: 0, max: 20,
-                        grid: { color: '#f1f5f9' }, // Grelha muito clarinha
-                        ticks: { display: false }
-                    },
-                    x: { display: false }
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(15).fill(''),
+                    datasets: [{
+                        data: Array(15).fill(5),
+                        borderColor: lineColor,
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        tension: 0.45,
+                        fill: true,
+                        backgroundColor: gradient
+                    }]
                 },
-                plugins: { legend: { display: false } }
-            }
+                options: {
+                    animation: false, responsive: true, maintainAspectRatio: false,
+                    scales: { x: { display: false }, y: { display: false, min: 0, max: 20 } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Inicializa as 3 ondas independentes após o carregamento
+        document.addEventListener('DOMContentLoaded', () => {
+            sparkBpm = initSparkline('bpmSparkline', '#ef4444', 'rgba(239, 68, 68, 0.15)');
+            sparkSpo2 = initSparkline('spo2Sparkline', '#0284c7', 'rgba(2, 132, 199, 0.15)');
+            sparkPressure = initSparkline('pressureSparkline', '#22c55e', 'rgba(34, 197, 94, 0.15)');
+
+            // Popula a pressão com uma onda estática suave decorativa
+            sparkPressure.data.datasets[0].data = [5, 7, 6, 8, 5, 9, 6, 5, 7, 6, 8, 5, 6, 7, 5];
+            sparkPressure.update();
+
+            setInterval(updateVitalsRealTime, 150);
         });
 
-        let counter = 0;
-        function updateMonitor() {
-            let newValue = 5; // Linha base
-            let step = counter % 15;
+        let tick = 0;
+        function updateVitalsRealTime() {
+            tick++;
 
-            // Simula o pulso de forma suave
-            if (step === 3) newValue = 15;      // Pico R
-            else if (step === 2 || step === 4) newValue = 2; // Vales S e Q
-            else newValue = 5 + (Math.random() * 1); // Oscilação leve
+            // 1. Atualização Simulada do Batimento (BPM)
+            let bpmData = sparkBpm.data.datasets[0].data;
+            let step = tick % 10;
+            let newBpmVal = (step === 3) ? 16 : (step === 2 || step === 4) ? 2 : 5 + (Math.random() * 1);
 
-            ecgData.push(newValue);
-            ecgData.shift();
+            bpmData.push(newBpmVal);
+            bpmData.shift();
+            sparkBpm.update('none');
 
-            if (counter % 10 === 0) {
+            if (tick % 8 === 0) {
                 document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
             }
 
-            hospitalChart.update('none');
-            counter++;
+            // 2. Atualização Simulada da Oxigenação (Onda mais suave/linear)
+            let spo2Data = sparkSpo2.data.datasets[0].data;
+            let newSpo2Val = 5 + (Math.sin(tick * 0.2) * 2) + (Math.random() * 0.5);
+
+            spo2Data.push(newSpo2Val);
+            spo2Data.shift();
+            sparkSpo2.update('none');
         }
 
-        setInterval(updateMonitor, 100);
+        // INTERAÇÃO ASSÍNCRONA MASTER-DETAIL
+        function focarUtente(btn, nome, iniciais, disp, condicao, idade, spo2) {
+            document.querySelectorAll('.quick-item').forEach(i => i.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Transita os dados do perfil dinamicamente
+            document.getElementById('activePatientName').textContent = nome;
+            document.getElementById('patientInitials').textContent = iniciais;
+            document.getElementById('activeDisp').textContent = disp;
+            document.getElementById('spo2Value').textContent = spo2.replace('%', '');
+        }
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

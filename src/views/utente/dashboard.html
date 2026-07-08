@@ -22,79 +22,71 @@
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
-                <div class="logo-box">
+                <div class="logo-box" id="logoBox">
                     <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
                 </div>
-
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-bars-staggered"></i>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
-            <!-- MENU UTENTE -->
             <nav class="navbar">
                 <ul class="nav-list">
-
                     <li>
                         <a href="/dashboard/utente" class="nav-link active">
                             <i class="fa-solid fa-chart-pie"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/exames" class="nav-link">
                             <i class="fa-solid fa-heart-pulse"></i>
                             <span>Sinais Vitais</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/mensagens" class="nav-link">
                             <i class="fa-solid fa-comments"></i>
                             <span>Mensagens</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/consultas" class="nav-link">
                             <i class="fa-solid fa-calendar-plus"></i>
                             <span>Agendar Consultas</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/prescricao" class="nav-link">
                             <i class="fa-solid fa-capsules"></i>
                             <span>Prescrição</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/historico" class="nav-link">
                             <i class="fa-solid fa-timeline"></i>
                             <span>Histórico Clínico</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/perfil" class="nav-link">
                             <i class="fa-solid fa-id-card-clip"></i>
                             <span>Perfil</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="/dashboard/utente/definicoes" class="nav-link">
                             <i class="fa-solid fa-sliders"></i>
                             <span>Definições</span>
                         </a>
                     </li>
-
                 </ul>
             </nav>
 
-            <!-- LOGOUT -->
             <div class="logout-area">
                 <a href="/auth/logout" class="nav-link logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -355,6 +347,49 @@
         }
 
         setInterval(updateMonitor, 100);
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

@@ -6,23 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/img/logo02.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/prof/perfil.css">
     <link rel="stylesheet" href="/css/utente/perfil.css">
-    <link rel="stylesheet" href="/css/utente/utenteDash.css">
     <title>Health Access Hub | Perfil do Utente</title>
 </head>
 
 <body>
     <div class="app">
-       <!-- Sidebar -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="expanded">
 
             <div class="sidebar-top">
-                <div class="logo-box">
+                <div class="logo-box" id="logoBox">
                     <img src="/img/logo02.png" alt="Health Access Hub">
+                    <div class="logo-overlay">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
                 </div>
-
-                <button id="toggleSidebar" class="toggle-btn">
-                    <i class="fa-solid fa-bars-staggered"></i>
+                <span class="logo-text">Health Access Hub</span>
+                <button id="toggleSidebar" class="toggle-btn" title="Recolher menu">
+                    <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
@@ -99,28 +102,24 @@
 
         </aside>
 
-        <!-- MAIN -->
+        <!-- Main -->
         <main id="mainContent">
-
-            <!-- HEADER -->
             <header class="main-header">
                 <div class="header-left">
-                    <h2 class="page-title">Perfil</h2>
-                    <p class="page-subtitle">Personalize o teu perfil</p>
-                </div>
-
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Pesquisar...">
+                    <h2 class="page-title">Painel de Saúde</h2>
+                    <p class="page-subtitle">Gerencie suas consultas, exames e sinais vitais.</p>
                 </div>
 
                 <div class="header-right">
-                    <a href="/dashboard/utente/alertas">
-                        <div class="notification-icon">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                    </a>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="Procurar no painel...">
+                    </div>
+
+                    <div class="notification-icon">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </div>
 
                     <div class="user-profile">
                         <div class="user-avatar">
@@ -128,68 +127,136 @@
                         </div>
                         <div class="user-info">
                             <p class="user-name" id="userName">Carregando...</p>
-                            <p class="user-role">Utente</p>
+                            <span class="user-role-badge" id="userRole">Utente</span>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- PERFIL + CALENDÁRIO -->
-            <section class="dashboard-grid">
+            <!-- DESIGN DE REDE SOCIAL -->
+            <div class="social-profile-container">
 
-                <!-- CARD PERFIL -->
-                <div class="perfil-card" style="text-align:center; padding:25px;">
-
-                    <div style="position:relative; display:inline-block;">
-                        <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto"
-                            style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:3px solid #007bff;">
-
-                        <label for="uploadFoto" style="position:absolute;bottom:5px;right:5px;background:#007bff;
-                            color:white;padding:8px;border-radius:50%;cursor:pointer;">
-                            <i class="fa-solid fa-camera"></i>
-                        </label>
-
-                        <input type="file" id="uploadFoto" accept="image/*" style="display:none;">
+                <!-- CARD DE TOPO: CAPA E AVATAR SOBREPOSTO -->
+                <div class="profile-header-card">
+                    <div class="profile-cover-wrapper">
+                        <div class="profile-cover-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80"
+                            alt="Capa" class="cover-img">
                     </div>
 
-                    <h2 id="perfilNomeReal">Carregando...</h2>
-                    <p><strong>Email:</strong> <span id="perfilEmailReal">...</span></p>
-                    <p><strong>Tipo de Conta:</strong> Utente</p>
+                    <div class="profile-avatar-strip">
+                        <div class="avatar-container">
+                            <img src="/img/fotoPadra.png" id="perfilFoto" class="perfil-foto" alt="Foto de perfil">
+                            <label for="uploadFoto" class="camera-upload-btn">
+                                <i class="fa-solid fa-camera"></i>
+                            </label>
+                            <input type="file" id="uploadFoto" accept="image/*" style="display: none;">
+                        </div>
 
-                    <button onclick="removerFoto()"
-                        style="margin-top:10px;background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.8rem;">
-                        Remover foto personalizada
-                    </button>
+                        <div class="profile-identity-text">
+                            <h2 id="perfilNomeReal">Carregando...</h2>
+                            <p class="role-text"><i class="fa-solid fa-user-md"></i> <span
+                                    id="perfilFuncaoReal">...</span></p>
+                            <button onclick="removerFoto()" class="btn-remove-photo">
+                                <i class="fa-solid fa-trash-can"></i> Remover foto personalizada
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- CALENDÁRIO (CONSULTAS DO UTENTE) -->
-                <section class="calendar-section">
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <button id="prevMonth" class="calendar-btn">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <h2 id="monthYear"></h2>
-                            <button id="nextMonth" class="calendar-btn">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                        </div>
+                <!-- CONTEÚDO EM DUAS COLUNAS (FEED / SOBRE) -->
+                <div class="profile-content-layout">
 
-                        <div class="calendar-weekdays">
-                            <div>Dom</div>
-                            <div>Seg</div>
-                            <div>Ter</div>
-                            <div>Qua</div>
-                            <div>Qui</div>
-                            <div>Sex</div>
-                            <div>Sab</div>
+                    <!-- COLUNA ESQUERDA: WIDGET DE INFORMAÇÕES FIXAS -->
+                    <div class="profile-info-sidebar">
+                        <div class="section-title-inside">
+                            <h3><i class="fa-solid fa-circle-info"></i> Sobre</h3>
                         </div>
-
-                        <div class="calendar-days" id="calendarDays"></div>
+                        <div class="info-widget-card">
+                            <!-- <h4>Sobre</h4> -->
+                            <ul class="info-list-social">
+                                <li>
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <div>
+                                        <span>E-mail</span>
+                                        <p id="perfilEmailReal">...</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-hospital"></i>
+                                    <div>
+                                        <span>Instituição</span>
+                                        <p>Clínica Arco-Íris</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-id-card"></i>
+                                    <div>
+                                        <span>Cédula Profissional</span>
+                                        <p>Nº 48953-ANG</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </section>
-            </section>
 
+                    <!-- COLUNA DIREITA: GESTÃO DE CONTA -->
+                    <section class="profile-feed-actions">
+                        <div class="section-title-inside">
+                            <h3><i class="fa-solid fa-shield-halved"></i> Gestão de Conta</h3>
+                        </div>
+
+                        <div class="profile-action-grid-social">
+                            <a href="/dashboard/utente/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-blue"><i class="fa-solid fa-user"></i></div>
+                                    <div class="action-details">
+                                        <h5>Dados Pessoais</h5>
+                                        <p>Editar e gerenciar informações públicas do seu perfil.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+                            <a href="/dashboard/utente/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-red"><i class="fa-solid fa-lock"></i></div>
+                                    <div class="action-details">
+                                        <h5>Segurança</h5>
+                                        <p>Alterar senha de acesso e monitorar logins ativos.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+
+                            <a href="/dashboard/utente/alertas" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-green"><i class="fa-solid fa-bell"></i></div>
+                                    <div class="action-details">
+                                        <h5>Notificações</h5>
+                                        <p>Gerenciar os canais e regras de alertas de telemetria.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+
+
+                            <a href="/dashboard/utente/definicoes" style="text-decoration: none;">
+                                <div class="action-item-card">
+                                    <div class="action-icon-circle bg-gray"><i class="fa-solid fa-gear"></i></div>
+                                    <div class="action-details">
+                                        <h5>Configurações</h5>
+                                        <p>Preferências gerais e parametrizações do sistema.</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right arrow-go"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
         </main>
     </div>
 
@@ -197,7 +264,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-
             const sidebar = document.getElementById("sidebar");
             const toggleBtn = document.getElementById("toggleSidebar");
             const app = document.querySelector(".app");
@@ -205,52 +271,55 @@
             const fotoExibicao = document.getElementById('perfilFoto');
             const headerAvatar = document.getElementById('headerAvatar');
 
-            /* SIDEBAR */
+            // --- 1. LÓGICA DA SIDEBAR ---
             const savedState = localStorage.getItem('sidebarState') || 'expanded';
             if (savedState === 'collapsed') {
                 sidebar.classList.add('collapsed');
+                sidebar.classList.remove('expanded');
                 app.classList.add('collapsed');
                 toggleBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
             }
 
             toggleBtn.addEventListener("click", () => {
-                const collapsed = sidebar.classList.toggle("collapsed");
-                app.classList.toggle("collapsed", collapsed);
-                toggleBtn.innerHTML = collapsed ?
-                    '<i class="fa-solid fa-chevron-right"></i>' :
-                    '<i class="fa-solid fa-chevron-left"></i>';
-                localStorage.setItem('sidebarState', collapsed ? 'collapsed' : 'expanded');
+                const isCollapsed = sidebar.classList.toggle("collapsed");
+                sidebar.classList.toggle("expanded", !isCollapsed);
+                app.classList.toggle("collapsed", isCollapsed);
+                toggleBtn.innerHTML = isCollapsed ? '<i class="fa-solid fa-chevron-right"></i>' : '<i class="fa-solid fa-chevron-left"></i>';
+                localStorage.setItem('sidebarState', isCollapsed ? 'collapsed' : 'expanded');
             });
 
-            /* BUSCAR DADOS DO UTENTE */
-            try {
-                const res = await fetch('/api/user-info');
-                if (!res.ok) throw new Error();
-                const data = await res.json();
+            // --- 2. CARREGAR DADOS DO USUÁRIO (API) ---
+            async function fetchUserInfo() {
+                try {
+                    const res = await fetch('/api/user-info');
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
 
-                document.getElementById('userName').textContent = data.nome;
-                document.getElementById('perfilNomeReal').textContent = data.nome;
-                document.getElementById('perfilEmailReal').textContent = data.email || 'Não informado';
+                    document.getElementById('userName').textContent = data.nome;
+                    document.getElementById('userRole').textContent = data.role;
+                    document.getElementById('perfilNomeReal').textContent = data.nome;
+                    document.getElementById('perfilEmailReal').textContent = data.email || 'Não informado';
+                    document.getElementById('perfilFuncaoReal').textContent = data.role;
 
-                const avatarPadrao =
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(data.nome)}&background=007bff&color=fff`;
+                    const avatarPadrao = `https://ui-avatars.com/api/?name=${encodeURIComponent(data.nome)}&background=007bff&color=fff`;
+                    const fotoFinal = data.foto_perfil || avatarPadrao;
 
-                const fotoFinal = data.foto_perfil || avatarPadrao;
+                    fotoExibicao.src = fotoFinal;
+                    headerAvatar.src = fotoFinal;
 
-                fotoExibicao.src = fotoFinal;
-                headerAvatar.src = fotoFinal;
-
-            } catch {
-                window.location.href = '/';
+                } catch (err) {
+                    window.location.href = '/';
+                }
             }
+            fetchUserInfo();
 
-            /* UPLOAD FOTO */
+            // --- 3. UPLOAD DE FOTO (PERSISTÊNCIA NO SERVIDOR) ---
             fileInput.addEventListener('change', async function () {
                 const file = this.files[0];
                 if (!file) return;
 
                 const reader = new FileReader();
-                reader.onload = e => {
+                reader.onload = (e) => {
                     fotoExibicao.src = e.target.result;
                     headerAvatar.src = e.target.result;
                 };
@@ -259,51 +328,72 @@
                 const formData = new FormData();
                 formData.append('foto', file);
 
-                await fetch('/api/upload-foto', {
-                    method: 'POST',
-                    body: formData
-                });
-            });
-
-            /* CALENDÁRIO */
-            let currentDate = new Date();
-
-            function renderCalendar() {
-                const year = currentDate.getFullYear();
-                const month = currentDate.getMonth();
-                document.getElementById('monthYear').textContent =
-                    currentDate.toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
-
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                let html = '';
-                for (let i = 0; i < firstDay; i++) html += '<div class="day empty"></div>';
-
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const isToday = new Date(year, month, d).toDateString() === new Date().toDateString();
-                    html += `<div class="day ${isToday ? 'today' : ''}">${d}</div>`;
+                try {
+                    const response = await fetch('/api/upload-foto', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (response.ok) console.log("Foto guardada no servidor com sucesso.");
+                } catch (err) {
+                    alert("Erro ao conectar com o servidor para salvar a foto.");
                 }
-
-                document.getElementById('calendarDays').innerHTML = html;
-            }
-
-            document.getElementById('prevMonth')
-                .addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-
-            document.getElementById('nextMonth')
-                .addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
-
-            renderCalendar();
+            });
         });
 
-        /* REMOVER FOTO */
+        // --- 4. REMOVER FOTO ---
         async function removerFoto() {
-            if (confirm("Desejas remover a tua foto personalizada?")) {
-                await fetch('/api/remover-foto', { method: 'POST' });
-                window.location.reload();
+            if (confirm("Desejas remover a tua foto personalizada e usar o padrão?")) {
+                try {
+                    const res = await fetch('/api/remover-foto', { method: 'POST' });
+                    if (res.ok) window.location.reload();
+                } catch (err) {
+                    alert("Erro ao remover foto.");
+                }
             }
         }
+    </script>
+
+    <!-- menu lateral -->
+    <script>
+        (function () {
+            // Executa imediatamente para evitar flickers visuais na transição de páginas
+            const sidebar = document.getElementById("sidebar");
+            const savedState = localStorage.getItem('sidebarState');
+
+            if (savedState === 'collapsed' && sidebar) {
+                sidebar.className = 'collapsed';
+            } else if (sidebar) {
+                sidebar.className = 'expanded';
+            }
+
+            // Aguarda o DOM estar pronto para mapear os cliques de forma global
+            document.addEventListener("DOMContentLoaded", () => {
+                const sidebarEl = document.getElementById("sidebar");
+
+                document.addEventListener("click", (e) => {
+                    // 1. Clique no botão de fechar/recolher
+                    const toggleBtn = e.target.closest("#toggleSidebar");
+                    if (toggleBtn && sidebarEl) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        sidebarEl.className = 'collapsed';
+                        localStorage.setItem('sidebarState', 'collapsed');
+                        return;
+                    }
+
+                    // 2. Clique no Logotipo para expandir (Apenas se estiver recolhido)
+                    const logoBox = e.target.closest("#logoBox");
+                    if (logoBox && sidebarEl) {
+                        if (sidebarEl.classList.contains("collapsed")) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            sidebarEl.className = 'expanded';
+                            localStorage.setItem('sidebarState', 'expanded');
+                        }
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 
