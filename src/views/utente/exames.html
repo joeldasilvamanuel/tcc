@@ -281,11 +281,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Dados atuais (simulação ESP32)
-        let hr = 76;
-        let spo2 = 97;
-        let temp = 36.5;
+        // Dados atuais (add dados reais do ESP32 via WebSocket ou API)
+        let hr = 0;
+        let spo2 = 0;
+        let temp = 0;
         let online = true;
+
+        let estadoTemp = "SEM_LEITURA";
+        let estadoBPM = "SEM_LEITURA";
+        let estadoSpO2 = "SEM_LEITURA";
 
         // Histórico (máx 8)
         let history = [];
@@ -427,41 +431,89 @@
             statusLed.className = 'led';
             lastTimeSpan.innerText = getNowTime();
             evaluateAndUpdate();
+
+            if (
+                estadoTemp === "NORMAL" &&
+                estadoBPM === "NORMAL" &&
+                estadoSpO2 === "NORMAL"
+            ) {
+
+                overallStateSpan.innerText =
+                    "Estável";
+
+                autoMsgSpan.innerText =
+                    "✅ Todos os sinais vitais encontram-se normais.";
+
+            }
+            else {
+
+                overallStateSpan.innerText =
+                    "Atenção";
+
+                autoMsgSpan.innerText =
+                    "⚠️ Existe pelo menos um parâmetro fora do normal.";
+
+            }
+
+            //
+            document.getElementById(
+                "tempTrend"
+            ).innerText = estadoTemp;
+
+            document.getElementById(
+                "hrTrend"
+            ).innerText = estadoBPM;
+
+            document.getElementById(
+                "spo2Trend"
+            ).innerText = estadoSpO2;
+
+            // definir cores de acordo com o estado
+            definirCorEstado(
+                "tempTrend",
+                estadoTemp
+            );
+
+            definirCorEstado(
+                "hrTrend",
+                estadoBPM
+            );
+
+            definirCorEstado(
+                "spo2Trend",
+                estadoSpO2
+            );
         }
 
-        // SIMULAÇÃO DE DADOS EM TEMPO REAL (substituir por WebSocket/ESP32)
-        function generateSimulatedData() {
-            if (!online) return;
-            // variação suave
-            let newHr = hr + (Math.random() - 0.5) * 2.5;
-            newHr = Math.min(145, Math.max(48, newHr));
-            hr = Math.round(newHr);
+        function definirCorEstado(id, estado) {
+            const el =
+                document.getElementById(id);
 
-            let newSp = spo2 + (Math.random() - 0.5) * 1;
-            newSp = Math.min(100, Math.max(85, newSp));
-            spo2 = Math.round(newSp);
+            el.className =
+                "v-badge";
 
-            let newTemp = temp + (Math.random() - 0.5) * 0.15;
-            newTemp = Math.min(39.0, Math.max(35.2, newTemp));
-            temp = Math.round(newTemp * 10) / 10;
-
-            // registra histórico
-            addToHistory('hr', hr, ' BPM');
-            addToHistory('spo2', spo2, '%');
-            addToHistory('temp', temp, '°C');
-            updateUI();
+            if (
+                estado === "NORMAL"
+            ) {
+                el.classList.add(
+                    "badge-success"
+                );
+            }
+            else if (
+                estado === "ATENCAO" ||
+                estado === "BAIXO" ||
+                estado === "ALTO"
+            ) {
+                el.classList.add(
+                    "badge-warning"
+                );
+            }
+            else {
+                el.classList.add(
+                    "badge-danger"
+                );
+            }
         }
-
-        // Iniciar simulação (3 segundos)
-        let interval = setInterval(() => {
-            generateSimulatedData();
-        }, 3000);
-
-        // dados iniciais e histórico inicial
-        addToHistory('hr', 76, ' BPM');
-        addToHistory('spo2', 97, '%');
-        addToHistory('temp', 36.5, '°C');
-        updateUI();
 
         // Função de integração real com ESP32 (expor globalmente)
         window.receiveVitalData = function (bpm, spo, celcius) {
@@ -477,12 +529,71 @@
         // Controle online/offline (caso queira usar)
         window.setDeviceOnline = function (onlineState) {
             online = onlineState;
-            if (!online && interval) clearInterval(interval);
-            else if (online && !interval) {
-                interval = setInterval(() => generateSimulatedData(), 3000);
-            }
             updateUI();
         };
+
+        async function carregarDados() {
+
+            try {
+
+                const response = await fetch("/api/iot/minhas-leituras");
+
+                const dados = await response.json();
+
+                dados.forEach(item => {
+
+                    if (item.id_sensor == 1) {
+                        temp = parseFloat(item.valor);
+                        estadoTemp = item.estado;
+                    }
+
+                    if (item.id_sensor == 2) {
+                        hr = parseInt(item.valor);
+                        estadoBPM = item.estado;
+                    }
+
+                    if (item.id_sensor == 3) {
+                        spo2 = parseInt(item.valor);
+                        estadoSpO2 = item.estado;
+                    }
+
+                });
+
+                addToHistory(
+                    'hr',
+                    hr,
+                    ' BPM'
+                );
+
+                addToHistory(
+                    'spo2',
+                    spo2,
+                    '%'
+                );
+
+                addToHistory(
+                    'temp',
+                    temp,
+                    '°C'
+                );
+
+                updateUI();
+
+            }
+            catch (err) {
+
+                console.log(err);
+
+            }
+
+        }
+
+        carregarDados();
+
+        setInterval(
+            carregarDados,
+            3000
+        );
     </script>
 
     <!-- menu lateral -->

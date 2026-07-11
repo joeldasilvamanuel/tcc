@@ -343,6 +343,10 @@ app.post('/api/upload-foto', verificarToken, upload.single('foto'), (req, res) =
         res.json({ success: true, url: fotoUrl });
     });
 });
+
+// APT para o dispositivo, recepcao de dados
+const iotRoutes = require('./src/routes/iotRoutes');
+app.use('/api/iot', iotRoutes);
 // FINISH - Fim da sessao de API's
 
 // INICIALIZACAO DO PROJECTO...
@@ -350,12 +354,21 @@ const PORT = process.env.PORT || 3000;
 
 testConnection().then(() => {
 
-    server.listen(PORT, () => {
+    // server.listen(PORT, () => {
 
-        console.log(
-            `🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`
-        );
+    //     console.log(
+    //         `🚀 Servidor Health Access Hub ligado na porta http://localhost:${PORT}`
+    //     );
 
+    // });
+
+    server.listen(PORT, "0.0.0.0", () => {
+        console.log("==================================");
+        console.log("Health Access Hub");
+        console.log("Servidor iniciado");
+        console.log("Local:  http://localhost:" + PORT);
+        console.log("Rede :  http://192.168.52.14:" + PORT);
+        console.log("==================================");
     });
 
 });

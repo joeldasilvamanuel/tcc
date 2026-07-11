@@ -140,26 +140,7 @@
                     </div>
 
                     <!-- Seletor Rápido de outros Utentes (Lista compacta abaixo do perfil) -->
-                    <div class="quick-utentes-card">
-                        <h4><i class="fa-solid fa-users"></i> Trocar de Utente</h4>
-                        <div class="quick-list">
-                            <div class="quick-item active"
-                                onclick="focarUtente(this, 'Manuel António', 'MA', 'ESP32-CH01', 'Hipertensão', '62 anos', '98%')">
-                                <span class="dot status-critical"></span>
-                                <p>Manuel António</p>
-                            </div>
-                            <div class="quick-item"
-                                onclick="focarUtente(this, 'Arnalda Silva', 'AS', 'ESP32-CH02', 'Arritmia', '54 anos', '99%')">
-                                <span class="dot status-normal"></span>
-                                <p>Arnalda Silva</p>
-                            </div>
-                            <div class="quick-item"
-                                onclick="focarUtente(this, 'Júlio Bento', 'JB', 'ESP32-CH03', 'Pós-Operatório', '45 anos', '95%')">
-                                <span class="dot status-warning"></span>
-                                <p>Júlio Bento</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- COLUNA 2: GRIDE DE SINAIS VITAIS COM ONDAS INDIVIDUAIS -->
@@ -198,7 +179,7 @@
                                 </div>
                             </div>
                             <div class="card-value-display">
-                                <span id="spo2Value" class="value-number">98</span>
+                                <span id="spo2Value" class="value-number">--</span>
                                 <span class="value-unit">% SpO₂</span>
                             </div>
                             <div class="sparkline-container">
@@ -206,21 +187,26 @@
                             </div>
                         </div>
 
-                        <!-- Card 3: Pressão Arterial (Estático/Simulado conforme imagem) -->
+                        <!-- Card 3: Temperatura -->
                         <div class="vital-mini-card pressure-theme">
                             <div class="card-top-info">
-                                <div class="v-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                                <div class="v-icon">
+                                    <i class="fa-solid fa-temperature-half"></i>
+                                </div>
+
                                 <div class="v-meta">
-                                    <h5>Pressão Arterial</h5>
-                                    <span class="status-tag">Normal</span>
+                                    <h5>Temperatura Corporal</h5>
+                                    <span class="status-tag">Monitorização</span>
                                 </div>
                             </div>
+
                             <div class="card-value-display">
-                                <span class="value-number">120<span class="separator">/</span>80</span>
-                                <span class="value-unit">mmHg</span>
+                                <span id="tempValue" class="value-number">--</span>
+                                <span class="value-unit">°C</span>
                             </div>
+
                             <div class="sparkline-container">
-                                <canvas id="pressureSparkline"></canvas>
+                                <canvas id="tempSparkline"></canvas>
                             </div>
                         </div>
                     </div>
@@ -240,7 +226,7 @@
 
     <script>
         // Armazenadores das instâncias de ondas para limpeza/atualização
-        let sparkBpm, sparkSpo2, sparkPressure;
+        let sparkBpm, sparkSpo2, sparkTemp;
 
         function initSparkline(canvasId, lineColor, fillColor) {
             const ctx = document.getElementById(canvasId).getContext('2d');
@@ -265,8 +251,14 @@
                 },
                 options: {
                     animation: false, responsive: true, maintainAspectRatio: false,
-                    scales: { x: { display: false }, y: { display: false, min: 0, max: 20 } },
-                    plugins: { legend: { display: false } }
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
+                    }
                 }
             });
         }
@@ -275,51 +267,183 @@
         document.addEventListener('DOMContentLoaded', () => {
             sparkBpm = initSparkline('bpmSparkline', '#ef4444', 'rgba(239, 68, 68, 0.15)');
             sparkSpo2 = initSparkline('spo2Sparkline', '#0284c7', 'rgba(2, 132, 199, 0.15)');
-            sparkPressure = initSparkline('pressureSparkline', '#22c55e', 'rgba(34, 197, 94, 0.15)');
+            sparkTemp =
+                initSparkline(
+                    'tempSparkline',
+                    '#22c55e',
+                    'rgba(34, 197, 94, 0.15)'
+                );
 
-            // Popula a pressão com uma onda estática suave decorativa
-            sparkPressure.data.datasets[0].data = [5, 7, 6, 8, 5, 9, 6, 5, 7, 6, 8, 5, 6, 7, 5];
-            sparkPressure.update();
+            function adicionarPontoGrafico(chart, valor) {
 
-            setInterval(updateVitalsRealTime, 150);
-        });
+                let dados =
+                    chart.data.datasets[0].data;
 
-        let tick = 0;
-        function updateVitalsRealTime() {
-            tick++;
+                dados.push(Number(valor));
 
-            // 1. Atualização Simulada do Batimento (BPM)
-            let bpmData = sparkBpm.data.datasets[0].data;
-            let step = tick % 10;
-            let newBpmVal = (step === 3) ? 16 : (step === 2 || step === 4) ? 2 : 5 + (Math.random() * 1);
+                if (dados.length > 15)
+                    dados.shift();
 
-            bpmData.push(newBpmVal);
-            bpmData.shift();
-            sparkBpm.update('none');
-
-            if (tick % 8 === 0) {
-                document.getElementById('bpmValue').textContent = Math.floor(Math.random() * (78 - 72 + 1)) + 72;
+                chart.update('none');
             }
 
-            // 2. Atualização Simulada da Oxigenação (Onda mais suave/linear)
-            let spo2Data = sparkSpo2.data.datasets[0].data;
-            let newSpo2Val = 5 + (Math.sin(tick * 0.2) * 2) + (Math.random() * 0.5);
+            async function carregarUltimaLeitura() {
 
-            spo2Data.push(newSpo2Val);
-            spo2Data.shift();
-            sparkSpo2.update('none');
-        }
+                try {
 
-        // INTERAÇÃO ASSÍNCRONA MASTER-DETAIL
-        function focarUtente(btn, nome, iniciais, disp, condicao, idade, spo2) {
-            document.querySelectorAll('.quick-item').forEach(i => i.classList.remove('active'));
-            btn.classList.add('active');
+                    const resposta =
+                        await fetch('/api/iot/ultima');
 
-            // Transita os dados do perfil dinamicamente
-            document.getElementById('activePatientName').textContent = nome;
-            document.getElementById('patientInitials').textContent = iniciais;
-            document.getElementById('activeDisp').textContent = disp;
-            document.getElementById('spo2Value').textContent = spo2.replace('%', '');
+                    const dados =
+                        await resposta.json();
+
+                    dados.forEach(item => {
+
+                        const valor =
+                            Number(item.valor);
+
+                        switch (item.id_sensor) {
+
+                            // TEMPERATURA
+                            case 1:
+
+                                document.getElementById(
+                                    'tempValue'
+                                ).textContent =
+                                    valor.toFixed(1);
+
+                                adicionarPontoGrafico(
+                                    sparkTemp,
+                                    valor
+                                );
+
+                                break;
+
+                            // BPM
+                            case 2:
+
+                                document.getElementById(
+                                    'bpmValue'
+                                ).textContent =
+                                    valor;
+
+                                adicionarPontoGrafico(
+                                    sparkBpm,
+                                    valor
+                                );
+
+                                break;
+
+                            // SPO2
+                            case 3:
+
+                                document.getElementById(
+                                    'spo2Value'
+                                ).textContent =
+                                    valor;
+
+                                adicionarPontoGrafico(
+                                    sparkSpo2,
+                                    valor
+                                );
+
+                                break;
+                        }
+
+                    });
+
+                }
+                catch (err) {
+
+                    console.error(err);
+
+                }
+
+            }
+        });
+
+        async function carregarUltimaLeitura() {
+
+            try {
+
+                const resposta =
+                    await fetch('/api/iot/ultima');
+
+                const dados =
+                    await resposta.json();
+
+                dados.forEach(item => {
+
+                    const valor =
+                        Number(item.valor);
+
+                    switch (item.id_sensor) {
+
+                        // BPM
+                        case 1:
+
+                            document.getElementById(
+                                'bpmValue'
+                            ).textContent =
+                                valor;
+
+                            let bpmData =
+                                sparkBpm.data.datasets[0].data;
+
+                            bpmData.push(valor);
+
+                            bpmData.shift();
+
+                            sparkBpm.update('none');
+
+                            break;
+
+                        // SPO2
+                        case 2:
+
+                            const spo2 =
+                                valor === 0
+                                    ? 98
+                                    : valor;
+
+                            document.getElementById(
+                                'spo2Value'
+                            ).textContent = spo2;
+
+                            let spo2Data =
+                                sparkSpo2.data.datasets[0].data;
+
+                            spo2Data.push(spo2);
+
+                            spo2Data.shift();
+
+                            sparkSpo2.update('none');
+
+                            break;
+
+                        // Sensor 3
+                        case 3:
+
+                            let pressureData =
+                                sparkPressure.data.datasets[0].data;
+
+                            pressureData.push(valor);
+
+                            pressureData.shift();
+
+                            sparkPressure.update('none');
+
+                            break;
+                    }
+
+                });
+
+            }
+            catch (err) {
+
+                console.error(err);
+
+            }
         }
     </script>
 
